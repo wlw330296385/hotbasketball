@@ -1,0 +1,161 @@
+<include file="Public/head"/>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+<include file="Public/header"/>
+<include file="Public/sidebar"/>
+  <div class="content-wrapper">
+          <!-- Content Header (Page header) -->
+  <section class="content-header">
+        <h1>
+        <a href="{:U('index/index')}">{$Think.CONFIG.sitename}</a>
+        <small><?php echo date("l jS \of F Y h:i:s A",NOW_TIME) ;?></small>
+        </h1>
+        <include file="Public/breadcrumbs"/>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+
+<!--------------------------------------统一格式头部 ---------------------------------------------- -->
+
+
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">后台管理员列表</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>用户名</th>
+                  <th>用户组</th>
+                  <th>性别</th>
+                  <th>电话号码</th>
+                  <th>生日</th>
+                  <th>QQ</th>
+                  <th>操作</th>
+                </tr>
+                </thead>
+                <style>
+                    .grouptd {
+                        position: relative;
+                    }
+
+                    .group {
+                        display: inline-block;
+                        width: 100%;
+                    }
+
+                    .groupselect {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        border: 0;
+                    }
+                </style>
+                <tbody>
+                <volist name="list" id="val">
+                <tr>
+                  <td>{$val['user']}</td>
+                  <td class="grouptd">
+                      <span class="group" val="{$val['uid']}">{$val['title']}</span>
+                      <select class="groupselect">
+                          <volist name="group" id="v">
+                              <option
+                              <if condition="$val['gid'] eq $v['id']">selected="selected"</if>
+                              value="{$v.id}">{$v.title}</option>
+                          </volist>
+                      </select>
+                  </td>
+                  <td><?php if($val['sex']==1){echo '男';}elseif($val['sex']==2){echo '女';}else{echo '保密';} ?></td>
+                  <td>{$val['phone']}</td>
+                  <td>{$val['birthday']|date="Y-m-d",###}</td>
+                  <td>{$val['qq']}</td>
+                  <td><a href="{:U('edit',array('uid'=>$val['uid']))}">修改</a>&nbsp;
+                  <if condition="$val['uid'] neq 1"><a class="del" href="javascript:;" val="{:U('del',array('uid'=>$val['uid']))}" title="删除">删除</a></if>
+                  </td>
+                </tr>
+                </volist>
+                </tbody>
+                <tfoot>
+                <tr>
+                 <th>用户名</th>
+                  <th>用户组</th>
+                  <th>性别</th>
+                  <th>电话号码</th>
+                  <th>生日</th>
+                  <th>QQ</th>
+                  <th>操作</th>
+                </tr>
+                </tfoot>
+              </table>
+              {$page}
+            </div>
+            <!-- /.box-body -->
+          </div>
+
+
+
+
+
+
+
+
+
+
+<!--------------------------------------统一格式尾部-------------------------------------- -->
+</section>
+</div>
+<include file="Public/footer"/>
+<!-- /.main-container -->
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<!-- -----------------------------------单独js写最后------------------------------------- -->
+<!-- DataTables -->
+<script src="__PUBLIC__/qwadmin/lte/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="__PUBLIC__/qwadmin/lte/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $(".group").click(function () {
+            $(this).addClass('hide');
+            $(this).parent().find(".groupselect").removeClass('hide');
+        })
+        $(".groupselect").on("change", function () {
+            var ob = $(this);
+            var gid = ob.val();
+            var uid = ob.parent().find('.group').attr('val');
+            $.get("{:U('update')}?ajax=yes&uid=" + uid + "&gid=" + gid, function (data) {
+                var text = ob.find("option:selected").text();
+                ob.parent().find(".group").removeClass('hide').html(text);
+                ob.addClass('hide');
+            });
+        })
+
+
+
+      $(".del").click(function () {
+            var url = $(this).attr('val');
+            bootbox.confirm({
+                title: "系统提示",
+                message: "是否要删除该用户?",
+                callback: function (result) {
+                    if (result) {
+                        window.location.href = url;
+                    }
+                },
+                buttons: {
+                    "cancel": {"label": "取消"},
+                    "confirm": {
+                        "label": "确定",
+                        "className": "btn-danger"
+                    }
+                }
+            });
+        });
+
+$("#example1").DataTable();
+
+      })
+</script>

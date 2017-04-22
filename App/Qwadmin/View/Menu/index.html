@@ -1,0 +1,146 @@
+<include file="Public/head"/>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+<include file="Public/header"/>
+<include file="Public/sidebar"/>
+  <div class="content-wrapper">
+          <!-- Content Header (Page header) -->
+  <section class="content-header">
+        <h1>
+        <a href="{:U('index/index')}">{$Think.CONFIG.sitename}</a>
+        <small><?php echo date("l jS \of F Y h:i:s A",NOW_TIME) ;?></small>
+        </h1>
+        <include file="Public/breadcrumbs"/>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+
+<!--------------------------------------统一格式头部 ---------------------------------------------- -->
+  <div class="box">
+      <div class="box-header">
+        <h3 class="box-title">后台菜单列表</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="row no-print">
+        <div class="col-xs-12">
+          <a href="{:U('add')}" target="_blank" class="btn btn-success"><i class="fa fa-plus"></i> 新增</a>
+        </div>
+      </div>
+      <div class="box-body">
+        <table id="example1" class="table table-bordered table-striped">
+          <thead>
+          <tr>
+            <th>菜单名称</th>
+            <th>链接</th>
+            <th>ICON</th>
+            <th class="center">状态</th>
+            <th>排序</th>
+            <th class="center">操作</th>
+          </tr>
+          </thead>
+          <tbody>
+             <volist name="list" id="val">
+              <tr>
+                  <td>{$val['title']}</td>
+                  <td>{$val['name']}</td>
+                  <td><i class="{$val.icon}"></i></td>
+                  <td class="center">
+                      <if condition="$val.islink eq 1">显示
+                          <else/>
+                          隐藏
+                      </if>
+                  </td>
+                  <td>{$val['o']}</td>
+                  <td class="center"><a href="{:U('edit',array('id'=>$val['id']))}">修改</a>&nbsp;<a
+                          class="del" href="javascript:;" val="{:U('del',array('ids'=>$val['id']))}"
+                          title="删除">删除</a></td>
+              </tr>
+              <notempty name="val.children">
+                  <volist name="val.children" id="v">
+                      <tr>
+                          
+                          <td>┗━{$v['title']}</td>
+                          <td>{$v['name']}</td>
+                          <td><i class="{$v.icon}"></i></td>
+                          <td class="center">
+                              <if condition="$v.islink eq 1">显示
+                                  <else/>
+                                  隐藏
+                              </if>
+                          </td>
+                          <td>{$v['o']}</td>
+                          <td class="center"><a href="{:U('edit',array('id'=>$v['id']))}">修改</a>&nbsp;<a
+                                  class="del" href="javascript:;"
+                                  val="{:U('del',array('ids'=>$v['id']))}" title="删除">删除</a></td>
+                      </tr>
+                      <notempty name="v.children">
+                          <volist name="v.children" id="vv">
+                              <tr>
+                                  <td class="center">
+                                      <input class="ids" type="checkbox" name="ids[]"
+                                             value="{$vv['id']}">
+                                  </td>
+                                  <td>&nbsp;&nbsp;&nbsp;&nbsp;┗━{$vv['title']}</td>
+                                  <td>{$vv['name']}</td>
+                                  <td><i class="{$vv.icon}"></i></td>
+                                  <td class="center">
+                                      <if condition="$vv.islink eq 1">显示
+                                          <else/>
+                                          隐藏
+                                      </if>
+                                  </td>
+                                  <td>{$vv['o']}</td>
+                                  <td class="center"><a
+                                          href="{:U('edit',array('id'=>$vv['id']))}">修改</a>&nbsp;<a
+                                          class="del" href="javascript:;"
+                                          val="{:U('del',array('ids'=>$vv['id']))}" title="删除">删除</a>
+                                  </td>
+                              </tr>
+                          </volist>
+                      </notempty>
+                  </volist>
+              </notempty>
+          </volist>
+          </tbody>
+      <tfoot>
+          <tr>
+            <th>菜单名称</th>
+            <th>链接</th>
+            <th>ICON</th>
+            <th class="center">状态</th>
+            <th>排序</th>
+            <th class="center">操作</th>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
+   </div>                        
+
+
+
+
+
+
+
+
+<!--------------------------------------统一格式尾部-------------------------------------- -->
+</section>
+</div>
+<include file="Public/footer"/>
+<!-- /.main-container -->
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<!-- ----------------------------------单独js写最后------------------------------------ -->
+<!-- DataTables -->
+<script type="text/javascript">
+
+  $(".del").click(function () {
+      var url = $(this).attr('val');
+      var r=confirm("确定要删除吗？");
+    if (r==true){
+        window.location.href = url;
+      }
+    
+    })
+     
+</script>

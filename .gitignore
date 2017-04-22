@@ -1,0 +1,8 @@
+Runtime/
+*~
+Public/attached/
+/*.buildpath
+/*.project
+/.settings
+/.idea
+/*~config.php/*~db.php
