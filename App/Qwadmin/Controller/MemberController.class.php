@@ -73,6 +73,97 @@ class MemberController extends ComController
         $this->display();
     }
 
+
+    public function fans(){
+        $p = isset($_GET['p']) ? intval($_GET['p']) : '1';
+        $field = isset($_GET['field']) ? $_GET['field'] : '';
+        $keyword = isset($_GET['keyword']) ? htmlentities($_GET['keyword']) : '';
+        $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
+        $where = '';
+
+        $prefix = C('DB_PREFIX');
+        if ($order == 'asc') {
+            $order = "{$prefix}member.ch_name asc";
+        } elseif (($order == 'desc')) {
+            $order = "{$prefix}member.ch_name desc";
+        } else {
+            $order = "{$prefix}member.id asc";
+        }
+        if ($keyword <> '') {
+            if ($field == 'user') {
+                $where = "{$prefix}member.user LIKE '%$keyword%'";
+            }
+            if ($field == 'phone') {
+                $where = "{$prefix}member.phone LIKE '%$keyword%'";
+            }
+            if ($field == 'qq') {
+                $where = "{$prefix}member.qq LIKE '%$keyword%'";
+            }
+            if ($field == 'email') {
+                $where = "{$prefix}member.email LIKE '%$keyword%'";
+            }
+        }
+
+        $user = M('member');
+        $pagesize = 10;#每页数量
+        $offset = $pagesize * ($p - 1);//计算记录偏移量
+        $count = $user
+            ->order($order)
+            ->join('member_fans on member.id = member_fans.member_id')
+            ->where(['type'=>1])
+            ->where($where)
+            ->count();
+
+        $list = $user
+            ->order($order)
+            ->where($where)
+            ->limit($offset . ',' . $pagesize)
+            ->select();
+        $page = new \Think\Page($count, $pagesize);
+        $page = $page->show();
+        $this->assign('list', $list);
+        $this->assign('page', $page);
+        $this->display();
+    }
+
+    /**
+     * 裁判
+     */
+    public function judge()
+    {
+        $this->display();
+    }
+
+
+    /**
+     * coach教练
+     */
+    public function coach(){
+        $this->display();
+    }
+
+
+    /**
+     * 关联查询用户所有信息
+     */
+    public function member_info(){
+        $type = I('.type');
+        $mid = I('.id');
+        $type = 3;$mid = 1;
+        $memberModel = new \Common\Model\MemberModel;
+        $result = $memberModel -> get_member_info($mid,$type);
+        $images = $memberModel -> get_member_images($mid);
+        $this->assign('list',$result);
+        // $this->assign('images',$images);
+        // dump($images);
+        $this->display();
+    }
+
+
+
+
+
+
     public function del()
     {
 

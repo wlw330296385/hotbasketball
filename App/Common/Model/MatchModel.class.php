@@ -1,9 +1,7 @@
 <?php 
 namespace Common\Model;
-use Think\Model;
-class MatchModel extends Model {
-
-
+use Think\Model\RelationModel;
+class MatchModel extends RelationModel {
 	    /**
      * 自动验证规则
      */
@@ -26,6 +24,16 @@ class MatchModel extends Model {
         array('initiator_name','get_initiator_name',sefl::MODEL_INSERT,'callback')
     );
 
+
+    /**
+     * 关联模型
+     */
+    protected $_link = [
+        'region' => [
+            'mapping_type' => self::HAS_ONE,
+            'class_name'   => 'region'
+        ]
+    ];
 
     /**
      * 获取当前用户信息

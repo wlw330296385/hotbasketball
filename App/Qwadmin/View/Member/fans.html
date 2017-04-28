@@ -1,0 +1,32 @@
+<include file="Public/head"/>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+<include file="Public/header"/>
+<include file="Public/sidebar"/>
+  <div class="content-wrapper">
+          <!-- Content Header (Page header) -->
+  <section class="content-header">
+        <h1>
+        <a href="{:U('index/index')}">{$Think.CONFIG.sitename}</a>
+        <small><?php echo date("l jS \of F Y h:i:s A",NOW_TIME) ;?></small>
+        </h1>
+        <include file="Public/breadcrumbs"/>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+
+<!--------------------------------------统一格式头部 ---------------------------------------------- -->
+
+<?php dump($list);?>
+
+
+
+
+<!--------------------------------------统一格式尾部-------------------------------------- -->
+</section>
+</div>
+<include file="Public/footer"/>
+<!-- /.main-container -->
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<!--------------------------------------单独js写最后------------------------------------- -->

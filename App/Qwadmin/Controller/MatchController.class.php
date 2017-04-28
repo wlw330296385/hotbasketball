@@ -10,13 +10,19 @@
  **/
 
 namespace Qwadmin\Controller;
-
+use Common\Model\MatchModel;
 class MatchController extends ComController
 {
     public function index()
     {
-        $match = M('match')->select();
-        $this->assign('list', $match);
+        // $match = new  \Common\Model\MatchModel;
+        // $result = $match
+        //     ->relation(true)
+        //     ->select();
+
+        $result = M('match')
+        -> select();
+        $this->assign('list', $result);
         $this->assign('nav', array('user', 'grouplist', 'grouplist'));//导航
         $this->display();
     }
