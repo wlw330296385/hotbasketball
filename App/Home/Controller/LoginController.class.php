@@ -1,7 +1,5 @@
 <?php
-
 namespace Home\Controller;
-
 
 class LoginController extends ComController
 {
@@ -33,7 +31,8 @@ class LoginController extends ComController
     }
 
     public function wx_login(){
-    	
+    	$wxAuth = new \Org\Util\Wx\WxAuth;
+    	$wxAuth -> step_1();
     }
 
     // 注册
@@ -66,6 +65,20 @@ class LoginController extends ComController
     }
 
 
-
+    public function get_wxuserinfo(){
+    	$code = I('get.code');
+    	if($code){
+    		$wxAuth = new \Org\Util\Wx\WxAuth;
+    		$result = $wxAuth->step_2($code);
+    		$result = json_decode($result);
+    		$access_token = $result['access_token'];
+    		$openid = $result['openid'];
+    		$userinfo = $wxAuth->step_3($access_token,$openid);
+    		$userinfo = json_decode($userinfo);
+    		dump($userinfo);
+    	}else{
+    		echo '用户未授权';
+    	}
+    }
    
 }

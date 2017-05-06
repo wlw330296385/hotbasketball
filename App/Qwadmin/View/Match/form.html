@@ -1,0 +1,181 @@
+<include file="Public/head"/>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+<include file="Public/header"/>
+<include file="Public/sidebar"/>
+  <div class="content-wrapper">
+          <!-- Content Header (Page header) -->
+  <section class="content-header">
+        <h1>
+        <a href="{:U('index/index')}">{$Think.CONFIG.sitename}</a>
+        <small><?php echo date("l jS \of F Y h:i:s A",NOW_TIME) ;?></small>
+        </h1>
+        <include file="Public/breadcrumbs"/>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+
+<!--------------------------------------统一格式头部 ---------------------------------------------- -->
+    <div class="col-md-6">
+          <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">发起一场比赛</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form class="form-horizontal" method="post" action="">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="subject" class="col-sm-2 control-label">主题</label>
+
+                  <div class="col-xs-5">
+                    <input type="text" class="form-control" id="subject" placeholder="主题" name="subject">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="team_first_id" class="col-sm-2 control-label">甲队</label>
+                  <div class="col-xs-5">
+                    <select class="form-control" name="team_first_id" id="team_first_id">
+                      <option>请选择队伍</option>
+                      <volist name="teams" id="vol">
+                        <option value="{$vol.id}">{$vol.team}</option>
+                      </volist>
+                    </select>
+                  </div>
+                </div>
+                 <div class="form-group">
+                  <label for="team_second_id" class="col-sm-2 control-label">乙队</label>
+                  <div class="col-xs-5">
+                    <select class="form-control" name="team_second_id" id="team_second_id">
+                      <option>请选择队伍</option>
+                      <volist name="teams" id="vol">
+                        <option value="{$vol.id}">{$vol.team}</option>
+                      </volist>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="match_time" class="col-sm-2 control-label">比赛时间</label>
+
+                  <div class="col-xs-5">
+                    <input class="form-control" id="match_time" value="" name="match_time" placeholder="0000/00/00 00:00:00">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="match_venue_province" class="col-sm-2 control-label">地点</label>
+
+                  <div class="col-xs-3">
+                    <select class="form-control" id="province" name="match_venue_province">
+                      <option>省</option>
+                      <volist name="province" id="vol">
+                      <option  value="{$vol.region_name}">{$vol.region_name}</option>
+                      </volist>
+                    </select>
+                  </div>
+                  <div class="col-xs-3">
+                    <select class="form-control" id="city" name="match_venue_city">
+                      <option>市</option>
+                    </select>
+                  </div>
+                  <div class="col-xs-3">
+                    <select class="form-control" id="area" name="match_venue_area">
+                      <option>区</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="match_venue_adress" class="col-sm-2 control-label">详细地址</label>
+                  <div class="col-xs-5">
+                    <input type="text" class="form-control" id="match_venue_adress" placeholder="xxx街道xx路xx号xx球馆xx场地" name="match_venue_adress">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="fee" class="col-sm-2 control-label">总费用</label>
+                  <div class="col-xs-5">
+                    <input type="text" class="form-control" id="fee" placeholder="0.00" name="fee">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="fee" class="col-sm-2 control-label">甲队需要人数</label>
+                  <div class="col-xs-5">
+                    <input type="text" class="form-control" id="team_first_need_player" placeholder="最少人数" name="team_first_need_player">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="fee" class="col-sm-2 control-label">乙队需要人数</label>
+                  <div class="col-xs-5">
+                    <input type="text" class="form-control" id="team_second_need_player" placeholder="最少人数" name="team_second_need_player">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="remark" class="col-sm-2 control-label">备注</label>
+                  <div class="col-xs-5">
+                     <textarea class="form-control" rows="3" placeholder="Enter ..." name="remark"></textarea>
+                  </div>
+                </div>
+                <input type="hidden" name="team_first_name" id="team_first_name">
+                <input type="hidden" name="team_second_name" id="team_second_name">
+                <input type="hidden" name="type" id="type" value="1">
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <a href="{:U('index')}" class="btn btn-default">back</a>
+                <button type="submit" class="btn btn-info pull-right">Commit</button>
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div>
+
+    </div>
+<!--------------------------------------统一格式尾部-------------------------------------- -->
+</section>
+</div>
+<include file="Public/footer"/>
+<!-- /.main-container -->
+<include file="Public/footerjs"/>
+<!-- inline scripts related to this page -->
+<!--------------------------------------单独js写最后------------------------------------- -->
+<script type="text/javascript" src = "__PUBLIC__/qwadmin/laydate/laydate.js"></script>
+<style type="text/css" link="__PUBLIC__/qwadmin/laydate/need/laydate.css"></style>
+<script type="text/javascript" src="__PUBLIC__/woo.js/region.js"></script>
+<script>
+// 时间插件
+var match_time = {
+  elem: '#match_time',
+  format: 'YYYY/MM/DD hh:mm:ss',
+  min: laydate.now(), //设定最小日期为当前日期
+  max: '2099-06-16 23:59:59', //最大日期
+  istime: true,
+  istoday: false,
+};
+laydate(match_time)
+
+// 地区联动插件
+var a = {
+  'province':$('#province'),
+  'city':$('#city'),
+  'area':$('#area')
+}
+var url={
+  'getRegionNameByName' :"{:U('Region/getRegionNameByName')}",
+  'getRegionNameByGID' :"{:U('Region/getRegionNameByGID')}"
+}
+
+region(a,url)
+
+
+// 补充信息
+
+var team_second_name;
+var team_first_name;
+$('#team_second_id').change(function(){
+  team_second_name = $('#team_second_id').find("option:selected").text();
+  $('#team_second_name').val(team_second_name);
+})
+
+$('#team_first_id').change(function(){
+  team_first_name = $('#team_first_id').find("option:selected").text();
+  $('#team_first_name').val(team_first_name);
+})
+
+</script>

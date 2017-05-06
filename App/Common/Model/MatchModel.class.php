@@ -18,10 +18,10 @@ class MatchModel extends RelationModel {
      * 自动完成规则
      */
     protected $_auto = array(
-        array('match_time', 'time', self::MODEL_INSERT, 'function'),
-        array('initiator_id', 'get_initiator_id', self::MODEL_INSERT,'callback'),
+        array('create_time', 'time', self::MODEL_INSERT, 'function'),
+        array('member_id', '0', self::MODEL_INSERT),
         array('status', '1', self::MODEL_INSERT),
-        array('initiator_name','get_initiator_name',sefl::MODEL_INSERT,'callback')
+        array('member','系统发起',self::MODEL_INSERT)
     );
 
 
@@ -30,39 +30,41 @@ class MatchModel extends RelationModel {
      */
     protected $_link = [
         'region' => [
-            'mapping_type' => self::HAS_ONE,
-            'class_name'   => 'region'
+            'mapping_type'  => self::HAS_ONE,
+            'class_name'    => 'region'
+        ],
+        'participate_member'=>[
+            'mapping_type'  =>self::HAS_MANY,
+            'class_name'    =>'participation_match',
+            'mapping_name'  =>'participate_member',
+            'foreign_keys'  =>'id',
+            'parent_key'    =>'match_id'
         ]
     ];
 
-    /**
-     * 获取当前用户信息
-     * $mid 用户id
-     */
-    protected function get_initiator_id($mid = 0)
-    {
-    	$mid = session('mid');
-        if($mid){
-        	return $mid;
-        } else {
-        	return false;
-        }
-    }
-
-    protected function get_initiator_name($mid = 0){
-    	$mid = session('mid');
-        $member_info = D('member')
-        	->field('ch_name')
-        	->find($mid);
-        if ($member_info) {
-            return $member_info['ch_name'];
-        }else{
-        	return false;
-        }
-        
-    }
+    public function get_match_info($match_id){
+        $result = $this
+                // ->where(['id'=>$match_id])
+                ->relation('participate_member')
+                ->find($match_id);
+        return $result;
+    } 
     /**
      * 插入数据
      */
+    public function create_match(){
+        $this->startTrans();
+        $data = $this->create();
+        $result = $this->add();
+        // $participate_member = json_decode($data['participate_member']);
+        // $result1 = M('participation_match')->addAll($participate_member);
+        // if($result1 && $result){
+        if($result){
+            $this->commit();
+            return $result;
+        }else{
+            $this->rollback();
 
+        }
+    }
 }

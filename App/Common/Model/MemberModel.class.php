@@ -82,10 +82,10 @@ class MemberModel extends RelationModel {
     /**
      * 关联查询用户全部
      */
-    public function get_member_info($mid = 1, $type){
+    public function get_member_info($mid = 1, $type = 1){
 
         switch ($type) {
-             case '1':
+            case '1':
                  $table = 'member_student';
                  break;
             case '2':

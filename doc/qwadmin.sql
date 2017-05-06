@@ -10,44 +10,47 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2017-04-28 18:20:59
+Date: 2017-05-06 18:07:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for `apply_match`
+-- Table structure for `activity`
 -- ----------------------------
-DROP TABLE IF EXISTS `apply_match`;
-CREATE TABLE `apply_match` (
+DROP TABLE IF EXISTS `activity`;
+CREATE TABLE `activity` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `match_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `member_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '报名人数',
-  `team` varchar(60) NOT NULL DEFAULT 'A队' COMMENT '报名人所属球队',
-  `team_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '报名字所属球队',
-  `portrait_id` int(10) unsigned DEFAULT NULL COMMENT '头像',
-  `is_leave` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0：正常|1：请假',
-  `is_sign` enum('1','0') NOT NULL DEFAULT '0' COMMENT '0:未签到|1：签到',
-  `is_pay` double(6,2) NOT NULL DEFAULT '0.00' COMMENT '0:未交费|其它数字：缴费金额',
-  `pay_way` varchar(60) DEFAULT NULL COMMENT '支付方式：支付宝支付|线下支付',
+  `subject` varchar(255) NOT NULL,
+  `leader_id` int(10) NOT NULL,
+  `leader` varchar(60) NOT NULL,
+  `activity_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `province` varchar(60) NOT NULL,
+  `city` varchar(60) NOT NULL,
+  `area` varchar(60) NOT NULL,
+  `content` text NOT NULL,
+  `remark` varchar(255) NOT NULL,
+  `create_time` int(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of apply_match
+-- Records of activity
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `apply_train`
+-- Table structure for `activity_media`
 -- ----------------------------
-DROP TABLE IF EXISTS `apply_train`;
-CREATE TABLE `apply_train` (
+DROP TABLE IF EXISTS `activity_media`;
+CREATE TABLE `activity_media` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `acitvity_id` int(10) NOT NULL,
+  `media_id` int(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of apply_train
+-- Records of activity_media
 -- ----------------------------
 
 -- ----------------------------
@@ -67,11 +70,13 @@ CREATE TABLE `article` (
   `n` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '点击',
   PRIMARY KEY (`aid`),
   KEY `sid` (`sid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of article
 -- ----------------------------
+INSERT INTO `article` VALUES ('1', '36', '31313', '1313', '131312', '3123131313', '/Public/attached/2017/05/05/590c293ad9300.jpg', '131312', '1493969213', '0');
+INSERT INTO `article` VALUES ('2', '36', '123123', '13123123', '13123123', '123123123123123', '/Public/attached/2017/05/05/590c3b63c6e08.jpg', '13131312312', '1493974004', '0');
 
 -- ----------------------------
 -- Table structure for `auth_group`
@@ -195,7 +200,7 @@ INSERT INTO `auth_rule` VALUES ('61', '58', 'variable/update', '保存变量', '
 INSERT INTO `auth_rule` VALUES ('62', '58', 'variable/del', '删除变量', '', '1', '1', '', '0', '0', '');
 INSERT INTO `auth_rule` VALUES ('63', '37', 'Facebook/add', '用户反馈', '', '1', '1', '', '1', '63', '');
 INSERT INTO `auth_rule` VALUES ('66', '0', '', '篮球管家', 'menu-icon fa fa-user', '1', '1', '', '1', '66', '');
-INSERT INTO `auth_rule` VALUES ('73', '66', 'member/fans', '篮球爱好者', '', '1', '1', '', '1', '0', '');
+INSERT INTO `auth_rule` VALUES ('73', '66', 'member/index', '篮球会员', '', '1', '1', '', '1', '0', '');
 INSERT INTO `auth_rule` VALUES ('68', '0', 'lesson', '课程', 'menu-icon fa fa-caret-right', '1', '1', '', '1', '99', '');
 INSERT INTO `auth_rule` VALUES ('69', '68', 'lesson_table', '课程表', '', '1', '1', '', '1', '0', '');
 INSERT INTO `auth_rule` VALUES ('70', '68', 'lesson/add', '添加课程', '', '1', '1', '', '1', '0', '');
@@ -260,11 +265,12 @@ CREATE TABLE `category` (
   `o` int(11) NOT NULL COMMENT '排序',
   PRIMARY KEY (`id`),
   KEY `fsid` (`pid`)
-) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of category
 -- ----------------------------
+INSERT INTO `category` VALUES ('36', '0', '0', '测试1', '目录1', 'seo', 'keyword', '???', '???', '/', '//', '?/', '0');
 
 -- ----------------------------
 -- Table structure for `class`
@@ -310,6 +316,48 @@ CREATE TABLE `classteam_staff` (
 
 -- ----------------------------
 -- Records of classteam_staff
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `comment`
+-- ----------------------------
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE `comment` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `member` varchar(60) NOT NULL COMMENT '评论人',
+  `member_id` int(10) NOT NULL,
+  `type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0:比赛评论；|1：活动评论；|2：训练评论；|3：其它',
+  `parent_id` int(10) NOT NULL DEFAULT '0' COMMENT '所属活动id',
+  `content` text NOT NULL,
+  `img_id` int(10) DEFAULT NULL,
+  `create_time` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of comment
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `comment_reply`
+-- ----------------------------
+DROP TABLE IF EXISTS `comment_reply`;
+CREATE TABLE `comment_reply` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `member` varchar(60) NOT NULL,
+  `member_id` int(10) NOT NULL,
+  `type` tinyint(4) NOT NULL DEFAULT '0',
+  `parent_id` int(10) NOT NULL,
+  `content` text NOT NULL,
+  `img_id` int(10) DEFAULT NULL,
+  `reply_id` int(10) DEFAULT NULL COMMENT '被回复人id',
+  `reply` varchar(255) DEFAULT NULL COMMENT '被回复的人',
+  `create_time` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of comment_reply
 -- ----------------------------
 
 -- ----------------------------
@@ -406,6 +454,38 @@ CREATE TABLE `lesson_traincourse` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for `like_activity`
+-- ----------------------------
+DROP TABLE IF EXISTS `like_activity`;
+CREATE TABLE `like_activity` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `activity_id` int(10) NOT NULL,
+  `member_id` int(10) NOT NULL,
+  `portrait_url` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='活动点赞表';
+
+-- ----------------------------
+-- Records of like_activity
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `like_match`
+-- ----------------------------
+DROP TABLE IF EXISTS `like_match`;
+CREATE TABLE `like_match` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `match_id` int(10) NOT NULL,
+  `member_id` int(10) NOT NULL,
+  `portrait_url` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='match点赞表';
+
+-- ----------------------------
+-- Records of like_match
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `links`
 -- ----------------------------
 DROP TABLE IF EXISTS `links`;
@@ -434,7 +514,7 @@ CREATE TABLE `log` (
   `ip` varchar(16) NOT NULL,
   `log` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of log
@@ -499,6 +579,17 @@ INSERT INTO `log` VALUES ('57', 'admin', '1493175261', '127.0.0.1', '登录成�
 INSERT INTO `log` VALUES ('58', 'admin', '1493194406', '127.0.0.1', '登录成功。');
 INSERT INTO `log` VALUES ('59', 'admin', '1493258284', '127.0.0.1', '登录成功。');
 INSERT INTO `log` VALUES ('60', 'admin', '1493346561', '127.0.0.1', '登录成功。');
+INSERT INTO `log` VALUES ('61', 'admin', '1493691364', '127.0.0.1', '登录成功。');
+INSERT INTO `log` VALUES ('62', 'admin', '1493806407', '127.0.0.1', '登录成功。');
+INSERT INTO `log` VALUES ('63', 'admin', '1493864763', '127.0.0.1', '登录成功。');
+INSERT INTO `log` VALUES ('64', 'admin', '1493879519', '127.0.0.1', '登录成功。');
+INSERT INTO `log` VALUES ('65', 'admin', '1493953302', '127.0.0.1', '登录成功。');
+INSERT INTO `log` VALUES ('66', 'admin', '1493956879', '127.0.0.1', '编辑菜单，ID：73');
+INSERT INTO `log` VALUES ('67', 'admin', '1493969213', '127.0.0.1', '新增文章，AID：1');
+INSERT INTO `log` VALUES ('68', 'admin', '1493974004', '127.0.0.1', '新增文章，AID：2');
+INSERT INTO `log` VALUES ('69', 'admin', '1494038311', '127.0.0.1', '登录成功。');
+INSERT INTO `log` VALUES ('70', 'admin', '1494038312', '127.0.0.1', '登录成功。');
+INSERT INTO `log` VALUES ('71', 'admin', '1494042065', '127.0.0.1', '登录成功。');
 
 -- ----------------------------
 -- Table structure for `log_lesson`
@@ -601,8 +692,8 @@ CREATE TABLE `log_train` (
 DROP TABLE IF EXISTS `match`;
 CREATE TABLE `match` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `initiator_id` int(10) NOT NULL,
-  `initiator` varchar(255) NOT NULL COMMENT '发起者id',
+  `member_id` int(10) NOT NULL DEFAULT '0',
+  `member` varchar(255) NOT NULL DEFAULT '系统',
   `team_first_id` int(11) NOT NULL DEFAULT '1',
   `team_first_name` varchar(255) NOT NULL DEFAULT '未填写球队1名称' COMMENT '球队名称',
   `team_second_id` int(11) NOT NULL DEFAULT '2',
@@ -623,22 +714,39 @@ CREATE TABLE `match` (
   `team_second_need_player` int(2) NOT NULL DEFAULT '0',
   `team_second_sign_player` int(2) NOT NULL DEFAULT '0',
   `team_second_apply_player` int(2) NOT NULL DEFAULT '0',
-  `create_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `create_time` int(10) NOT NULL DEFAULT '0',
   `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `remark` varchar(255) DEFAULT NULL,
   `fee` double(6,2) NOT NULL DEFAULT '0.00' COMMENT '比赛费用',
-  `type` tinyint(4) unsigned NOT NULL DEFAULT '1' COMMENT '1:平台约战|2：个人友谊赛|3：其它',
+  `type` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '0:平台约战|1：系统比赛',
   `status` enum('4','3','2','5','1') NOT NULL DEFAULT '1' COMMENT '1:等待应战；|2：成功约战；|3：完成比赛|4：取消约战;|5：违约',
   `defaulter_id` int(10) NOT NULL DEFAULT '0' COMMENT '违约队伍id',
   `proof_img_id` int(10) DEFAULT NULL COMMENT '违约证据图片，只允许一张',
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_id` (`id`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of match
 -- ----------------------------
-INSERT INTO `match` VALUES ('1', '1', '吴队长', '1', '四三班小虎队', '2', '未填写球队2名称', '周末友谊赛', '2017-04-20 12:01:24', '广东省', '深圳市', '南山区', '文体中心102', '0.00000000000000', '0.00000000000000', '绿', '未填写比赛服装颜色', '12', '0', '0', '0', '0', '0', '2017-04-20 12:01:58', '2017-04-25 12:43:38', '欢迎参加比赛', '0.00', '1', '1', '0', null);
+INSERT INTO `match` VALUES ('1', '1', '吴队长', '1', '四三班小虎队', '2', '未填写球队2名称', '周末友谊赛', '2017-04-20 12:01:24', '广东省', '深圳市', '南山区', '文体中心102', '0.00000000000000', '0.00000000000000', '绿', '未填写比赛服装颜色', '12', '0', '0', '0', '0', '0', '2017', '2017-04-25 12:43:38', '欢迎参加比赛', '0.00', '1', '1', '0', null);
+INSERT INTO `match` VALUES ('2', '0', '系统发起', '2', '四三班小猪队', '1', '四三班小虎队', '1313', '2017-06-01 00:40:00', '20', '240', '2378', '1313', '0.00000000000000', '0.00000000000000', '', '', '5', '0', '0', '5', '0', '0', '1493893584', '0000-00-00 00:00:00', '测试', '50.00', '1', '1', '0', null);
+INSERT INTO `match` VALUES ('3', '0', '系统发起', '1', '四三班小虎队', '2', '四三班小猪队', '厚厚的', '2017-05-26 13:53:00', '广西壮族自治区', '南宁市', '西乡塘区', '阿哥好烦的合法化', '0.00000000000000', '0.00000000000000', '', '', '99', '0', '0', '10', '0', '0', '1493895308', '0000-00-00 00:00:00', '测试3', '100.00', '1', '1', '0', null);
+
+-- ----------------------------
+-- Table structure for `match_media`
+-- ----------------------------
+DROP TABLE IF EXISTS `match_media`;
+CREATE TABLE `match_media` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `match_id` int(10) NOT NULL,
+  `media_id` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of match_media
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `media`
@@ -646,18 +754,18 @@ INSERT INTO `match` VALUES ('1', '1', '吴队长', '1', '四三班小虎队', '2
 DROP TABLE IF EXISTS `media`;
 CREATE TABLE `media` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `member_id` int(10) NOT NULL,
-  `team_id` int(10) NOT NULL,
   `url` varchar(255) NOT NULL,
-  `type` tinyint(2) NOT NULL DEFAULT '1' COMMENT '1:上课图片；2:活动图片；3:比赛图片；4：录像；5:个人图片',
+  `parent_id` int(10) NOT NULL,
+  `type` tinyint(2) NOT NULL DEFAULT '5' COMMENT '0:系统图片;1:上课图片；2:活动图片；3:比赛图片；4：录像；5:个人图片',
+  `suffix` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0:图片；|1：视频',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of media
 -- ----------------------------
-INSERT INTO `media` VALUES ('5', '1', '0', '112', '2');
-INSERT INTO `media` VALUES ('6', '0', '0', '123', '1');
+INSERT INTO `media` VALUES ('5', '112', '0', '2', '0');
+INSERT INTO `media` VALUES ('6', '123', '0', '1', '0');
 
 -- ----------------------------
 -- Table structure for `member`
@@ -677,7 +785,7 @@ CREATE TABLE `member` (
   `password` varchar(64) NOT NULL DEFAULT '123456' COMMENT '初始密码系统生成',
   `balance` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '负数为欠费',
   `sign_login` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `type` varchar(60) NOT NULL DEFAULT '1-2-3-4' COMMENT '1:学生|2：热血教头|3：爱好者|4:裁判',
+  `type` varchar(60) NOT NULL DEFAULT '0,1,2,3' COMMENT '0:爱好者|1：热血教头|2：裁判|3:学生',
   `ceate_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
@@ -892,6 +1000,82 @@ CREATE TABLE `organization` (
 
 -- ----------------------------
 -- Records of organization
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `participation_activity`
+-- ----------------------------
+DROP TABLE IF EXISTS `participation_activity`;
+CREATE TABLE `participation_activity` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `activity_id` int(10) NOT NULL,
+  `team_id` int(10) NOT NULL,
+  `team` varchar(60) NOT NULL,
+  `member_id` int(10) NOT NULL,
+  `member` varchar(60) NOT NULL,
+  `portrait_url` varchar(255) DEFAULT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0:申请加入|1：未签到|2：已签到|3：已参加|4：请假',
+  `is_pay` tinyint(4) NOT NULL DEFAULT '0',
+  `pay_way` varchar(60) DEFAULT NULL,
+  `create_time` int(10) NOT NULL,
+  `type` enum('0','1') NOT NULL DEFAULT '0' COMMENT '活动类型 0：人工记录；1：系统记录',
+  PRIMARY KEY (`id`),
+  KEY `team_id` (`team_id`) USING BTREE,
+  KEY `activity_id` (`activity_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of participation_activity
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `participation_match`
+-- ----------------------------
+DROP TABLE IF EXISTS `participation_match`;
+CREATE TABLE `participation_match` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `match_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `member` varchar(60) NOT NULL,
+  `member_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '报名人数',
+  `team` varchar(60) NOT NULL DEFAULT 'A队' COMMENT '报名人所属球队',
+  `team_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '报名字所属球队',
+  `portrait_url` int(10) unsigned DEFAULT NULL COMMENT '头像',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0:申请加入|1：未签到|2：已签到|3：已参加|4：请假',
+  `is_pay` double(6,2) NOT NULL DEFAULT '0.00' COMMENT '0:未交费|其它数字：缴费金额',
+  `pay_way` varchar(60) DEFAULT NULL COMMENT '支付方式：支付宝支付|线下支付',
+  `create_time` int(10) NOT NULL,
+  `type` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0:个人记录|1：系统记录',
+  PRIMARY KEY (`id`),
+  KEY `match_id_index` (`match_id`) USING BTREE,
+  KEY `team_id` (`team_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of participation_match
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `participation_train`
+-- ----------------------------
+DROP TABLE IF EXISTS `participation_train`;
+CREATE TABLE `participation_train` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `train_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `member_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '报名人数',
+  `team` varchar(60) NOT NULL DEFAULT 'A队' COMMENT '报名人所属球队',
+  `team_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '报名字所属球队',
+  `portrait_url` int(10) unsigned DEFAULT NULL COMMENT '头像',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0:申请加入|1：未签到|2：已签到|3：已参加|4：请假',
+  `is_pay` double(6,2) NOT NULL DEFAULT '0.00' COMMENT '0:未交费|其它数字：缴费金额',
+  `pay_way` varchar(60) DEFAULT NULL COMMENT '支付方式：支付宝支付|线下支付',
+  `create_time` int(10) NOT NULL,
+  `type` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0:个人记录|1：系统记录',
+  PRIMARY KEY (`id`),
+  KEY `train_id_index` (`train_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of participation_train
 -- ----------------------------
 
 -- ----------------------------
@@ -6319,22 +6503,24 @@ CREATE TABLE `team` (
   `average_age` decimal(4,1) NOT NULL DEFAULT '0.0',
   `average_weigth` decimal(4,1) NOT NULL DEFAULT '0.0' COMMENT 'kg',
   `attendance_rate` decimal(2,2) NOT NULL DEFAULT '0.00' COMMENT '出勤率',
-  `blog_id` varchar(255) NOT NULL DEFAULT '0' COMMENT '球队外链',
+  `blog` varchar(255) NOT NULL DEFAULT '0' COMMENT '球队外链',
   `credit` tinyint(4) unsigned NOT NULL DEFAULT '100' COMMENT '信誉，迟到-1，违约-5',
   `average_score` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '比赛平均得分',
   `logo_id` int(10) NOT NULL DEFAULT '1',
-  `create_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `create_time` int(10) NOT NULL DEFAULT '0',
   `balance` double(10,2) NOT NULL DEFAULT '0.00' COMMENT '余额',
   `contract` varchar(60) NOT NULL,
   `telephone` bigint(11) NOT NULL,
   `slogan` varchar(60) NOT NULL COMMENT '口号',
+  `logo` varchar(255) NOT NULL DEFAULT '''/public/upload/common/logo/logo.png''',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of team
 -- ----------------------------
-INSERT INTO `team` VALUES ('1', '四三班小虎队', '1', '吴教练', '2', '吴副教练', '1', '吴队长', '1', '吴队委', '1', '吴队长', '四三班公告', '1', '12', '2', '0', '0', '0', '0', '0.0', '18.0', '0.0', '0.00', '0', '100', '0', '1', '0000-00-00 00:00:00', '0.00', '', '0', '');
+INSERT INTO `team` VALUES ('1', '四三班小虎队', '1', '吴教练', '2', '吴副教练', '1', '吴队长', '1', '吴队委', '1', '吴队长', '四三班公告', '1', '12', '2', '0', '0', '0', '0', '0.0', '18.0', '0.0', '0.00', '0', '100', '0', '1', '0', '0.00', '', '0', '', '');
+INSERT INTO `team` VALUES ('2', '四三班小猪队', '1', '吴教练', '0', '无', '0', '无', null, '无', '0', '无', '公告：管理员有权限', '0', '0', '0', '0', '0', '0', '0', '0.0', '0.0', '0.0', '0.00', '0', '100', '0', '1', '0', '0.00', '', '0', '', '');
 
 -- ----------------------------
 -- Table structure for `team_member`
@@ -6343,8 +6529,9 @@ DROP TABLE IF EXISTS `team_member`;
 CREATE TABLE `team_member` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `team_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '球队id',
+  `team` varchar(60) NOT NULL,
   `member_id` int(10) NOT NULL DEFAULT '10',
-  `member_name` varchar(60) NOT NULL DEFAULT '篮球爱好者' COMMENT '名字',
+  `member` varchar(60) NOT NULL DEFAULT '篮球爱好者' COMMENT '名字',
   `type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '0:队员|1:队长|2：教练|3：领队|4：队委|5：副领队|6：副队长|7:副教练；',
   `img_id` int(10) DEFAULT '0' COMMENT '头像地址',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0:申请加入；|1：允许入队；|2：已拒绝；|4：提出队伍',
@@ -6354,8 +6541,8 @@ CREATE TABLE `team_member` (
 -- ----------------------------
 -- Records of team_member
 -- ----------------------------
-INSERT INTO `team_member` VALUES ('1', '1', '1', '吴队长', '1', '0', '0');
-INSERT INTO `team_member` VALUES ('2', '1', '2', '篮球爱好者', '1', '0', '0');
+INSERT INTO `team_member` VALUES ('1', '1', '', '1', '吴队长', '1', '0', '0');
+INSERT INTO `team_member` VALUES ('2', '1', '', '2', '篮球爱好者', '1', '0', '0');
 
 -- ----------------------------
 -- Table structure for `train`
@@ -6363,7 +6550,20 @@ INSERT INTO `team_member` VALUES ('2', '1', '2', '篮球爱好者', '1', '0', '0
 DROP TABLE IF EXISTS `train`;
 CREATE TABLE `train` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
+  `team_id` int(10) NOT NULL,
+  `team` varchar(60) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `coach_id` int(10) NOT NULL,
+  `coach` varchar(60) NOT NULL,
+  `train_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `province` varchar(60) NOT NULL,
+  `city` varchar(60) NOT NULL,
+  `area` varchar(60) NOT NULL,
+  `project` varchar(255) NOT NULL COMMENT '训练项目，json数组',
+  `remark` varchar(255) DEFAULT NULL COMMENT '注意事项',
+  `create_time` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `team_index` (`team_id`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------

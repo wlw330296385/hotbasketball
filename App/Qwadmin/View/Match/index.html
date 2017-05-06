@@ -16,7 +16,6 @@
         <section class="content">
 
 <!--------------------------------------统一格式头部 ---------------------------------------------- -->
-<?php dump($list);?>
 
 <div class="box">
   <div class="box-header">
@@ -27,19 +26,20 @@
 <!-- PAGE CONTENT BEGINS -->
       <div class="cf">
           <form class="form-inline" action="" method="get">
-              <a class="btn btn-info" href="{:U('add')}" value="">新增</a>
+              <a class="btn btn-info" href="{:U('create_match')}" value="">新增</a>
               <label class="inline">比赛搜索</label>
               <select name="field" class="form-control">
-                  <option <if condition="I('field') eq subject">selected</if> value="user">主题</option>
-                  <option <if condition="I('field') eq phone">selected</if> value="phone">队伍</option>
-                  <option <if condition="I('field') eq qq">selected</if> value="qq">比赛时间</option>
-                  <option <if condition="I('field') eq email">selected</if> value="email">发起人</option>
+                  <option <if condition="I('field') eq subject">selected</if> value="subject">主题</option>
+                  <option <if condition="I('field') eq team_first_name">selected</if> value="team_first_name">甲队</option>
+                  <option <if condition="I('field') eq team_second_name">selected</if> value="team_second_name">甲队</option>
+                  <option <if condition="I('field') eq match_time">selected</if> value="match_time">比赛时间</option>
+                  <option <if condition="I('field') eq create_time">selected</if> value="create_time">发起时间</option>
               </select>
               <input type="text" name="keyword" value="{:I(keyword)}" class="form-control">
               <label class="inline">&nbsp;&nbsp;排序：</label>
               <select name="order" class="form-control">
-                  <option <if condition="I('order') eq asc">selected</if> value="asc">注册时间升</option>
-                  <option <if condition="I('order') eq desc">selected</if> value="desc">注册时间降</option>
+                  <option <if condition="I('order') eq asc">selected</if> value="asc">发起时间升</option>
+                  <option <if condition="I('order') eq desc">selected</if> value="desc">发起时间降</option>
               </select>
               <button type="submit" class="btn btn-success btn-sm">
                   <span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
@@ -50,46 +50,47 @@
     <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                      <th class="center">id</th>
-                      <th>主题</th>
-                      <th class="center">甲队</th>
-                      <th class="center">乙队</th>
-                      <th class="center">比赛时间</th>
-                      <th>比赛省份</th>
-                      <th>比赛城市</th>
-                      <th>比赛区</th>
-                      <th>发起时间</th>
-                      <th>状态</th>
-                      <th class="center">操作</th>
+                      <th style="text-align:center;">id</th>
+                      <th style="text-align:center;">主题</th>
+                      <th style="text-align:center;">甲队</th>
+                      <th style="text-align:center;">乙队</th>
+                      <th style="text-align:center;">比赛时间</th>
+                      <th style="text-align:center;">比赛省份</th>
+                      <th style="text-align:center;">比赛城市</th>
+                      <th style="text-align:center;">比赛区</th>
+                      <th style="text-align:center;">发起时间</th>
+                      <th style="text-align:center;">状态</th>
+                      <th style="text-align:center;">操作</th>
                   </tr>
                   </thead>
                   <tbody>
                   <volist name="list" id="val">
                       <tr>
-                          <td class="center">
+                          <td align="center">
                               {$val.id}
                           </td>
-                          <td>{$val['subject']}</td>
-                          <td class="center"><a href="{U:('team/team_info',['id']=>$val['id'])}">{$val.team_first_name}</a></td>
-                          <td class="center"><a href="{U:('team/team_info',['id']=>$val['id'])}">{$val.team_second_name}</a></td>
-                          <td class="center">{$val.match_time}</td>
-                          <td>{$val['match_venue_province']}</td>
-                          <td>{$val['match_venue_city']}</td>
-                          <td>{$val['match_venue_area']}</td>
-                          <td>{$val.create_time}</td>
-                          <td><?php if($val['status']==1){echo '等待应战';}elseif($val['status']==2){echo '成功约战';}elseif($val['status']==3){echo '已完成比赛';}elseif($val['status']==4){echo '取消约战';}else{echo '违约';} ?></td>
-                          <td class="center"><a href="{:U('edit',array('uid'=>$val['uid']))}">修改</a>&nbsp;
-                              <if condition="$val['uid'] neq 1"><a class="del" href="javascript:;"
-                                                                   val="{:U('del',array('uid'=>$val['uid']))}"
-                                                                   title="删除">删除</a></if>
+                          <td align="center">{$val['subject']}</td>
+                          <td align="center"><a href="{U:('team/team_info',['id']=>$val['id'])}">{$val.team_first_name}</a></td>
+                          <td align="center"><a href="{U:('team/team_info',['id']=>$val['id'])}">{$val.team_second_name}</a></td>
+                          <td align="center">{$val.match_time}</td>
+                          <td align="center">{$val['match_venue_province']}</td>
+                          <td align="center">{$val['match_venue_city']}</td>
+                          <td align="center">{$val['match_venue_area']}</td>
+                          <td align="center">{$val.create_time|date="Y-m-d H:i:s",###}</td>
+                          <td align="center"><?php if($val['status']==1){echo '等待应战';}elseif($val['status']==2){echo '成功约战';}elseif($val['status']==3){echo '已完成比赛';}elseif($val['status']==4){echo '取消约战';}else{echo '违约';} ?></td>
+                          <td align="center"><a href="{:U('match_info',array('match_id'=>$val['id']))}">详情</a>&nbsp;
+                              <if condition="$val['type'] eq 1"><a class="del" href="javascript:;"
+                                                                   val="{:U('add_match_record',array('match_id'=>$val['id']))}"
+                                                                   title="填写比赛记录">填写比赛记录</a></if>
                           </td>
                       </tr>
                   </volist>
                   </tbody>
+                  
               </table>
-          <div class="cf">
+          <!-- <div class="cf">
               <input id="submit" class="btn btn-info" type="button" value="删除">
-          </div>
+          </div> -->
           {$page}
       </div>
       <!-- PAGE CONTENT ENDS -->

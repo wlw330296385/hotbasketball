@@ -17,18 +17,11 @@
 
 <!--------------------------------------统一格式头部 ---------------------------------------------- -->
 
-
-
-
-
-<?php dump($list); ?>
-
-
-
 <div class="box">
   <div class="box-header">
     <h3 class="box-title">球队列表</h3>
   </div>
+  <a class="btn btn-info" href="{:U('update_team')}" value="">新增</a>
   <!-- /.box-header -->
   <div class="box-body">
     <table id="example1" class="table table-bordered table-striped">
@@ -58,7 +51,7 @@
         <td><a href="{:U('member/member_info',['id'=>$val['leader_id']])}">{$val.leader}</a></td>
         <td>{$val.create_time}</td>
         <td>{$val.balance}</td>
-        <td><a href="{:U('edit',array('uid'=>$val['uid']))}">修改</a>&nbsp;
+        <td><a href="{:U('update_team',array('tid'=>$val['id']))}">修改</a>&nbsp;
         <if condition="$val['uid'] neq 1"><a class="del" href="javascript:;" val="{:U('del',array('uid'=>$val['uid']))}" title="删除">删除</a></if>
         </td>
       </tr>

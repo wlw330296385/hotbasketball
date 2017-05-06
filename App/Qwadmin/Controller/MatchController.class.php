@@ -1,13 +1,5 @@
 <?php
-/**
- *
- * 版权所有：恰维网络<qwadmin.qiawei.com>
- * 作    者：寒川<hanchuan@qiawei.com>
- * 日    期：2016-01-20
- * 版    本：1.0.0
- * 功能说明：用户控制器。
- *
- **/
+
 
 namespace Qwadmin\Controller;
 use Common\Model\MatchModel;
@@ -15,137 +7,75 @@ class MatchController extends ComController
 {
     public function index()
     {
-        // $match = new  \Common\Model\MatchModel;
-        // $result = $match
-        //     ->relation(true)
-        //     ->select();
-
-        $result = M('match')
-        -> select();
+        $p = isset($_GET['p']) ? intval($_GET['p']) : '1';
+        $field = isset($_GET['field']) ? $_GET['field'] : '';
+        $keyword = isset($_GET['keyword']) ? htmlentities($_GET['keyword']) : '';
+        $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
+        $where = '';
+        $pagesize = 10;#每页数量
+        $offset = $pagesize * ($p - 1);//计算记录偏移量
+        if($order == 'asc'){
+            $order = 'create_time ASC';
+        }else{
+            $order = 'create_time DESC';
+        }
+        if($keyword<>''){
+           $where = [$field=>['LIKE','%'.$keyword.'%']];
+        }
+        $match = M('match');
+        $count = $match->where($where)->limit($offset,$pagesize*$p)->count();
+        // echo $count;die;
+        $result = $match
+                ->where($where)
+                ->limit($offset ,$pagesize*$p)
+                ->order($order)
+                ->select();
+        $page = new \Think\Page($count, $pagesize);
+        $page = $page->show();
+        $this->assign('page',$page);
         $this->assign('list', $result);
         $this->assign('nav', array('user', 'grouplist', 'grouplist'));//导航
         $this->display();
     }
 
-    public function del()
-    {
+    public function match_info($match_id){
+        $match = new \Common\Model\MatchModel;
+        $result = $match->get_match_info($match_id);
+        $this->assign('result',$result);
+        //获取比赛评论
+        $comment = new \Common\Model\CommentModel;
+        $comment_list = $comment->get_comments($match_id,0);
+        $this->assign('comment',$comment_list);
+        //获取比赛轮播图
+        $media = new \Common\Model\MediaModel;
+        $medias = $media->get_url_by_parent_id($match_id,3);
+        $this->assign('medias',$medias);
 
-        $ids = isset($_POST['ids']) ? $_POST['ids'] : false;
-        if (is_array($ids)) {
-            foreach ($ids as $k => $v) {
-                $ids[$k] = intval($v);
-            }
-            $ids = implode(',', $ids);
-            $map['id'] = array('in', $ids);
-            if (M('match')->where($map)->delete()) {
-                addlog('删除用户组ID：' . $ids);
-                $this->success('恭喜，用户组删除成功！');
-            } else {
-                $this->error('参数错误！');
-            }
-        } else {
-            $this->error('参数错误！');
-        }
-    }
 
-    public function update()
-    {
-
-        $data['title'] = isset($_POST['title']) ? trim($_POST['title']) : false;
-        $id = isset($_POST['id']) ? intval($_POST['id']) : false;
-        if ($data['title']) {
-            $status = isset($_POST['status']) ? $_POST['status'] : '';
-            if ($status == 'on') {
-                $data['status'] = 1;
-            } else {
-                $data['status'] = 0;
-            }
-            //如果是超级管理员一直都是启用状态
-            if ($id == 1) {
-                $data['status'] = 1;
-            }
-
-            $rules = isset($_POST['rules']) ? $_POST['rules'] : 0;
-            if (is_array($rules)) {
-                foreach ($rules as $k => $v) {
-                    $rules[$k] = intval($v);
-                }
-                $rules = implode(',', $rules);
-            }
-            $data['rules'] = $rules;
-            if ($id) {
-                $match = M('match')->where('id=' . $id)->data($data)->save();
-                if ($match) {
-                    addlog('编辑用户组，ID：' . $id . '，组名：' . $data['title']);
-                    $this->success('恭喜，用户组修改成功！');
-                    exit(0);
-                } else {
-                    $this->success('未修改内容');
-                }
-            } else {
-                M('match')->data($data)->add();
-                addlog('新增用户组，ID：' . $id . '，组名：' . $data['title']);
-                $this->success('恭喜，新增用户组成功！');
-                exit(0);
-            }
-        } else {
-            $this->success('用户组名称不能为空！');
-        }
-    }
-
-    public function edit()
-    {
-
-        $id = isset($_GET['id']) ? intval($_GET['id']) : false;
-        if (!$id) {
-            $this->error('参数错误！');
-        }
-
-        $match = M('match')->where('id=' . $id)->find();
-        if (!$match) {
-            $this->error('参数错误！');
-        }
-        //获取所有启用的规则
-        $rule = M('auth_rule')->field('id,pid,title')->where('status=1')->order('o asc')->select();
-        $match['rules'] = explode(',', $match['rules']);
-        $rule = $this->getMenu($rule);
-        $this->assign('rule', $rule);
-        $this->assign('group', $match);
-        $this->assign('nav', array('user', 'grouplist', 'addgroup'));//导航
         $this->display('form');
     }
 
-    public function add()
-    {
+    public function add_match_record(){
 
-        
     }
 
-    public function status()
-    {
-
-        $id = I('id');
-        if (!$id) {
-            $this->error('参数错误！');
-        }
-        if ($id == 1) {
-            $this->error('此用户组不可变更状态！');
-        }
-        $match = M('match')->where('id=' . $id)->find();
-        if (!$match) {
-            $this->error('参数错误！');
-        }
-        $status = $match['status'];
-        if ($status == 1) {
-           $res = M('match')->data(array('status' => 0))->where('id=' . $id)->save();
-        }
-        if ($status != 1 ) {
-            $res = M('match')->data(array('status' => 1))->where('id=' . $id)->save();
-        }
-        if ($res) {
-            $this->success('恭喜，更新状态成功！');
-        } else {
-            $this->error('更新失败！');
+    public function create_match(){
+        if(IS_POST){
+            $match = new \Common\Model\MatchModel;
+            $result = $match->create_match();
+            if($result){
+                $this->success('添加成功');
+            }
+        }else{
+            $region = new \Home\Controller\RegionController();
+        // $province = $region->get_province();
+        $province = $region->get_province();
+        $teams = M('team')->field('team,id')->select();
+        $this->assign('province',$province);
+        $this->assign('teams',$teams);
+        $this->display('form');
         }
     }
+
+
 }

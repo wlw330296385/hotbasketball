@@ -13,63 +13,51 @@ namespace Qwadmin\Controller;
 
 class MemberController extends ComController
 {
+
+    protected static $_type = ['爱好者','热血教头','裁判','学生'];
     public function index()
-    {
-        
+    {     
         $p = isset($_GET['p']) ? intval($_GET['p']) : '1';
         $field = isset($_GET['field']) ? $_GET['field'] : '';
         $keyword = isset($_GET['keyword']) ? htmlentities($_GET['keyword']) : '';
         $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
         $where = '';
-
-        $prefix = C('DB_PREFIX');
         if ($order == 'asc') {
-            $order = "{$prefix}member.ch_name asc";
-        } elseif (($order == 'desc')) {
-            $order = "{$prefix}member.ch_name desc";
+            $order = "ceate_time ASC";
         } else {
-            $order = "{$prefix}member.id asc";
+            $order = "ceate_time DESC";
         }
         if ($keyword <> '') {
-            if ($field == 'user') {
-                $where = "{$prefix}member.user LIKE '%$keyword%'";
-            }
-            if ($field == 'phone') {
-                $where = "{$prefix}member.phone LIKE '%$keyword%'";
-            }
-            if ($field == 'qq') {
-                $where = "{$prefix}member.qq LIKE '%$keyword%'";
-            }
-            if ($field == 'email') {
-                $where = "{$prefix}member.email LIKE '%$keyword%'";
-            }
+            $where = [$field=>['LIKE','%'.$keyword.'%']];
         }
 
 
         $user = M('member');
         $pagesize = 10;#每页数量
         $offset = $pagesize * ($p - 1);//计算记录偏移量
-        $count = $user->field("{$prefix}member.*,{$prefix}auth_group.id as gid,{$prefix}auth_group.ch_nameitle")
+        $count = $user
             ->order($order)
-            ->join("{$prefix}auth_group_access ON {$prefix}member.id = {$prefix}auth_group_access.id")
-            ->join("{$prefix}auth_group ON {$prefix}auth_group.id = {$prefix}auth_group_access.group_id")
             ->where($where)
             ->count();
 
-        $list = $user->field("{$prefix}member.*,{$prefix}auth_group.id as gid,{$prefix}auth_group.ch_nameitle")
+        $list = $user
             ->order($order)
-            ->join("{$prefix}auth_group_access ON {$prefix}member.id = {$prefix}auth_group_access.id")
-            ->join("{$prefix}auth_group ON {$prefix}auth_group.id = {$prefix}auth_group_access.group_id")
             ->where($where)
-            ->limit($offset . ',' . $pagesize)
+            ->limit($offset,$pagesize*$p)
             ->select();
         //$user->getLastSql();
         $page = new \Think\Page($count, $pagesize);
         $page = $page->show();
+        foreach ($list as $key => &$value) {
+            $a = explode(',',$value['type']);
+            // dump($a);die;
+            foreach ($a as $v) {
+                $value['types'].= self::$_type[$v].'|';
+            }
+        }
+
         $this->assign('list', $list);
         $this->assign('page', $page);
-        $group = M('auth_group')->field('id,title')->select();
-        $this->assign('group', $group);
         $this->display();
     }
 

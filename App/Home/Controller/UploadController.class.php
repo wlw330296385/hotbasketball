@@ -1,29 +1,18 @@
 <?php
-/**
- *
- * 版权所有：恰维网络<qwadmin.qiawei.com>
- * 作    者：小马哥<hanchuan@qiawei.com>
- * 日    期：2015-09-17
- * 版    本：1.0.3
- * 功能说明：文件上传控制器。
- *
- **/
 
-namespace Qwadmin\Controller;
+
+namespace Home\Controller;
 
 use Think\Upload;
 
 class UploadController extends ComController
 {
-    public function index($type = null)
-    {
-
-    }
+    protected $savepath = CONTROLLER_NAME.'/'.date('Y')."/".date('m')."/";
+    protected $rootpath = './public/';
 
     public function uploadpic()
     {
-        $Img = I('Img');
-        $savepath =I('savepath');
+        $Img = I('img');
         if ($_FILES['img']) {
             $Img = $this->saveimg($_FILES);
         }
@@ -46,7 +35,7 @@ class UploadController extends ComController
         $this->display('Uploadpic');
     }
 
-    private function saveimg($files,$savepath = '',$rootpath = './public/')
+    private function saveimg($files)
     {
         $mimes = array(
             'image/jpeg',
@@ -68,12 +57,11 @@ class UploadController extends ComController
             'bmp',
             'x-png'
         );
-        if($savepath == '') $savepath = 'attached/'.date('Y')."/".date('m')."/";
         $option = array(
             'mimes' => $mimes,
             'exts' => $exts,
-            'rootPath' => $rootpath,
-            'savePath' => $savepath,
+            'rootPath' => $this->$rootpath,
+            'savePath' => $this->$savepath,
             'subName'  =>  array('date', 'd'),
         );
  
@@ -84,7 +72,7 @@ class UploadController extends ComController
             echo "<script>alert('{$error}')</script>";
         }else{// 上传成功
             foreach ($info as $item) {
-                $filePath[] = __ROOT__."/Public/".$item['savepath'].$item['savename'];
+                $filePath[] = __ROOT__.$rootpath.$item['savepath'].$item['savename'];
             }
             $ImgStr = implode("|", $filePath);
             return $ImgStr;

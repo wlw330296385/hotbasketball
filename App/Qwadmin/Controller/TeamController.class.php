@@ -78,25 +78,28 @@ class TeamController extends ComController
         $this->display();
     }
 
-    public function del()
-    {
-
-    }
-
-    public function edit()
-    {
-
-    }
-
-    public function update($ajax = '')
-    {
-        
+    public function create_team(){
+        $team = M($team)->where(['id'=>$tid])->find();
+        $this->assign('team',$team);
+        $this->display('form');
     }
 
 
-    public function add()
-    {
 
-        
+    public function update_team($tid = 0){
+        if($tid!=0){
+            $team = M($team)->where(['id'=>$tid])->find();
+            $this->assign('team',$team);
+        }
+        if(IS_POST){
+            $team = new \Common\Model\TeamModel;
+            $result = $team->update_team($tid);
+            if($result){
+                $mid = session('mid');
+                addlog('ID：'.$mid.'修改了一支球队：'.json_encode($result));
+                $this->success('操作成功');
+            }
+        }
+        $this->display('form');
     }
 }
