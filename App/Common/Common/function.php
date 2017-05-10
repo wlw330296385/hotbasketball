@@ -89,7 +89,7 @@ function password($password)
     /*
     *后续整强有力的加密函数
     */
-    return md5('Q' . $password . 'W');
+    return md5('hot' . $password . 'woo');
 
 }
 

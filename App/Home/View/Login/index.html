@@ -1,0 +1,182 @@
+<include file="Public/head__origin"/>
+<body class="login-layout blur-login">
+<div class="main-container login-main-container">
+    <div class="main-content">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div class="login-container">
+                    <!-- <div class="space-6"></div> -->
+
+                    <div class="position-relative">
+                        <div id="login-box" class="login-box visible widget-box no-border">
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <h4 class="header blue lighter bigger">
+                                        <i class="ace-icon fa fa-coffee green"></i>
+                                        <b>{$Think.CONFIG.sitename}</b>
+                                    </h4>
+
+                                    <div class="space-6"></div>
+
+                                    <form action="" method="post">
+                                        <fieldset>
+                                            <label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input type="text" class="form-control" name="en_name"
+                                                                   placeholder="手机号" required/>
+															<i class="ace-icon fa fa-user"></i>
+														</span>
+                                            </label>
+
+                                            <label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input type="password" class="form-control" name="password"
+                                                                   placeholder="密码" required/>
+															<i class="ace-icon fa fa-lock"></i>
+														</span>
+                                            </label>
+
+                                            <!-- <div class="space"></div> -->
+                                            <if condition="ACTION_NAME eq 'sign_up'">
+                                            <label class="block clearfix">
+                                                        <span class="block input-icon input-icon-right">
+                                                            <input type="password" class="form-control" name="repassword"
+                                                                   placeholder="重复密码" required/>
+                                                            <i class="ace-icon fa fa-lock"></i>
+                                                        </span>
+                                            </label>
+                                             <label class="block clearfix">
+                                                        <span class="block input-icon ">
+                                                            <span class="inline"><input type="text" class="form-control"
+                                                                                        name="tel_code" placeholder="手机短信验证码"
+                                                                                        id="code" required/></span>
+                                                            <button class="width-30 pull-right btn btn-sm btn-warning">
+                                                                获取验证码
+                                                            </button>
+                                                        </span>
+                                            </label>
+                                            <label class="block clearfix">
+														<span class="block input-icon ">
+															<span class="inline"><input type="text" class="form-control"
+                                                                                        name="verify" placeholder="验证码"
+                                                                                        id="code" /></span>
+															<img style="cursor:pointer;" src="{:U('login/verify')}"
+                                                                 width="30%" height="30" title="看不清楚？点击刷新"
+                                                                 onclick="this.src = '{:U('login/verify')}?'+new Date().getTime()">
+														</span>
+                                            </label>
+                                            </if>
+                                            <div class="space"></div>
+                                            <if condition="ACTION_NAME eq 'login'">
+                                            <div class="clearfix">
+                                                <label class="inline">
+                                                    <input type="checkbox" class="ace" name="remember"/>
+                                                    <span class="lbl"> 记住我</span>
+                                                </label>
+
+                                                <button type="submit"
+                                                        class="width-30 pull-right btn btn-sm btn-primary">
+                                                    <i class="ace-icon fa fa-key"></i>
+                                                    <span class="bigger-110">登录</span>
+                                                </button>
+                                            </div>
+                                            
+                                            <div class="space"></div>
+                                            <div class="clearfix">
+                                                <label class="inline">
+                                                    <span class="lbl"> 没有账号？注册一个：</span>
+                                                </label>
+
+                                                <a  href="{:U('sign_up')}" 
+                                                        class="width-30 pull-right btn btn-sm btn-success">
+                                                    <i class="ace-icon fa fa-user"></i>
+                                                    <span class="bigger-110">注册</span>
+                                                </a>
+                                            </div>
+                                            <else />
+                                            <div class="clearfix">
+                                                <button type="submit"
+                                                        class="width-100  btn btn-sm btn-primary">
+                                                    <span class="bigger-110">注册</span>
+                                                </button>
+                                            </div>
+                                            </if>
+                                            <div class="space-4"></div>
+                                        </fieldset>
+                                    </form>
+                                </div><!-- /.widget-main -->
+                            </div><!-- /.widget-body -->
+                        </div><!-- /.login-box -->
+                    </div><!-- /.position-relative -->
+
+                    <div class="navbar-fixed-top align-right">
+                        <br/>
+                        &nbsp;
+                        <a id="btn-login-dark" href="#">Dark</a>
+                        &nbsp;
+                        <span class="blue">/</span>
+                        &nbsp;
+                        <a id="btn-login-blur" href="#">Blur</a>
+                        &nbsp;
+                        <span class="blue">/</span>
+                        &nbsp;
+                        <a id="btn-login-light" href="#">Light</a>
+                        &nbsp; &nbsp; &nbsp;
+                    </div>
+                </div>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.main-content -->
+</div><!-- /.main-container -->
+
+<!-- basic scripts -->
+
+<!--[if !IE]> -->
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='__PUBLIC__/qwadmin/js/jquery.js'>" + "<" + "/script>");
+</script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='__PUBLIC__/qwadmin/js/jquery1x.js'>" + "<" + "/script>");
+</script>
+<![endif]-->
+<script type="text/javascript">
+    if ('ontouchstart' in document.documentElement) document.write("<script src='__PUBLIC__/qwadmin/js/jquery.mobile.custom.js'>" + "<" + "/script>");
+</script>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+
+
+
+    //you don't need this, just used for changing background
+    jQuery(function ($) {
+        $('#btn-login-dark').on('click', function (e) {
+            $('body').attr('class', 'login-layout');
+            $('#id-text2').attr('class', 'white');
+            $('#id-company-text').attr('class', 'blue');
+
+            e.preventDefault();
+        });
+        $('#btn-login-light').on('click', function (e) {
+            $('body').attr('class', 'login-layout light-login');
+            $('#id-text2').attr('class', 'grey');
+            $('#id-company-text').attr('class', 'blue');
+
+            e.preventDefault();
+        });
+        $('#btn-login-blur').on('click', function (e) {
+            $('body').attr('class', 'login-layout blur-login');
+            $('#id-text2').attr('class', 'white');
+            $('#id-company-text').attr('class', 'light-blue');
+
+            e.preventDefault();
+        });
+
+    });
+</script>
+</body>
+</html>

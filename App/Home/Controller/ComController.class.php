@@ -16,21 +16,20 @@ class ComController extends Controller
         $url = U('login/index');
         $is_wap = $this->is_mobile();
         if($is_wap){
-        	// 检测是微信端还是普通网页
-        	$is_wx = $this->is_weixin();
-	        if($is_wx) {
-	        	$url = U("login/wx_login");
-        }      
+            // 检测是微信端还是普通网页
+            $is_wx = $this->is_weixin();
+            if($is_wx) {
+                $url = U("login/wx_login");
+            } 
+        }
         //检测是否登录
-        $flag =  $this->check_login();
-        
+        $flag =  $this->check_login();        
         if (!$flag) {
             header("Location: {$url}");
             exit(0);
         }
     }
 
-}
 
 
 
@@ -41,13 +40,12 @@ class ComController extends Controller
         $flag = false;
         $salt = C("COOKIE_SALT");
         $ip = get_client_ip();
-        $auth = cookie('auth');
-        $mid = session('mid');
-        if ($uid) {
-            $member = M('member')->where(array('mid' => $mid))->find();
-
+        $auth = cookie('member');
+        $en_name = session('en_name');
+        if ($en_name) {
+            $member = M('member')->where(array('en_name' => $en_name))->find();
             if ($member) {
-                if ($auth ==  password($mid.$member['username'].$ip.$salt)) {
+                if ($auth ==  password($member['en_name'])) {
                     $flag = true;
                     $this->MEMBER = $member;
                 }

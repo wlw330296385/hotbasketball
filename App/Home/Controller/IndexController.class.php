@@ -17,6 +17,9 @@ class IndexController extends ComController
     public function index()
     {
 
+    	$teams = M('team')->select();
+    	dump($teams);
+    	$this->assign('teams',$teams);
         $this->display();
     }
 

@@ -15,6 +15,7 @@ use Qwadmin\Controller\ComController;
 
 class LoginController extends ComController
 {
+
     public function index()
     {
         $flag = $this->check_login();

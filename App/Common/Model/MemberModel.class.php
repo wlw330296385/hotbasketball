@@ -70,7 +70,7 @@ class MemberModel extends RelationModel {
      * 密码登陆
      */
     public function login_by_password(){
-        $password = sh1(I('post.password').'hbg');
+        $password = sha1(I('post.password').'hbg');
     }
 
     /**

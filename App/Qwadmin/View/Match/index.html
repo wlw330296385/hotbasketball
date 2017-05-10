@@ -78,7 +78,7 @@
                           <td align="center">{$val['match_venue_area']}</td>
                           <td align="center">{$val.create_time|date="Y-m-d H:i:s",###}</td>
                           <td align="center"><?php if($val['status']==1){echo '等待应战';}elseif($val['status']==2){echo '成功约战';}elseif($val['status']==3){echo '已完成比赛';}elseif($val['status']==4){echo '取消约战';}else{echo '违约';} ?></td>
-                          <td align="center"><a href="{:U('match_info',array('match_id'=>$val['id']))}">详情</a>&nbsp;
+                          <td align="center"><a href="{:U('ww',array('match_id'=>$val['id']))}">详情</a>&nbsp;
                               <if condition="$val['type'] eq 1"><a class="del" href="javascript:;"
                                                                    val="{:U('add_match_record',array('match_id'=>$val['id']))}"
                                                                    title="填写比赛记录">填写比赛记录</a></if>

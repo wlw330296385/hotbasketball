@@ -1,33 +1,40 @@
 <?php
 namespace Home\Controller;
-
-class LoginController extends ComController
+use Common\Controller\BaseController;
+use Think\Controller;
+class LoginController extends Controller
 {
-
-
 	public function _initialize(){
-		parent::_initialize();
+		C(setting());
 	}
-
-
     public function index()
     {
+
     	// 登陆
     	if(IS_POST){
-			$rules = array(
-				array('verify','require','验证码必须！'), //默认情况下用正则进行验证
-				array('name','','帐号名称已经存在！',0,'unique',1), // 在新增的时候验证name字段是否唯一
-				array('value',array(1,2,3),'值的范围不正确！',2,'in'), // 当值不为空的时候判断是否在一个范围内
-				array('repassword','password','确认密码不正确',0,'confirm'), // 验证确认密码是否和密码一致
-				array('password','checkPwd','密码格式不正确',0,'function'), // 自定义函数验证密码格式
-			);
-
-
-			$url = U('index/index');
-			header("Location: $url");
+			$password = sha1(I('post.password').'hbg');
+			$en_name = I('post.en_name');
+			$member = M('member');
+			$where = [
+						'en_name'	=>['eq',$en_name],
+						'telephone'	=>['eq',$en_name],
+						'_logic'	=>'or'
+					];
+			$map['_complex'] = $where;
+			$map['password'] = ['eq',$password];
+			$result = $member->where($map)
+					->find();
+			if($result){
+				$url = U('index/index');
+				header("Location: $url");
+				$cookie = password($en_name);
+				cookie('member',$cookie);
+				session('en_name',$en_name);
+			}else{
+				echo "<script>alert('账号密码错误')</script>";
+			}
     	}
-    	$this->display();
-    	
+    	$this->display();   	
     }
 
     public function wx_login(){
@@ -37,19 +44,23 @@ class LoginController extends ComController
 
     // 注册
     public function sign_up(){
+
+    	cookie('auth',null);
 		if(IS_POST){
 			$rules = array(
+				array('verify','require','验证码必须！'), //默认情况下用正则进行验证
 				array('en_name','','帐号名称已经存在！',0,'unique',1), // 在新增的时候验证name字段是否唯一
 				array('repassword','password','确认密码不正确',0,'confirm'), // 验证确认密码是否和密码一致
 				array('password','checkPwd','密码格式不正确',0,'function'), // 自定义函数验证密码格式
 				array('telephone','','电话号码已被使用',0,'unique',1)
 			);
-			$member = new \Common\Model\Member;; // 实例化User对象
+			$member = new \Common\Model\MemberModel; // 实例化User对象
 			if (!$member->validate($rules)->create()){
 			     // 如果创建失败 表示验证没有通过 输出错误提示信息
 			    $this->ajaxReturn($member->getError());
 			 }else{
 			 	$data = $member->create();
+			 	$data['telephone'] = $data['en_name'];
 			 	$result = $member->sign_up($data);
 			 	if($result){
 			 		// 发送短信通知
@@ -60,7 +71,7 @@ class LoginController extends ComController
 			 }
 
     	}
-    	$this->display();
+    	$this->display('index');
     	
     }
 
@@ -79,6 +90,19 @@ class LoginController extends ComController
     	}else{
     		echo '用户未授权';
     	}
+    }
+
+    public function verify()
+    {
+        $config = array(
+            'fontSize' => 14, // 验证码字体大小
+            'length' => 4, // 验证码位数
+            'useNoise' => false, // 关闭验证码杂点
+            'imageW' => 100,
+            'imageH' => 30,
+        );
+        $verify = new \Think\Verify($config);
+        $verify->entry('login');
     }
    
 }
