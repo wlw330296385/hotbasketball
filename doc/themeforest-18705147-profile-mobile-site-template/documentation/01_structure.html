@@ -1,0 +1,549 @@
+<!doctype html>  
+<!--[if IE 6 ]><html lang="en-us" class="ie6"> <![endif]-->
+<!--[if IE 7 ]><html lang="en-us" class="ie7"> <![endif]-->
+<!--[if IE 8 ]><html lang="en-us" class="ie8"> <![endif]-->
+<!--[if (gt IE 7)|!(IE)]><!-->
+<html lang="en-us"><!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	
+	<title>Structure & Classes - Epsilon Mobile Framework</title>
+	
+	<meta name="description" content="Code explained for the general structure of the template">
+	<meta name="author" content="Enabled">
+	<meta name="copyright" content="Enabled">
+	<meta name="generator" content="Documenter v2.0 http://rxa.li/documenter">
+	<meta name="date" content="2016-09-08T19:08:38+02:00">
+	
+	<link rel="stylesheet" href="assets/css/documenter_style.css" media="all">
+	<link rel="stylesheet" href="assets/js/google-code-prettify/prettify.css" media="screen">
+	<script src="assets/js/google-code-prettify/prettify.js"></script>
+
+	
+	
+	<script src="assets/js/jquery.js"></script>
+	
+	<script src="assets/js/jquery.scrollTo.js"></script>
+	<script src="assets/js/jquery.easing.js"></script>
+	
+	<script>document.createElement('section');var duration='500',easing='swing';</script>
+	<script src="assets/js/script.js"></script>
+	
+	<style>
+		html{background-color:#FFFFFF;color:#383838;}
+		::-moz-selection{background:#444444;color:#DDDDDD;}
+		::selection{background:#444444;color:#DDDDDD;}
+		#documenter_sidebar #documenter_logo{background-image:url();}
+		a{color:#0000FF;}
+		.btn {
+			border-radius:3px;
+		}
+		.btn-primary {
+			  background-image: -moz-linear-gradient(top, #0088CC, #0044CC);
+			  background-image: -ms-linear-gradient(top, #0088CC, #0044CC);
+			  background-image: -webkit-gradient(linear, 0 0, 0 0088CC%, from(#DDDDDD), to(#0044CC));
+			  background-image: -webkit-linear-gradient(top, #0088CC, #0044CC);
+			  background-image: -o-linear-gradient(top, #0088CC, #0044CC);
+			  background-image: linear-gradient(top, #0088CC, #0044CC);
+			  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0088CC', endColorstr='#0044CC', GradientType=0);
+			  border-color: #0044CC #0044CC #bfbfbf;
+			  color:#FFFFFF;
+		}
+		.btn-primary:hover,
+		.btn-primary:active,
+		.btn-primary.active,
+		.btn-primary.disabled,
+		.btn-primary[disabled] {
+		  border-color: #0088CC #0088CC #bfbfbf;
+		  background-color: #0044CC;
+		}
+		hr{border-top:1px solid #EBEBEB;border-bottom:1px solid #FFFFFF;}
+		#documenter_sidebar, #documenter_sidebar ul a{background-color:#DDDDDD;color:#222222;}
+		#documenter_sidebar ul a{-webkit-text-shadow:1px 1px 0px #EEEEEE;-moz-text-shadow:1px 1px 0px #EEEEEE;text-shadow:1px 1px 0px #EEEEEE;}
+		#documenter_sidebar ul{border-top:1px solid #AAAAAA;}
+		#documenter_sidebar ul a{border-top:1px solid #EEEEEE;border-bottom:1px solid #AAAAAA;color:#444444;}
+		#documenter_sidebar ul a:hover{background:#444444;color:#DDDDDD;border-top:1px solid #444444;}
+		#documenter_sidebar ul a.current{background:#444444;color:#DDDDDD;border-top:1px solid #444444;}
+		#documenter_copyright{display:block !important;visibility:visible !important;}
+	</style>
+	
+</head>
+<body class="documenter-project-structure-classes">
+	<div id="documenter_sidebar">
+		<a href="#documenter_cover" id="documenter_logo"></a>
+		<ul id="documenter_nav">
+			<li><a class="current" href="#documenter_cover">Start</a></li>
+				
+			<li><a href="#intro" title="Intro">Intro</a></li>
+			<li><a href="#page_structure" title="Page Structure">Page Structure</a></li>
+			<li><a href="#content_classes" title="Content Classes">Content Classes</a></li>
+			<li><a href="#responsive_classes" title="Responsive Classes">Responsive Classes</a></li>
+			<li><a href="#classes_and_secondary_classes" title="Classes and Secondary Classes">Classes and Secondary Classes</a></li>
+
+		</ul>
+		<div id="documenter_copyright">Copyright Enabled 2016<br>
+		made with the <a href="http://rxa.li/documenter">Documenter v2.0</a> 
+		</div>
+	</div>
+	<div id="documenter_content">
+	<section id="documenter_cover">
+	<h1>Structure & Classes</h1>
+	<h2>Epsilon Mobile Framework</h2>
+	<div id="documenter_buttons">
+		<a href="https://www.facebook.com/" class="btn btn-primary btn-large">Follow us on Faceboo</a> <a href="https://twitter.com/iEnabled" class="btn btn-large">Follow us on Twitter</a> <a href="https://plus.google.com/105775801838187143320" class="btn btn-large">Follow us on Google+</a> 
+	</div>
+	<hr>
+	<ul>
+	
+	
+	<li>by: Enabled</li>
+	<li><a href=""></a></li>
+	
+	</ul>
+	<p></p>
+	</section>
+	
+	<section id="intro">
+	<div class="page-header"><h3>Intro</h3><hr class="notop"></div>
+<p>
+	This section of the documentation will explain the basic scheleton of the page, the most esential part of the template, how to create content classes how to add backgrounds to them and how to generally build the structure of the page where all your content will later be added.&nbsp;</p>
+<p>
+	<strong>This structure is essential to obtain a strong, sturdy and to avoid any error.</strong></p>
+<p>
+	<strong>If you&#39;re a HTML pro</strong>, you won&#39;t even need to read the other documentations if you read and understand this part. We&#39;ve done our absolute best and succeeded to make all elements copy and paste, but all these copy paste elements have to go inside a structure, that is vital to the functionallity of the item, so please, take the time and read the follow section.</p>
+<p>
+	<strong>If you&#39;re a new user or a medium user</strong>, we can guarantee and there is absolutely no question this documentation will cover every aspect of our product so you won&#39;t need anything else to fully customize our product to bring your concept to life.&nbsp;</p>
+<p>
+	With this being said, we&#39;ll still give you all the help you need in case you struggle with a feature or in case we omitted something, but reading this documentation will make editing this item a piece of cake!&nbsp;</p>
+<p>&nbsp;
+	</p>
+</section>
+<section id="page_structure">
+	<div class="page-header"><h3>Page Structure</h3><hr class="notop"></div>
+<pre class="prettyprint lang-html linenums">
+&lt;div id=&quot;page-transitions&quot;&gt;  
+    &lt;div class=&quot;page-preloader page-preloader-dark&quot;&gt;
+        &lt;img class=&quot;page-preload&quot; src=&quot;images/preload.gif&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;page-content&quot; class=&quot;header-clear&quot;&gt;
+        &lt;div id=&quot;page-content-scroll&quot;&gt;
+            &lt;!-- This is where every content we&#39;ll be writing about goes. Remember it! --&gt;
+        &lt;/div&gt;  
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+<p>&nbsp;
+	</p>
+<p>
+	The above element will generate the most important part of the product. The structure where everything will be placed in, and also, the elements that generate the scrolling of the page and the transitions of the AJAX animations. &nbsp;</p>
+<p>
+	Line 1 creates the main hosing div. This will switch the page using an AJAX plugin called <a href="https://github.com/miguel-perez/smoothState.js/blob/master/README.md">smoohState</a>. This allows us to load pages much faster and give a more native effect when switching between pages.&nbsp;</p>
+<p>
+	Line 2, 3, 4 are the page preloader. In line 2 you can replace the secondary class&nbsp;<strong>page-preloader-dark</strong> with&nbsp;<strong>page-preloader-light</strong> which will change the overlay of the preload to white. To replace the icon itself please replace preloade.gif in the images folder with a preloader you desire. If you wish to change the preloader dimensions, use CTLR+F on Windows or CMD+F on Macbook in your code editor in framework.css and locate <b>.page-preloader img</b>. You will find all required settings for the image there</p>
+<p>
+	Line 6 is the content class. This houses everything on the page including the power to move it around when needed using CSS3 transform effects.&nbsp;</p>
+<p>
+	Line 7 houses the class within which all the content of your pages will be added. This class is crucial to enable scrolling of pages. This technique is called scrolling divs and it allows a much larger flexibility for sidebar templates and templates that will have animated elements.&nbsp;</p>
+<p>
+	Line 8 is where you place your content.</p>
+<p>
+	Line 9 , 10, 11 close the classes.&nbsp;</p>
+<p>
+	For those who need modifications to the AJAX system, we strongly recommend reading the <a href="https://github.com/miguel-perez/smoothState.js/">SmoothState Developer Page</a>. Advanced coding knowledge is required. Please note that customization services for elements to add extra features is not included in the support package as per Envato Terms of Service and will be charged at freelance rates.&nbsp;</p>
+<p>
+	<strong>Page Structure Special Case ( Background Boxed Center Color )</strong></p>
+<div>
+	Content with Background Color&nbsp;</div>
+<div>
+	&nbsp;</div>
+<div>
+	Contents with background colors are contents where the background image is visible. These are excellent when you want your page to have a more interesting design. This page has a different structure than usual. Let&#39;s get to the example&nbsp;</div>
+<div>
+	&nbsp;</div>
+<pre class="prettyprint lang-html linenums">
+&lt;div id=&quot;page-transitions&quot;&gt;
+    &lt;div clas=&quot;page-preloader page-preloader-dark&quot;&gt;
+        &lt;img class=&quot;page-preloader src=&quot;images/preloader.gif&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;bg bg-full&quot;&gt;&lt;/div&gt;
+
+    &lt;div id=&quot;page-content&quot; class=&quot;page-content header-clear-large bg bg-cover bg-transparent&quot;&gt;
+        &lt;div id=&quot;page-content-scroll&quot;&gt;
+            &lt;div class=&quot;content content-margins bg-white&quot;&gt;
+                &lt;!--Enter only containers here. Do not close this content--&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+<div>
+	This page is unique, meaning, a page like this alters the entire structure of the content. It allows you to use a boxed design but requires you to place all elements within the same content class. This may not be the best solution, so that&#39;s why this page is uniquely built in design.&nbsp;</div>
+<div>
+	&nbsp;</div>
+<div>
+	Almost the same code applies as above except a few things. The&nbsp;<strong>bg bg-full</strong> class that will set the background using the&nbsp;<strong>bg</strong> and will make it fullscreen by using the&nbsp;<strong>bg-full</strong></div>
+<div>
+	&nbsp;</div>
+<div>
+	The page-content id also has a secondary classes added to it.</div>
+<div>
+	&nbsp;</div>
+<div>
+	<strong>header-clear-large&nbsp;</strong>- clears the distance to that white element</div>
+<div>
+	<strong>bg bg-cover bg-transparent&nbsp;</strong>- settings for the background positioning and alignment.&nbsp;</div>
+<div>
+	&nbsp;</div>
+<div>
+	All your content must now go inside the&nbsp;<strong>content content-margins bg-white&nbsp;</strong>content box. This will have left, right, top and bottom margins so the background is seen but also inner paddings. Due to this reason this page structure&nbsp;<strong>should not</strong> be used for fullscreen sliders and fullscreen elements. These are explained and built differently.&nbsp;</div>
+<p>&nbsp;
+	</p>
+<p>&nbsp;
+	</p>
+<p>&nbsp;
+	</p>
+</section>
+<section id="content_classes">
+	<div class="page-header"><h3>Content Classes</h3><hr class="notop"></div>
+<h4 id="content_classes_the_content_class">The Content Class.</h4>
+<pre class="prettyprint lang-html linenums">
+&lt;div class=&quot;content SECONDARY_CLASS&quot;&gt;&lt;/div&gt;</pre>
+<p>
+	The content class, is the mother classes. This class will house absolute all elements ( that are of course not fullscreen ). This class <strong>should </strong>be the house class of&nbsp;<strong>all your non full screen elements.</strong></p>
+<p>
+	What does that content class do? It&#39;s simple! It creates a wrapper with a left and right margin to diferentiate you elements between them. In this class, elements can be added individually or within containers which we will be explaining next.&nbsp;</p>
+<p>
+	<strong>Secondary Classes:</strong></p>
+<p>
+	<strong>content_fullscreen</strong> : will make the content fullscreen</p>
+<p>
+	<b>full-bottom / half-bottom / no-bottom / full-top / half-top&nbsp;</b>will add a margin to the direction mentioned in the code to diferentiate the element from the following element. Most elements have this added inside them and containers have that by default, but there might be cases where you need to add this to keep the visual hierarchy beautiful.</p>
+<h4 id="content_classes_the_content_center_fullscreen_class">The Content Center Fullscreen Class</h4>
+<p>
+	Some pages require a big text, or something in the center, let&#39;s say the 404 page. This can be used&nbsp;<strong>one&nbsp;</strong>time at the top of the page. This element is built using JS and it requires positioning code that tends to use the processing power of your device. Indeed on devices like the latest iPhone and the latest Samsung that&#39;s not a problem, but some of your users may not have these devices, and on some lower end devices we&#39;ve tested on, we realized the page loaded much slower when more than one center item is used.&nbsp;</p>
+<p>
+	Let&#39;s get to the code</p>
+<pre class="prettyprint lang-html linenums">
+    &lt;div class=&quot;content-center&quot;&gt;
+        &lt;div style=&quot;width:XXpx; margin:0 auto;&quot;&gt;
+             &lt;!-- Content Here --&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;coverpage-clear&quot;&gt;&lt;/div&gt;</pre>
+<p>
+	The content center class is very simple to use.&nbsp;</p>
+<p>
+	Line 1 is the content center class. This class must be at the top, the first class right under the preloader or the header.&nbsp;</p>
+<p>
+	Line 2 is the class that will determine the width of the content. If you want to show a text, or a button, then you don&#39;t need to use the entire width of the screen and making it smaller makes it look better. We strongly recommend setting it at a 300px screen if you aim to target mobiles and tablets or to set it to 85% if you wish to tag mobiles and tablets as well.&nbsp;</p>
+<p>
+	You&#39;ll be able to use the text and button classes to center these elements explained in their apporpirate chapters.&nbsp;</p>
+<p>
+	Line 3 is where you add your content. This is limited to text, buttons and icons. We strongly recommend not using other elements.&nbsp;</p>
+<p>
+	Line 4, 5 close the content elements</p>
+<p>
+	Line 6 is the coverpage-clear class. This is extremly important. The content-center class is an absolute element, so it needs a underlying element to adjust it&#39;s height to the entire size of the screen. Not adding this class will result in the content of the content-center element to be overlayed on the content under it. &nbsp;After you close this, you can continue with your page by adding another, simple content class.&nbsp;</p>
+<p>
+	<strong>Secondary Classes:</strong></p>
+<p>
+	These classes must be added to the coverpage-clear class.&nbsp;</p>
+<p>
+	<b>full-bottom / half-bottom / no-bottom / full-top / half-top&nbsp;</b>will add a margin to the direction mentioned in the code to diferentiate the element from the following element. Most elements have this added inside them and containers have that by default, but there might be cases where you need to add this to keep the visual hierarchy beautiful.</p>
+<h4 id="content_classes_the_container_class">The Container Class</h4>
+<pre class="prettyprint lang-html linenums">
+&lt;div class=&quot;container&quot;&gt;&lt;/div&gt;</pre>
+<p>
+	The container class is a very, very, very important class when using elements that JS targets individually. An instant example is toggles. When you tap a toggle, the JS searches for it&#39;s content in it&#39;s housing container and shows it. So having 2 of them in the same place will lead in a bug where both toggles get deployed by only tapping one. This is easily solved by having each toggle inside a separate container.&nbsp;</p>
+<p>
+	Containers can also be used to include a better visual hierachy between elements, and make them easier to diferentiate themselves between other elements.&nbsp;</p>
+<p>
+	<strong>Secondary Classes:</strong></p>
+<p>
+	<b>full-bottom / half-bottom / no-bottom / full-top / half-top&nbsp;</b>will add a margin to the direction mentioned in the code to diferentiate the element from the following element. Most elements have this added inside them, but there might be cases where you need to add this to keep the visual hierarchy beautiful&nbsp;</p>
+<p>&nbsp;
+	</p>
+</section>
+<section id="responsive_classes">
+	<div class="page-header"><h3>Responsive Classes</h3><hr class="notop"></div>
+<p>	Using responsive classes, or floating classes is extremely easy. All the classes bellow will have a few things in comon. The class names are identical for each example below, and in each case to the last class a secondary class is added called last-column. This makes them take full advantage of the screen and work with removing the right margin. At the end of each, there is a class that must be added to achieve better compatibility with certain browsers. The clear class. This should be added after any floating element.&nbsp;</p>
+<h4 id="responsive_classes_two_columns_on_all_screens_">Two Columns ( on all screens )</h4>
+<pre class="prettyprint lang-html linenums">
+&lt;div class=&quot;one-half&quot;&gt;&lt;!-- Content Here --&gt;&lt;/div&gt;
+&lt;div class=&quot;one-half last-column&quot;&gt;&lt;!-- Content Here --&gt;&lt;/div&gt;
+&lt;div class=&quot;clear&quot;&gt;&lt;/div&gt;</pre>
+<h4 id="responsive_classes_three_columns_on_all_screens_">Three Columns ( on all screens )</h4>
+<pre class="prettyprint lang-html linenums">
+&lt;div class=&quot;one-third&quot;&gt; &lt;!-- Content Here --&gt; &lt;/div&gt;
+&lt;div class=&quot;one-third&quot;&gt; &lt;!-- Content Here --&gt; &lt;/div&gt;
+&lt;div class=&quot;one-third last-column&quot;&gt; &lt;!-- Content Here --&gt; &lt;/div&gt;
+&lt;div class=&quot;clear&quot;&gt;&lt;/div&gt;</pre>
+<p>	<strong>Two Columns ( on screens larger than mobile &nbsp;)</strong></p>
+<pre class="prettyprint lang-html linenums">
+&lt;div class=&quot;one-half-responsive&quot;&gt;&lt;!--Content Here--&gt;&lt;/div&gt;
+&lt;div class=&quot;one-half-responsive last-column&quot;&gt;&lt;!--Content Here--&gt;&lt;/div&gt;
+&lt;div class=&quot;clear&quot;&gt;&lt;/div&gt;</pre>
+<p>	<strong>Three Columns ( on screens larger than mobile )</strong></p>
+<pre class="prettyprint lang-html linenums">
+&lt;div class=&quot;one-thrid-responsive&quot;&gt;&lt;!---Content Here--&gt;&lt;/div&gt;
+&lt;div class=&quot;one-third-responsive&quot;&gt;&lt;!---Content Here--&gt;&lt;/div&gt;
+&lt;div class=&quot;one-third-responsive last-column&quot;&gt;&lt;!--Content Here--&gt;&lt;/div&gt;
+&lt;div class=&quot;clear&quot;&gt;&lt;/div&gt;</pre>
+<p>	<strong>Four Columns ( on screens larger than mobile )</strong></p>
+<pre class="prettyprint lang-html linenums">
+&lt;div class=&quot;one-forth-responsive&quot;&gt;&lt;!--Content Here--&gt;&lt;/div&gt;
+&lt;div class=&quot;one-forth-responsive&quot;&gt;&lt;!--Content Here--&gt;&lt;/div&gt;
+&lt;div class=&quot;one-forth-responsive&quot;&gt;&lt;!--Content Here--&gt;&lt;/div&gt;
+&lt;div class=&quot;one-forth-responsive last-column&quot;&gt;&lt;!--Content Here--&gt;&lt;/div&gt;
+&lt;div class=&quot;clear&quot;&gt;&lt;/div&gt;</pre>
+<p>	The columns also allow using secondary classes for margins mentioned in the previous chapters.&nbsp;</p>
+<p>&nbsp;	</p>
+</section>
+<section id="classes_and_secondary_classes">
+	<div class="page-header"><h3>Classes and Secondary Classes</h3><hr class="notop"></div>
+<p>
+	Probably the most important add-on to most of the features in our template are pre-coded, simple built secondary classes. Secondary classes are basically any class that can be added to a HTML element to extend it&#39;s native capability. Let&#39;s give a quick example&nbsp;</p>
+<pre class="prettyprint lang-html linenums">
+&lt;p&gt; I&#39;m a small text &lt;/p&gt;</pre>
+<p>
+	What you see above is a basic, simple paragraph, nothing special about it. If you&#39;d want to center it, or change it&#39;s color, you&#39;d have to open the CSS, find the matching color, search for font sizes and do all of those, right? Well, yes and no. We have a tone of pre-coded classes built to help you out with just these things.&nbsp;</p>
+<pre class="prettyprint lang-html linenums">
+&lt;p class=&quot;center-text larger-text color-red-dark uppercase&quot;&gt; I&#39;m a centered larger text with the color red in uppercase now&lt;p&gt;</pre>
+<p>
+	Chances are you won&#39;t need these many secondary classes, but adding an extra line of CSS just to center a text, or change it&#39;s color would be pointless, so these elements are added in here to ease your work and also ease the load on the CSS which has been optimized to perform as fast as it can for it&#39;s current load.&nbsp;</p>
+<p>
+	Let&#39;s get to showing you the secondary classes.&nbsp;</p>
+<p>
+	<strong>(1) - (universal)&nbsp;</strong>- can be added to all elements&nbsp;</p>
+<p>
+	<strong>(2) - (individual)&nbsp;</strong>- can be added to a single element, for example, a text, a heading, a button, an anchor.</p>
+<p>
+	Unqiue secondary classes to each element will be specified when you meet them in each documentation, adding them here without their apropriate code structure would be pointless as seeing the code will make more sense than just seeing the class.&nbsp;</p>
+<p>
+	<strong>hide-if-mobile&nbsp;</strong> - (1) - &nbsp;will only show content on larger screens&nbsp;</p>
+<p>
+	<strong>hide-if-responsive&nbsp;</strong>- (1) - &nbsp;will only show content on mobile screens</p>
+<p>
+	<strong>uppercase / lowercase / thin / thiner / bold / ultrabold -&nbsp;</strong>(2) - will alter text formats.&nbsp;</p>
+<p>
+	<strong>small-text / smaller-text / normal-text / larger-text / large-text -</strong> (2) will alter text sizes.</p>
+<p>
+	<b>center-text / left-text / right-text&nbsp;</b>- (2) will alter text alignment</p>
+<p>
+	<strong>center-text-mobile / left-text-mobile / right-text-mobile -&nbsp;</strong>(2) - alters text alignemnt only on mobiles</p>
+<p>
+	<strong>center-text-tablet / left-text-tablet / right-text-tablet&nbsp;</strong>- (2) alters text alignement only on tablets</p>
+<p>
+	<strong>rotate-45 / rotate-90 / rotate-180&nbsp;</strong>- (2) - will alter the rotation of icons. Very useful for IonIcons</p>
+<p>
+	<b>full-top / half-top / no-top&nbsp;</b>- (1) - alters the margin / distance &nbsp;from the above element to match visual hierarchy</p>
+<p>
+	<strong>full-bottom/ half-bottom / no-bottom</strong> - (1) alters the margin / distance from the above element to match visual hierarchy</p>
+<p>
+	<strong>no-border -&nbsp;</strong>(1) - removes the border of elements that have it.</p>
+<p>
+	<strong>responsive-image - </strong>(2) - adding this class to any image will make it stretch to the screens full size.</p>
+<p>&nbsp;
+	</p>
+<p>
+	These are the classes that affect contents and indivudual text elements and can be used universally for these elements. Now, we&#39;ll move on to the chapters of each structure individuall, features, pages, pageapps, galleries, portfolios and explain them, line by line so you can just copy paste them replace your content and launch your beautiful mobile site!&nbsp;</p>
+<hr>
+<h4 id="classes_and_secondary_classes_background_color_secondary_classes">Background Color Secondary Classes</h4>
+<p>
+	These classes are applicable to every element that accepts a secondary class that changes the background color.&nbsp;</p>
+<p>
+	<strong>bg-teal-light / bg-teal-dark -&nbsp;</strong>teal background color</p>
+<p>
+	<strong>bg-green-light / bg-green-dark&nbsp;</strong>- green background color</p>
+<p>
+	<strong>bg-blue-light / bg-blue-dark&nbsp;</strong>- blue background color&nbsp;</p>
+<p>
+	<strong>bg-magenta-light &nbsp;/ bg-magenta-dark&nbsp;</strong>- magenta background color</p>
+<p>
+	<strong>bg-yellow-light / bg-yellow-dark&nbsp;</strong>- yellow background color</p>
+<p>
+	<strong>bg-orange-light / bg-orange-dark&nbsp;</strong>- orange background color&nbsp;</p>
+<p>
+	<strong>bg-night-light / bg-night-dark -&nbsp;</strong>dark blue background color</p>
+<p>
+	<strong>bg-red-light / bg-red-dark&nbsp;</strong>- red background color</p>
+<p>
+	<strong>bg-gray-light / bg-gray-dark&nbsp;</strong>- gray background color&nbsp;</p>
+<p>
+	<strong>bg-white&nbsp;</strong>- white background color&nbsp;</p>
+<p>
+	<b>bg-black&nbsp;</b>- black background color&nbsp;</p>
+<p>&nbsp;
+	</p>
+<hr>
+<p>&nbsp;
+	</p>
+<h4 id="classes_and_secondary_classes_color_secondary_classes">Color Secondary Classes</h4>
+<p>
+	These classes are applicable to every element that accepts a secondary class that changes the text color.&nbsp;</p>
+<p>
+	<strong>color-teal-light /&nbsp;</strong><strong>color</strong><strong>-teal-dark -&nbsp;</strong>teal text color</p>
+<p>
+	<strong>color</strong><strong>-green-light /&nbsp;</strong><strong>color</strong><strong>-green-dark&nbsp;</strong>- green text color</p>
+<p>
+	<strong>color</strong><strong>-blue-light /&nbsp;</strong><strong>color</strong><strong>-blue-dark&nbsp;</strong>- blue text color&nbsp;</p>
+<p>
+	<strong>color</strong><strong>-magenta-light &nbsp;/&nbsp;</strong><strong>color</strong><strong>-magenta-dark&nbsp;</strong>- magenta text color</p>
+<p>
+	<strong>color</strong><strong>-yellow-light /&nbsp;</strong><strong>color</strong><strong>-yellow-dark&nbsp;</strong>- yellow text color</p>
+<p>
+	<strong>color</strong><strong>-orange-light /&nbsp;</strong><strong>color</strong><strong>-orange-dark&nbsp;</strong>- orange text color&nbsp;</p>
+<p>
+	<strong>color</strong><strong>-night-light /&nbsp;</strong><strong>color</strong><strong>-night-dark -&nbsp;</strong>dark blue text color</p>
+<p>
+	<strong>color</strong><strong>-red-light /&nbsp;</strong><strong>color</strong><strong>-red-dark&nbsp;</strong>- red text color</p>
+<p>
+	<strong>color</strong><strong>-gray-light /&nbsp;</strong><strong>color</strong><strong>-gray-dark&nbsp;</strong>- gray text color&nbsp;</p>
+<p>
+	<strong>color</strong><strong>-white&nbsp;</strong>- white text color&nbsp;</p>
+<p>
+	<strong>color</strong><b>-black&nbsp;</b>- black text color&nbsp;</p>
+<p>&nbsp;
+	</p>
+<hr>
+<p>&nbsp;
+	</p>
+<h4 id="classes_and_secondary_classes_background_color_hover_secondary_classes">Background Color Hover Secondary Classes</h4>
+<p>
+	These classes are applicable to every element that accepts a secondary class that changes the background color when hovering or better said when inert tapping.&nbsp;</p>
+<p>
+	<strong>bg-hover-teal-light / bg-</strong><strong>hover-</strong><strong>teal-dark -&nbsp;</strong>teal background color hover</p>
+<p>
+	<strong>bg-</strong><strong>hover-</strong><strong>green-light / bg-</strong><strong>hover-</strong><strong>green-dark&nbsp;</strong>- green background color&nbsp;hover</p>
+<p>
+	<strong>bg-</strong><strong>hover-</strong><strong>blue-light / bg-</strong><strong>hover-</strong><strong>blue-dark&nbsp;</strong>- blue background color hover</p>
+<p>
+	<strong>bg-</strong><strong>hover-</strong><strong>magenta-light &nbsp;/ bg-</strong><strong>hover-</strong><strong>magenta-dark&nbsp;</strong>- magenta background color&nbsp;hover</p>
+<p>
+	<strong>bg-</strong><strong>hover-</strong><strong>yellow-light / bg-</strong><strong>hover-</strong><strong>yellow-dark&nbsp;</strong>- yellow background color&nbsp;hover</p>
+<p>
+	<strong>bg-</strong><strong>hover-</strong><strong>orange-light / bg-</strong><strong>hover-</strong><strong>orange-dark&nbsp;</strong>- orange background color hover</p>
+<p>
+	<strong>bg-</strong><strong>hover-</strong><strong>night-light / bg-</strong><strong>hover-</strong><strong>night-dark -&nbsp;</strong>dark blue background color&nbsp;hover</p>
+<p>
+	<strong>bg-</strong><strong>hover-</strong><strong>red-light / bg-</strong><strong>hover-</strong><strong>red-dark&nbsp;</strong>- red background color&nbsp;hover</p>
+<p>
+	<strong>bg-</strong><strong>hover-</strong><strong>gray-light / bg-</strong><strong>hover-</strong><strong>gray-dark&nbsp;</strong>- gray background color&nbsp;&nbsp;hover</p>
+<p>&nbsp;
+	</p>
+<hr>
+<p>&nbsp;
+	</p>
+<h4 id="classes_and_secondary_classes_border_secondary_classes">Border Secondary Classes</h4>
+<p>
+	These classes are applicable to every element that accepts a secondary class that changes the text color.&nbsp;</p>
+<p>
+	<strong>border-teal-light /&nbsp;</strong><strong>border</strong><strong>-teal-dark -&nbsp;</strong>teal border color</p>
+<p>
+	<strong>border</strong><strong>-green-light /&nbsp;</strong><strong>border</strong><strong>-green-dark&nbsp;</strong>- green&nbsp;border&nbsp;color</p>
+<p>
+	<strong>border</strong><strong>-blue-light /&nbsp;</strong><strong>border</strong><strong>-blue-dark&nbsp;</strong>- blue&nbsp;border&nbsp;color&nbsp;</p>
+<p>
+	<strong>border</strong><strong>-magenta-light &nbsp;/&nbsp;</strong><strong>border</strong><strong>-magenta-dark&nbsp;</strong>- magenta&nbsp;border&nbsp;color</p>
+<p>
+	<strong>border</strong><strong>-yellow-light /&nbsp;</strong><strong>border</strong><strong>-yellow-dark&nbsp;</strong>- yellow&nbsp;border&nbsp;color</p>
+<p>
+	<strong>border</strong><strong>-orange-light /&nbsp;</strong><strong>border</strong><strong>-orange-dark&nbsp;</strong>- orange&nbsp;border&nbsp;color&nbsp;</p>
+<p>
+	<strong>border</strong><strong>-night-light /&nbsp;</strong><strong>border</strong><strong>-light-dark -&nbsp;</strong>dark blue&nbsp;border&nbsp;color</p>
+<p>
+	<strong>border</strong><strong>-red-light /&nbsp;</strong><strong>border</strong><strong>-red-dark&nbsp;</strong>- red&nbsp;border&nbsp;color</p>
+<p>
+	<strong>border</strong><strong>-gray-light /&nbsp;</strong><strong>border</strong><strong>-gray-dark&nbsp;</strong>- gray&nbsp;border&nbsp;color&nbsp;</p>
+<p>
+	<strong>border</strong><strong>-white&nbsp;</strong>- white&nbsp;text&nbsp;color&nbsp;</p>
+<p>
+	<strong>border</strong><b>-black&nbsp;</b>- black&nbsp;text&nbsp;color&nbsp;</p>
+<p>&nbsp;
+	</p>
+<hr>
+<p>&nbsp;
+	</p>
+<h4 id="classes_and_secondary_classes_changing_opacity_of_texts_and_elements">Changing opacity of texts and elements.</h4>
+<p>
+	This is very useful in case of dark texts on light backgrounds or light texts on dark backgrounds when you want the text to look a bit lighter or completely hide it. This is incremnetal by 25, no value meaning 100%&nbsp;</p>
+<p>
+	<strong>opacity-00 -&nbsp;</strong>completely transparent</p>
+<p>
+	<strong>opacity-25 -&nbsp;</strong>25% opacity</p>
+<p>
+	<strong>opacity-50&nbsp;</strong>- 50% opacity</p>
+<p>
+	<strong>opacity-75%&nbsp;</strong>- 75% opacity&nbsp;</p>
+<p>&nbsp;
+	</p>
+<hr>
+<p>&nbsp;
+	</p>
+<h4 id="classes_and_secondary_classes_social_colors_and_background_colors">Social Colors And Background Colors</h4>
+<p>
+	The social colors are great to be used for buttons, when using a background social color the hover effect is added automatically.</p>
+<p>
+	<strong>facebook-bg / facebook-color&nbsp;</strong> facebook color and background color&nbsp;</p>
+<p>
+	<strong>twitter-bg / twitter-color&nbsp;</strong>twitter&nbsp;color and background color&nbsp;</p>
+<p>
+	<strong>linked-bg / linked-color&nbsp;</strong>linkiedn&nbsp;color and background color&nbsp;</p>
+<p>
+	<strong>google-bg / google-color&nbsp;</strong>google&nbsp;color and background color&nbsp;</p>
+<p>
+	<strong>whatsapp-bg / whatsapp-color</strong> whatsapp&nbsp;color and background color&nbsp;</p>
+<p>
+	<strong>pinterest-bg / pinterest-color&nbsp;</strong>pinterest&nbsp;color and background color&nbsp;</p>
+<p>
+	<strong>sms-bg / sms-color&nbsp;</strong>sms&nbsp;color and background color&nbsp;</p>
+<p>
+	<strong>mail-bg / mail-color</strong> mail&nbsp;color and background color&nbsp;</p>
+<p>
+	<strong>dribbble-bg / dribbble-color&nbsp;</strong>dribbble&nbsp;color and background color&nbsp;</p>
+<p>
+	<strong>sms-bg / sms-color&nbsp;</strong>sms&nbsp;color and background color&nbsp;</p>
+<p>
+	<strong>mail-bg / mail-color&nbsp;</strong>mail&nbsp;color and background color&nbsp;</p>
+<p>
+	<strong>tumblr-bg / tumblr-color&nbsp;</strong>tumblr&nbsp;color and background color&nbsp;</p>
+<p>
+	<strong>redddit-bg / reddit-color&nbsp;</strong>redddit&nbsp;color and background color&nbsp;</p>
+<p>
+	<strong>youtube-bg / youtube-color&nbsp;</strong>youtube&nbsp;color and background color&nbsp;</p>
+<p>
+	<strong>phone-bg / phone-color&nbsp;</strong>phone&nbsp;color and background color&nbsp;</p>
+<p>
+	<strong>skype-bg / skype-color&nbsp;</strong>skype&nbsp;color and background color&nbsp;</p>
+<p>&nbsp;
+	</p>
+<p>&nbsp;
+	</p>
+<p>&nbsp;
+	</p>
+<p>&nbsp;
+	</p>
+<p>&nbsp;
+	</p>
+<p>&nbsp;
+	</p>
+<p>&nbsp;
+	</p>
+<p>&nbsp;
+	</p>
+<p>&nbsp;
+	</p>
+<p>&nbsp;
+	</p>
+<p>&nbsp;
+	</p>
+<p>&nbsp;
+	</p>
+<p>&nbsp;
+	</p>
+</section>
+
+	</div>
+</body>
+</html>

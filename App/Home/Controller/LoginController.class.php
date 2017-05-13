@@ -12,7 +12,7 @@ class LoginController extends Controller
 
     	// 登陆
     	if(IS_POST){
-			$password = sha1(I('post.password').'hbg');
+			$password = mySh1(I('post.password'));
 			$en_name = I('post.en_name');
 			$member = M('member');
 			$where = [
@@ -30,6 +30,7 @@ class LoginController extends Controller
 				$cookie = password($en_name);
 				cookie('member',$cookie);
 				session('en_name',$en_name);
+				session('mid',$result['id']);
 			}else{
 				echo "<script>alert('账号密码错误')</script>";
 			}
@@ -63,8 +64,12 @@ class LoginController extends Controller
 			 	$data['telephone'] = $data['en_name'];
 			 	$result = $member->sign_up($data);
 			 	if($result){
+			 		session('mid',$result);
+			 		session('en_name',$data['en_name']);
 			 		// 发送短信通知
 			 		$this->ajaxReturn(['code'=>1,'msg'=>'注册成功']);
+			 		// 跳转到主页
+			 		$this->redirect('Index/index');
 			 	}else{
 			 		$this->ajaxReturn(['code'=>0,'msg'=>'网络繁忙，请稍后再试']);
 			 	}

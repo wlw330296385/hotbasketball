@@ -1,0 +1,26 @@
+<include file="Public/head"/>
+
+<div class="heading-strip bg-1">
+            <h3>球队列表</h3>
+            <p>你还没加入球队，请加入一个球队吧</p>
+            <i class="ion-ios-paper-outline"></i>
+            <div class="overlay dark-overlay"></div>
+        </div>
+        <div class="decoration decoration-margins"></div>
+<div class="content full-top">
+            <div class="thumb-layout thumb-layout-page">
+            <volist name = "teams" id="vol">
+                <a href="{:U('index',['id'=>$vol['id']])}">
+                    <img class="preload-image" data-original="__PUBLIC__/home/images/pictures/1t.jpg" alt="img">
+                    <strong>{$vol.team}</strong>
+                    <em>{$vol.slogan}</em>
+                    <u>胜{$vol.wins2017}   负{$vol.lose2017} &nbsp;<i class="ion-ios-clock"></i> {$vol.create_time|date="Y-m-d",###}<i class="ion-person">{$vol.captain}</i></u>
+                </a>
+            </volist>   
+            </div>
+            <div class="decoration"></div>
+            <a href="#" class="load-more-thumbs button button-full button-green half-bottom">查看更多球队</a>
+        </div> 
+
+
+<include file = "Public/footer" />

@@ -45,7 +45,7 @@
                   <td>{$val['create_time']|date="Y-m-d",###}</td>
                   <td>{$val['types']}</td>
                   <td>{$val['balance']}</td>
-                  <td><a href="{:U('edit',array('uid'=>$val['uid']))}">修改</a>&nbsp;
+                  <td><a href="{:U('member_info',array('id'=>$val['id']))}">详情</a>&nbsp;
                   <if condition="$val['uid'] neq 1"><a class="del" href="javascript:;" val="{:U('del',array('uid'=>$val['uid']))}" title="删除">删除</a></if>
                   </td>
                 </tr>

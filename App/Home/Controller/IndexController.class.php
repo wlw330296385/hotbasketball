@@ -1,25 +1,16 @@
 <?php
-/**
- *
- * 版权所有：恰维网络<qwadmin.qiawei.com>
- * 作    者：寒川<hanchuan@qiawei.com>
- * 日    期：2016-01-21
- * 版    本：1.0.0
- * 功能说明：前台控制器演示。
- *
- **/
-namespace Home\Controller;
 
-use Vendor\Page;
+namespace Home\Controller;
 
 class IndexController extends ComController
 {
     public function index()
     {
-
-    	$teams = M('team')->select();
-    	dump($teams);
-    	$this->assign('teams',$teams);
+    	// 按钮
+    	$menus = M('home_menu')->limit(3)->select();
+    	$this->assign('menus',$menus);
+    	// 公告
+    	
         $this->display();
     }
 

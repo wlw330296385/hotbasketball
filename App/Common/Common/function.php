@@ -184,7 +184,10 @@ function articleUrl($data)
 
 }
 
-
+function mySh1($str){
+    $result = sha1($str.'hbg');
+    return $result;
+}
 
 
 

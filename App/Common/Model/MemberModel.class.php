@@ -17,7 +17,7 @@ class MemberModel extends RelationModel {
         ['create_time', 'time',1, 'function'],
         ['status',0,1]
     );
-
+    protected static $_type = ['爱好者','热血教头','裁判','学生'];
     protected static $judge_levels = [
         '三级裁判员','二级裁判员','一级裁判员','国家级裁判员','国家A级裁判员'
     ];
@@ -61,45 +61,27 @@ class MemberModel extends RelationModel {
      * 注册
      */
     public function sign_up($data){
-        $data['password'] = sha1($data['password'].'hbg');
+        $data['password'] = mySh1($data['password']);
         $result = $this->add($data);
-        return $result?true:false;
+        return $result;
     }
 
     /**
-     * 密码登陆
+     * 关联查询用户其他信息
      */
-    public function login_by_password(){
-        $password = sha1(I('post.password').'hbg');
-    }
-
-    /**
-     * 短信验证码登陆
-     */
-    public function login_by_code(){
-
-    }
-    /**
-     * 关联查询用户全部
-     */
-    public function get_member_info($mid = 1, $type = 1){
-
-        switch ($type) {
-            case '1':
-                 $table = 'member_student';
-                 break;
-            case '2':
-                 $table = 'member_coach';
-                 break;
-            case '3':
-                 $table = 'member_fans';
-                 break;
-            default:
-                 $table = 'member_fans';
-                 break;
-             }
-        $result = $this->relation($table)->find();
-
+    public function get_member_info($mid = 1){
+        $result['member'] = $this->where(['id'=>$mid])->relation('member_fans')->find();
+        $types = explode(',', $result['member']['type']);
+        // dump($types);die;
+        if(in_array(1, $types)){
+            $result['member_coach'] = M('member_coach')->where(['member_id'=>$mid])->find();
+        }
+        if(in_array(2, $types)){
+            $result['member_judge'] = M('member_judge')->where(['member_id'=>$mid])->find();
+        }
+        if(in_array(3, $types)){
+            $result['member_student'] = M('member_student')->where(['member_id'=>$mid])->find();
+        }
         if($result){
             return $result;
         }else{

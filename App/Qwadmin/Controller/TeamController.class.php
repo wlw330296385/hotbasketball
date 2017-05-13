@@ -88,7 +88,7 @@ class TeamController extends ComController
 
     public function update_team($tid = 0){
         if($tid!=0){
-            $team = M($team)->where(['id'=>$tid])->find();
+            $team = M('team')->where(['id'=>$tid])->find();
             $this->assign('team',$team);
         }
         if(IS_POST){

@@ -19,7 +19,7 @@ class TeamModel extends RelationModel{
     		'class_name'		=>'media',
     		'mapping_name'		=>'images',
     		'foreign_key'		=>'id',
-            'parent_key'        =>'team_id'
+            'parent_key'        =>'parent_id'
     	]
     ];
 
@@ -53,7 +53,7 @@ class TeamModel extends RelationModel{
         }else{
             if($tid == 0){
                 $data['captain_id'] = session('mid');
-                $data['captain'] = M('member')->where(['id'=>$mid])->getField
+                $data['captain'] = M('member')->where(['id'=>$mid])->getField('en_name');
                 $result = $this->add($data);
             }else{
                 $data['id'] = $tid;
@@ -63,7 +63,20 @@ class TeamModel extends RelationModel{
         }
         
     }
-
+    /**
+     * 获取一个人的所属球队
+     */
+    public function get_team_list_by_mid($mid){
+        $result = false;
+        $team_ids = M('team_member')->where(['member_id'=>$mid])
+                    ->where(['status'=>1])
+                    ->getField('team_id');
+        // dump($team_ids);
+        if($team_ids){
+            $result = $this->where(['id'=>['in',$team_ids]])->select();
+        }   
+        return $result;
+    }
 
     /**
      * 加入一个球队
@@ -82,11 +95,9 @@ class TeamModel extends RelationModel{
     	if($result){
             foreach ($result['team_member'] as $key => $value) {
                 $result['team_member'][$key]['member_type'] = self::$_type[$value['type']]; 
-            }
-    		return $result;
-    	}else{
-    		return [];
+            }   		
     	}
+        return $result;
     }
 
     /**
@@ -94,13 +105,9 @@ class TeamModel extends RelationModel{
      * $tid 球队id
      * $type 照片类型
      */
-    public function get_team_images($tid,$type){
-    	$result = $this->where(['id'=>$tid])->relation('team_images')->select();
-    	if($result){
-    		return $result;
-    	}else{
-    		return [];
-    	}
+    public function get_team_images($tid,$type = 3){
+    	$result = M('media')->where(['parent_id'=>$tid])->where(['type'=>$type])->where(['suffix'=>0])->getField('url,remark');
+    	return $result;
     }
 
 }

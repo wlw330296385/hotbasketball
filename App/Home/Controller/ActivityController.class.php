@@ -1,6 +1,6 @@
 <?php 
 namespace Home\Controller;
-class ActivityController extends ComController()
+class ActivityController extends ComController
 {
 	public function index(){
 		$this->display();
