@@ -8,6 +8,7 @@ class ComController extends Controller
 	public $MEMBER;
     public function _initialize()
     {
+
         C(setting());
         /*
         $links = M('links')->limit(10)->order('o ASC')->select();
@@ -28,10 +29,19 @@ class ComController extends Controller
             header("Location: {$url}");
             exit(0);
         }
+        $this->change_skin();
     }
 
-
-
+    public function _empty(){
+        $last_skin = cookie('skin_mode') == null? 'light':cookie('skin_mode');
+        $pre_skin  = $last_skin === 'light'?'dark':'light';
+        cookie('skin_mode',$pre_skin,3600*2);//保存皮肤设置2个小时 
+    }
+    private function change_skin($mode)
+    {
+        $sm = cookie('skin_mode');
+        $this->assign('sm',$sm);
+    }
 
 
     protected function check_login()

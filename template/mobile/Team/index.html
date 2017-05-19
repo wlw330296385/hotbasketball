@@ -4,15 +4,15 @@
             <div class="profile-page-2-cover">
                 <img class="preload-image responsive-image" data-original="__PUBLIC__/home/images/pictures/9.jpg">
             </div>
-            <div class="profile-page-2-thumbnail">
+            <div class="profile-page-2-thumbnail" id="cm">
                 <img class="preload-image responsive-image" data-original="__PUBLIC__/home/images/pictures/6t.jpg">
             </div>
             <!-- 数据         -->
             <div class="profile-page-2-content">
                 <div class="social-count">
-                    <h1><strong>13</strong><em>队员</em></h1>
-                    <h1><strong>21</strong><em>活动</em></h1>
-                    <h1><strong>10k</strong><em>粉丝</em></h1>
+                    <h1><strong>{$the_team.players}</strong><em>队员</em></h1>
+                    <h1><strong>{$the_team.match}</strong><em>比赛</em></h1>
+                    <h1><strong>{$the_team.fans}</strong><em>粉丝</em></h1>
                     <div class="clear"></div>
                 </div>                
             </div>
@@ -20,9 +20,9 @@
             <div class="one-half-responsive">
                 <div class="quote-1-left container">
                     <em>
-                        今天放假，明天放假，后天放假，以后都不用早起！
+                        {$the_team.slogan}
                     </em>
-                    <a href="#">公告 | 深圳小虎队</a>
+                    <a href="#">公告 | {$the_team.team}</a>
                 </div>
             </div>
             <!-- 球队日程 -->
@@ -41,10 +41,10 @@
                 <div class="tab-elements">
                     <div class="profile-page-2-content">
                     <div class="store-product-rating half-top">
-                        <h1>181场</h1>
+                        <h1>{$the_team.session2017}场</h1>
                     </div>   
                     <div class="store-product-icons">
-                       <i class="">155胜</i><i class="">25负</i><i class="">1平</i>
+                       <i class="">{$the_team.wins2017}胜</i><i class="">{$the_team.lose2017}负</i><i class="">1平</i>
                     </div>        
                     </div>
                 </div>
@@ -86,10 +86,12 @@
             <div class="clear"></div>
             <div class="category-slider">
                 <div class="swiper-wrapper gallery-round">
+                <volist name="the_team.team_member" id="vol">
                     <a class="swiper-slide" href="#">
                         <img class="responsive-image" src="__PUBLIC__/home/images/pictures/3t.jpg" alt="img">
-                        <em>周杰伦</em>
-                    </a>            
+                        <em>{$vol.member}</em>
+                    </a>  
+                </volist>          
                     <a class="swiper-slide" href="#">
                         <img class="responsive-image" src="__PUBLIC__/home/images/pictures/2t.jpg" alt="img">
                         <em>周杰伦</em>
@@ -128,6 +130,87 @@
                 </a>
             </div>
         </div>
+            <div class="decoration"></div>
+                <switch name="is_join.status">
+                    <case value="0"><a href="javascript:apply_again();" class="button button-center button-teal button-full">已申请</a></case>                   
+                    <case value="1"><a href="javascript:qiut_team();" class="button button-center button-red button-full">退出球队</a></case>
+                    <default /><a href="javascript:;" id="apply" class="button button-center button-green button-full">申请加入</a>
+                </switch>            
+        
 
+            <div class="decoration"></div>
+            <div class="decoration"></div>
+<script type="text/javascript">
+    localStorage.member = 1;localStorage.portrait = 11;
+    var member = localStorage.member,portrait = localStorage.portrait,is_invite = "{$the_team.is_invite}",team_id = "{$the_team.id}",team = "{$the_team.team}";
+    $('#apply').on('click',function(){
+        if(is_invite == 0){
+          layer.prompt({
+              formType: 2,
+              value: '',
+              title: '请输入邀请码',
+              area: ['200px', '30px'] //自定义文本域宽高
+                }, function(value, index, elem){
+                  if(!value){
+                    layer.msg('邀请码不能为空');
+                  }else{
+                    // 验证邀请码
+                    $.post("{:U('team/verify_code')}",{'invitation_code':value,'team_id':team_id},function(msg){
+                        console.log(msg)
+                        if(msg.code == 1){
+                             var data = {
+                                    'team_id':team_id,
+                                    'team':team,
+                                    'invitation_code':value,
+                                    'team_id':team_id,
+                                    'portrait':portrait,
+                                    'member':member,
+                                };
+                                $.post("{:U('team/apply')}",data,function(){
+                                    }).done(function(a){
+                                        layer.close(index);
+                                        layer.msg(a.msg)
+                                        location.replace(location.href)
+                                    });
+                        }else{
+                            layer.msg(msg.msg)
+                        }
+                    })
+                  }
+                  
+            }); 
+        }
+       
+    })
+    var apply_again = function(){
+        layer.msg('请勿重复申请');
+    };
 
-<include file = "Public/footer" />
+    var qiut_team = function(){
+        if(confirm('确定退出球队吗？')){
+            var data = {
+                        'team_id':"{$the_team.id}",
+                        'team':"{$the_team.team}"
+                    }
+            $.post("{:U('team/qiut')}",data,function(){
+            }).done(function(a){
+                alert(a.msg)
+                console.log(a)
+            });
+        }
+    }
+
+  $('#cm').click(function(){
+    var index = layer.load(1, {
+      shade: [0.1,'#fff'] //0.1透明度的白色背景
+    });
+     $.get(
+      "{:U('Com/_empty')}",
+      function success()
+      {
+        location.reload();
+      }
+    );
+  });
+</script>
+<!-- <include file = "Public/footer" /> -->

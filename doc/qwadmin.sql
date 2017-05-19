@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2017-05-13 18:42:45
+Date: 2017-05-06 18:07:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -398,32 +398,6 @@ CREATE TABLE `flash` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `home_menu`
--- ----------------------------
-DROP TABLE IF EXISTS `home_menu`;
-CREATE TABLE `home_menu` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(60) NOT NULL,
-  `url` varchar(255) NOT NULL,
-  `title` varchar(60) NOT NULL,
-  `icon` varchar(60) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of home_menu
--- ----------------------------
-INSERT INTO `home_menu` VALUES ('1', '主页', 'team/index', 'MY', '');
-INSERT INTO `home_menu` VALUES ('2', '活动', 'activity/index', 'EVENT', '');
-INSERT INTO `home_menu` VALUES ('3', '战绩', '', '', '');
-INSERT INTO `home_menu` VALUES ('4', '队员', '', '', '');
-INSERT INTO `home_menu` VALUES ('5', '相册', '', '', '');
-INSERT INTO `home_menu` VALUES ('6', '队费', '', '', '');
-INSERT INTO `home_menu` VALUES ('7', '裁判', '', '', '');
-INSERT INTO `home_menu` VALUES ('8', '场地', '', '', '');
-INSERT INTO `home_menu` VALUES ('9', '联盟', '', '', '');
-
--- ----------------------------
 -- Table structure for `lesson`
 -- ----------------------------
 DROP TABLE IF EXISTS `lesson`;
@@ -540,7 +514,7 @@ CREATE TABLE `log` (
   `ip` varchar(16) NOT NULL,
   `log` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of log
@@ -616,14 +590,6 @@ INSERT INTO `log` VALUES ('68', 'admin', '1493974004', '127.0.0.1', '新增文�
 INSERT INTO `log` VALUES ('69', 'admin', '1494038311', '127.0.0.1', '登录成功。');
 INSERT INTO `log` VALUES ('70', 'admin', '1494038312', '127.0.0.1', '登录成功。');
 INSERT INTO `log` VALUES ('71', 'admin', '1494042065', '127.0.0.1', '登录成功。');
-INSERT INTO `log` VALUES ('72', 'admin', '1494469009', '127.0.0.1', '登录失败。');
-INSERT INTO `log` VALUES ('73', 'admin', '1494469018', '127.0.0.1', '登录失败。');
-INSERT INTO `log` VALUES ('74', 'admin', '1494469031', '127.0.0.1', '登录失败。');
-INSERT INTO `log` VALUES ('75', 'admin', '1494469387', '127.0.0.1', '登录失败。');
-INSERT INTO `log` VALUES ('76', 'admin', '1494469399', '127.0.0.1', '登录失败。');
-INSERT INTO `log` VALUES ('77', 'admin', '1494469460', '127.0.0.1', '登录成功。');
-INSERT INTO `log` VALUES ('78', 'admin', '1494497329', '127.0.0.1', '登录成功。');
-INSERT INTO `log` VALUES ('79', 'admin', '1494497393', '127.0.0.1', '登录成功。');
 
 -- ----------------------------
 -- Table structure for `log_lesson`
@@ -789,18 +755,17 @@ DROP TABLE IF EXISTS `media`;
 CREATE TABLE `media` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `url` varchar(255) NOT NULL,
-  `parent_id` int(10) NOT NULL COMMENT '所属上级id,个人照片为个人id，球队照片为球队id',
+  `parent_id` int(10) NOT NULL,
   `type` tinyint(2) NOT NULL DEFAULT '5' COMMENT '0:系统图片;1:上课图片；2:活动图片；3:比赛图片；4：录像；5:个人图片',
   `suffix` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0:图片；|1：视频',
-  `remark` varchar(240) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of media
 -- ----------------------------
-INSERT INTO `media` VALUES ('5', '112', '0', '2', '0', '');
-INSERT INTO `media` VALUES ('6', '123', '0', '1', '0', '');
+INSERT INTO `media` VALUES ('5', '112', '0', '2', '0');
+INSERT INTO `media` VALUES ('6', '123', '0', '1', '0');
 
 -- ----------------------------
 -- Table structure for `member`
@@ -819,20 +784,17 @@ CREATE TABLE `member` (
   `wx_avatar` varchar(255) DEFAULT '0' COMMENT '微信头像',
   `password` varchar(64) NOT NULL DEFAULT '123456' COMMENT '初始密码系统生成',
   `balance` decimal(12,2) NOT NULL DEFAULT '0.00' COMMENT '负数为欠费',
-  `last_login` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `sign_login` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `type` varchar(60) NOT NULL DEFAULT '0,1,2,3' COMMENT '0:爱好者|1：热血教头|2：裁判|3:学生',
-  `create_time` int(10) NOT NULL DEFAULT '0',
-  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '0:禁封|1：正常',
+  `ceate_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of member
 -- ----------------------------
-INSERT INTO `member` VALUES ('1', 'M00000001', 'admin', '18507717466', '', '保密', '', '', null, '1', '66d6a1c8748025462128dc75bf5ae8d1', '0.00', '2017-05-11 17:52:09', '0,1,2,3', '0', '1');
-INSERT INTO `member` VALUES ('2', 'M00000002', 'woo', '18500000000', '', '保密', '', '', null, '0', '123456', '0.00', '2017-05-11 14:45:27', '1,3', '0', '1');
-INSERT INTO `member` VALUES ('3', 'M00000001', 'aaaa', '1860000000', '', '保密', '', '', null, '0', '65492cc75117e004d6057d4912756e03c66f1e78', '0.00', '2017-05-11 14:45:55', '0,1,2', '1494313977', '0');
-INSERT INTO `member` VALUES ('4', 'M00000001', '18500000000', '18500000000', '', '保密', '', '', null, '0', '693c5e0fa8f540a366997bca309dcad3fc18bc92', '0.00', '0000-00-00 00:00:00', '0,1,2,3', '1494315136', '0');
+INSERT INTO `member` VALUES ('1', 'M00000001', 'admin', '18507717466', '', '保密', '', '', null, '1', '66d6a1c8748025462128dc75bf5ae8d1', '0.00', '2017-04-25 17:39:52', '1', '0000-00-00 00:00:00');
+INSERT INTO `member` VALUES ('2', 'M00000002', 'woo', '18500000000', '', '保密', '', '', null, '0', '123456', '0.00', '2017-04-25 17:40:16', '1', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for `member_coach`
@@ -843,17 +805,19 @@ CREATE TABLE `member_coach` (
   `member_id` int(11) NOT NULL DEFAULT '0',
   `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `identity` bigint(18) NOT NULL COMMENT '身份证号',
+  `country` varchar(60) NOT NULL,
+  `province` varchar(60) NOT NULL,
+  `city` varchar(60) NOT NULL,
+  `area` varchar(60) NOT NULL,
+  `adress` varchar(255) NOT NULL,
   `tear_exp` tinyint(4) NOT NULL DEFAULT '0' COMMENT '经验年限',
-  `profession_levels` tinyint(4) NOT NULL DEFAULT '0',
-  `coach_number` tinyint(4) NOT NULL DEFAULT '0' COMMENT '教练身份出场次数',
-  `create_time` int(10) NOT NULL,
+  ` profession_levels` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of member_coach
 -- ----------------------------
-INSERT INTO `member_coach` VALUES ('1', '1', '2017-05-11 17:45:01', '45212211111111111', '1', '2', '0', '0');
 
 -- ----------------------------
 -- Table structure for `member_fans`
@@ -900,8 +864,7 @@ CREATE TABLE `member_judge` (
   `star` double(3,1) NOT NULL DEFAULT '0.0' COMMENT '评分',
   `total_match` tinyint(4) NOT NULL DEFAULT '0' COMMENT '总场数',
   `year_exp` tinyint(4) NOT NULL DEFAULT '0' COMMENT '工作经验',
-  `judge_number` tinyint(4) NOT NULL DEFAULT '0' COMMENT '裁判过的场数',
-  `introduction` text NOT NULL COMMENT '个人介绍',
+  `introduction` text NOT NULL,
   `tag1` varchar(15) NOT NULL,
   `tag2` varchar(15) NOT NULL,
   `tag3` varchar(15) NOT NULL,
@@ -960,8 +923,10 @@ CREATE TABLE `member_match` (
 DROP TABLE IF EXISTS `member_student`;
 CREATE TABLE `member_student` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `member_id` int(11) NOT NULL COMMENT '关联的member表id',
+  `memberid` int(11) NOT NULL COMMENT '关联的member表id',
+  `sex` enum('男','女','保密','未知') NOT NULL DEFAULT '未知',
   `lesson_catename` varchar(45) NOT NULL COMMENT '课程分类-关联lesson_category表catename',
+  `birthday` date NOT NULL COMMENT '出生日期',
   `guardian` varchar(45) NOT NULL COMMENT '监护人',
   `customer_source` int(11) NOT NULL DEFAULT '0' COMMENT '客户来源(1:内部|2:网络|3:朋友介绍|4:传单广告|5:宣传活动|6:路过|7:其他) 内部绑定课程提成',
   `percent_staffid` int(11) NOT NULL DEFAULT '0' COMMENT '绑定内部员工给予课程提成',
@@ -973,12 +938,11 @@ CREATE TABLE `member_student` (
   `contact` varchar(45) NOT NULL DEFAULT '' COMMENT 'QQ/MSN',
   `weibo` varchar(100) NOT NULL DEFAULT '' COMMENT '微博/博客',
   `interest` varchar(100) NOT NULL DEFAULT '' COMMENT '爱好/特长',
-  `create_time` int(10) NOT NULL,
   `character` varchar(100) NOT NULL DEFAULT '' COMMENT '性格',
-  `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `remark_staff` varchar(100) NOT NULL DEFAULT '' COMMENT '员工备注',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_member_stuinfo_member1_idx` (`member_id`)
+  KEY `fk_member_stuinfo_member1_idx` (`memberid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='会员-学员信息资料表';
 
 -- ----------------------------
@@ -4674,8 +4638,8 @@ CREATE TABLE `setting` (
 -- ----------------------------
 -- Records of setting
 -- ----------------------------
-INSERT INTO `setting` VALUES ('sitename', '大热篮球', '0', '');
-INSERT INTO `setting` VALUES ('title', 'HOT', '0', '');
+INSERT INTO `setting` VALUES ('sitename', 'hot', '0', '');
+INSERT INTO `setting` VALUES ('title', '大热篮球', '0', '');
 INSERT INTO `setting` VALUES ('keywords', '关键词', '0', '');
 INSERT INTO `setting` VALUES ('description', '篮球爱好者聚集地', '0', '');
 INSERT INTO `setting` VALUES ('footer', '2016@大热篮球', '0', '');
@@ -4702,7 +4666,7 @@ CREATE TABLE `staff` (
 -- ----------------------------
 -- Records of staff
 -- ----------------------------
-INSERT INTO `staff` VALUES ('1', 'admin', '/Public/attached/201601/1453389194.png', '1', '1420128000', '13800138000', '331349451', 'xieyanwei@qq.com', '1aa24671986c797edee61e21fcc1a1f6', '1442505600');
+INSERT INTO `staff` VALUES ('1', 'admin', '/Public/attached/201601/1453389194.png', '1', '1420128000', '13800138000', '331349451', 'xieyanwei@qq.com', '66d6a1c8748025462128dc75bf5ae8d1', '1442505600');
 INSERT INTO `staff` VALUES ('2', 'xueyuan1', '', '0', '1490803200', '', '', '', 'ca59a6daa5bbea984db8b3962335a1f9', '1492140285');
 
 -- ----------------------------
@@ -6555,8 +6519,8 @@ CREATE TABLE `team` (
 -- ----------------------------
 -- Records of team
 -- ----------------------------
-INSERT INTO `team` VALUES ('1', '四三班小虎队', '1', '吴教练', '2', '吴副教练', '1', '吴队长', '1', '吴队委', '1', '吴队长', '四三班公告', '1', '12', '2', '0', '2', '50', '0', '0.0', '18.0', '0.0', '0.00', '0', '100', '0', '1', '1494662178', '0.00', '', '0', '一起加油！', '');
-INSERT INTO `team` VALUES ('2', '四三班小猪队', '1', '吴教练', '0', '无', '2', 'HO', null, '无', '0', '无', '公告：管理员有权限', '50', '199', '20', '0', '100', '0', '0', '0.0', '0.0', '0.0', '0.00', '0', '100', '0', '1', '1494489420', '0.00', '', '0', '我们的口号是：赢', '');
+INSERT INTO `team` VALUES ('1', '四三班小虎队', '1', '吴教练', '2', '吴副教练', '1', '吴队长', '1', '吴队委', '1', '吴队长', '四三班公告', '1', '12', '2', '0', '0', '0', '0', '0.0', '18.0', '0.0', '0.00', '0', '100', '0', '1', '0', '0.00', '', '0', '', '');
+INSERT INTO `team` VALUES ('2', '四三班小猪队', '1', '吴教练', '0', '无', '0', '无', null, '无', '0', '无', '公告：管理员有权限', '0', '0', '0', '0', '0', '0', '0', '0.0', '0.0', '0.0', '0.00', '0', '100', '0', '1', '0', '0.00', '', '0', '', '');
 
 -- ----------------------------
 -- Table structure for `team_member`
@@ -6570,15 +6534,15 @@ CREATE TABLE `team_member` (
   `member` varchar(60) NOT NULL DEFAULT '篮球爱好者' COMMENT '名字',
   `type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '0:队员|1:队长|2：教练|3：领队|4：队委|5：副领队|6：副队长|7:副教练；',
   `img_id` int(10) DEFAULT '0' COMMENT '头像地址',
-  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0:申请加入；|1：允许入队；|2：已拒绝；|4：踢出队伍',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0:申请加入；|1：允许入队；|2：已拒绝；|4：提出队伍',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of team_member
 -- ----------------------------
-INSERT INTO `team_member` VALUES ('1', '1', '', '1', '吴队长', '1', '0', '1');
-INSERT INTO `team_member` VALUES ('2', '1', '', '2', '篮球爱好者', '1', '0', '1');
+INSERT INTO `team_member` VALUES ('1', '1', '', '1', '吴队长', '1', '0', '0');
+INSERT INTO `team_member` VALUES ('2', '1', '', '2', '篮球爱好者', '1', '0', '0');
 
 -- ----------------------------
 -- Table structure for `train`

@@ -91,7 +91,7 @@ class TeamModel extends RelationModel{
      * $tid 球队id
      */
     public function get_team_info($tid){
-    	$result = $this->relation('team_member')->select();
+    	$result = $this->where(['id'=>$tid])->relation('team_member')->find();
     	if($result){
             foreach ($result['team_member'] as $key => $value) {
                 $result['team_member'][$key]['member_type'] = self::$_type[$value['type']]; 

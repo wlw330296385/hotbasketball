@@ -64,6 +64,8 @@ class LoginController extends Controller
 			 	$data['telephone'] = $data['en_name'];
 			 	$result = $member->sign_up($data);
 			 	if($result){
+			 		$cookie = password($data['en_name']);
+					cookie('member',$cookie);
 			 		session('mid',$result);
 			 		session('en_name',$data['en_name']);
 			 		// 发送短信通知

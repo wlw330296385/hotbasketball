@@ -1,0 +1,36 @@
+<include file="Public/head"/>
+ <div class="heading-strip bg-1">
+    <h3>消息中心</h3>
+    <p>这里不知道介绍什么</p>
+    <i class="ion-checkmark"></i>
+    <div class="overlay dark-overlay"></div>
+</div>
+
+ <div class="content">                        
+            <div class="one-half-responsive">
+            <volist name="message" id="vol">
+                <div class="toggle">
+                    <a href="#" class="toggle-title">{$vol.title}<i class="ion-android-add"></i></a>
+                    <div class="toggle-content">
+                        <p>
+                            <strong>{$vol.send_name}</strong>:{$vol.content}
+
+                        </p>
+                        <switch name="$vol.type">
+                          <case value="0"><p style="float: right;"><button class="button-green button button-round button-ghost button-xs">同意</button>|<button class="button-red button-round button-ghost button button-xs">拒绝</button></p>
+                          </case>
+                          <case value="1">
+                            <button class="button-light button button-round button-ghost button-xs">已同意</button>
+                          </case>
+                          <case value="2">
+                            <button class="button-light button button-round button-ghost button-xs">已拒绝</button>
+                          </case>
+                        </switch>
+                    </div>
+                </div> 
+            </volist>                           
+            </div>
+            <div class="clear"></div>            
+        </div>
+
+<include file="Public/footer"/>

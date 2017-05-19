@@ -10,14 +10,15 @@
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0 minimal-ui" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<link rel="stylesheet" type="text/css" href="__PUBLIC__/home/styles/style.css">
-<link rel="stylesheet" type="text/css" href="__PUBLIC__/home/styles/skin.css">
-<link rel="stylesheet" type="text/css" href="__PUBLIC__/home/styles/framework.css">
-<link rel="stylesheet" type="text/css" href="__PUBLIC__/home/styles/ionicons.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/home/<?php echo cookie('skin_mode')?cookie('skin_mode'):'light';?>/styles/style.css?v=113123123121">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/home/<?php echo cookie('skin_mode')?cookie('skin_mode'):'light';?>/styles/skin.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/home/<?php echo cookie('skin_mode')?cookie('skin_mode'):'light';?>/styles/framework.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/home/<?php echo cookie('skin_mode')?cookie('skin_mode'):'light';?>/styles/ionicons.css">
 <link href="http://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Satisfy" rel="stylesheet">   
-<script type="text/javascript" src="__PUBLIC__/home/scripts/jquery.js"></script>
-<script type="text/javascript" src="__PUBLIC__/home/scripts/plugins.js"></script>
-<script type="text/javascript" src="__PUBLIC__/home/scripts/custom.js"></script>
+<script type="text/javascript" src="__PUBLIC__/home/<?php echo cookie('skin_mode')?cookie('skin_mode'):'light';?>/scripts/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/home/<?php echo cookie('skin_mode')?cookie('skin_mode'):'light';?>/scripts/plugins.js"></script>
+<script type="text/javascript" src="__PUBLIC__/home/<?php echo cookie('skin_mode')?cookie('skin_mode'):'light';?>/scripts/custom.js"></script>
+<script type="text/javascript" src="__PUBLIC__/home/hooks/layer/layer.js"></script>
 </head>
 
 <body>
@@ -27,17 +28,11 @@
     <div class="spinner"></div>
 </div>
 
+<?php $m = W('Example/home_footer_menu');?>
 <div class="footer-menu footer-menu-scroll">
-    <a href="index.html" class="active-menu"><i class="ion-ios-home-outline"></i><em>Home</em></a>
-    <a href="actual-about.html"><i class="ion-ios-person"></i><em>About</em></a>
-    <a href="actual-gallery.html"><i class="ion-ios-camera-outline"></i><em>Gallery</em></a>
-    <a href="actual-activity.html"><i class="ion-ios-star-outline"></i><em>Activity</em></a>
-    <a href="actual-sitemap.html"><i class="ion-ios-more-outline"></i><em>More</em></a>
-    <a href="actual-contact.html"><i class="ion-ios-email-outline"></i><em>Contact</em></a>
-    <a href="#" class="tablet-link"><i class="ion-ios-telephone-outline"></i><em>Call</em></a>
-    <a href="#" class="tablet-link"><i class="ion-social-facebook-outline"></i><em>Facebook</em></a>
-    <a href="#" class="tablet-link"><i class="ion-social-twitter-outline"></i><em>Twitter</em></a>
+    <foreach name="m" item="vo">
+      <a href="{:U($vo['controller_name'].'/index')}" class="<if condition="$vo['controller_name'] eq CONTROLLER_NAME">active-menu</if>"><i class="{$vo.icon}"></i><em>{$vo.name}</em></a>
+    </foreach>
 </div>
-    
 <div id="page-content">
     <div id="page-content-scroll"><!--Enables this element to be scrolled -->    
