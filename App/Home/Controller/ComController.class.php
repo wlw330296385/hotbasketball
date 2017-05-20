@@ -48,8 +48,8 @@ class ComController extends Controller
     {
     	session_start();
         $flag = false;
-        $salt = C("COOKIE_SALT");
-        $ip = get_client_ip();
+        // $salt = C("COOKIE_SALT");
+        // $ip = get_client_ip();
         $auth = cookie('member');
         $en_name = session('en_name');
         if ($en_name) {

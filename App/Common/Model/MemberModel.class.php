@@ -19,35 +19,22 @@ class MemberModel extends RelationModel {
     );
     protected static $_type = ['爱好者','热血教头','裁判','学生'];
     protected static $judge_levels = [
-        '三级裁判员','二级裁判员','一级裁判员','国家级裁判员','国家A级裁判员'
+        '无等级','三级裁判员','二级裁判员','一级裁判员','国家级裁判员','国家A级裁判员'
     ];
 
     protected static $coach_levels = [
-        '三级教练','二级教练','一级教练','国家级教练','国家A级教练'
+        '无等级','三级教练','二级教练','一级教练','国家级教练','国家A级教练'
     ];
     /**
      * 关联模型
      */
      protected $_link = [
-        'member_student'=>[
-            'mapping_type'  => self::HAS_ONE,
-            'class_name'    => 'member_student',
-            // 'foreign_key'     =>'member_id'
+        'member_info'   =>[
+           'mapping_type'   => self::HAS_ONE, 
+           'class_name'     =>'member_info',
+           'foreign_key'    =>'member_id',
         ],
-        
-        'member_coach' => [
-            'mapping_type' => self::HAS_ONE,
-            'class_name'   => 'member_coach',
-            // 'foreign_key'     =>'member_id'
-        ],
-
-        'member_fans' => [
-            'mapping_type'  => self::HAS_ONE,
-            'class_name'    => 'member_fans',
-            'foreign_key'   => 'member_id'
-        ],
-
-        'media'       => [
+        'media'         => [
             'mapping_type'  => self::HAS_MANY,
             'class_name'    => 'media',
             'foreign_key'   => 'id',
@@ -70,23 +57,10 @@ class MemberModel extends RelationModel {
      * 关联查询用户其他信息
      */
     public function get_member_info($mid = 1){
-        $result['member'] = $this->where(['id'=>$mid])->relation('member_fans')->find();
-        $types = explode(',', $result['member']['type']);
-        // dump($types);die;
-        if(in_array(1, $types)){
-            $result['member_coach'] = M('member_coach')->where(['member_id'=>$mid])->find();
-        }
-        if(in_array(2, $types)){
-            $result['member_judge'] = M('member_judge')->where(['member_id'=>$mid])->find();
-        }
-        if(in_array(3, $types)){
-            $result['member_student'] = M('member_student')->where(['member_id'=>$mid])->find();
-        }
-        if($result){
-            return $result;
-        }else{
-            return false;
-        }
+        $result = $this->where(['id'=>$mid])
+                ->relation('member_info')
+                ->find();
+        return $result;
     }
 
     /**

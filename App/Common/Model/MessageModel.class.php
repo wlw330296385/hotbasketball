@@ -17,8 +17,8 @@ class MessageModel extends RelationModel{
         'team_message'=>[
             'mapping_type'  =>self::HAS_ONE,
             'class_name'    =>'team_member',
-            'mapping_name'  =>'send_type',
-            // 'foreign_key'   =>'member_id',
+            // 'mapping_name'  =>'send_type',
+            'foreign_key'   =>'member_id',
             'condition'     =>'message.send_id = team_member.member_id',
             'mapping_fields '=>'status',
         ]
@@ -66,10 +66,14 @@ class MessageModel extends RelationModel{
      * 获取球队消息list
      */
     public function get_team_message_list($tid){
-        $result = $this->where(['receive_type'=>1,'receive_id'=>$tid])
-                        ->relation('team_message')
+        // $result = $this->where(['receive_type'=>1,'receive_id'=>$tid])
+        //                 ->relation('team_message')
+        //                 ->select();
+        $result = $this->field('message.*,team_member.status as member_status')
+                        ->where(['receive_type'=>1,'receive_id'=>$tid])
+                        ->join('team_member on (message.send_id = team_member.member_id AND team_member.team_id ='.$tid.')','left')
                         ->select();
-        echo $this->getLastSql();
+        // echo $this->getLastSql();
         return $result;
     }
 

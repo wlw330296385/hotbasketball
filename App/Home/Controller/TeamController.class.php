@@ -46,10 +46,10 @@ class TeamController extends ComController
 
 	// 球队消息
 	public function team_message(){
-		$tid = I('team_id');
+		$tid = I('tid');
 		$message = new \Common\Model\MessageModel;
 		$result = $message->get_team_message_list($tid);
-		dump($result);die;
+		// dump($result);die;
 		$this->assign('message',$result);
 		$this->display();
 	}

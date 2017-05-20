@@ -62,6 +62,16 @@ class LoginController extends Controller
 			 }else{
 			 	$data = $member->create();
 			 	$data['telephone'] = $data['en_name'];
+			 	$pid = I('pid');
+			 	if($pid){
+			 		$data['pid'] = $pid;
+			 		$member_pid = $member->where(['id'=>$pid])->find('id');
+			 		if($id){
+
+			 		}else{
+			 			$this->ajaxReturn(['code'=>0,'msg'=>'推荐人不存在']);
+			 		}
+			 	}
 			 	$result = $member->sign_up($data);
 			 	if($result){
 			 		$cookie = password($data['en_name']);
@@ -76,7 +86,6 @@ class LoginController extends Controller
 			 		$this->ajaxReturn(['code'=>0,'msg'=>'网络繁忙，请稍后再试']);
 			 	}
 			 }
-
     	}
     	$this->display('index');
     	

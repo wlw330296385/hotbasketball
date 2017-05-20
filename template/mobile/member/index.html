@@ -1,0 +1,68 @@
+<include file="Public/head"/>
+
+<div class="profile-page-2 full-bottom">
+            <div class="profile-page-2-cover">
+                <img class="preload-image responsive-image" data-original="__PUBLIC__/home/images/pictures/9.jpg">
+            </div>
+            <div class="profile-page-2-thumbnail" id="cm">
+                <img class="preload-image responsive-image" data-original="__PUBLIC__/home/images/pictures/6t.jpg">
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="content">
+                <div class="profile-page-1-header">
+                    <h1>{$result.en_name}</h1>
+                    <em>性别：{$result.sex}</em>
+                    <strong><i class="ion-ios-location"></i>{$result.hometown_province}, {$result.hometown_city}</strong>
+                    <p>
+                        {$result.signature}
+                    </p>
+                    <if condition="id gt 0">
+                    <a href="#" class="button button-round button-blue profile-page-button-1">关注ta</a>
+                    <else />
+                    <a href="{:U('qiut',['id'=>$result['id']])}" class="button button-round button-blue profile-page-button-1">注销</a>
+                    </if>
+                </div>
+			</div>
+			<div class="decoration"></div>
+			<div class="content"><h3>基本信息</h3>
+				<div class="portfolio portfolio-two-item">
+
+					<div class="portfolio-item">
+						<?php while($key= key($result)) {
+						echo "<p>".$key."</p>";
+						next($result);
+						}?>
+					</div>
+					<div class="portfolio-item">
+						<?php foreach($result as $vol){
+							echo "<p>".$vol."</p>";
+						}?>
+					</div>
+				</div>
+			</div>
+			 <div class="decoration"></div>
+			<div class="content">
+			<h3>教练信息</h3>
+				<div class="portfolio portfolio-two-item">
+				
+					<div class="portfolio-item">
+						<?php foreach($result['member_info'] as $key=> $vol){
+							echo "<p>".$key."</p>";
+						}?>
+					</div>
+					<div class="portfolio-item">
+						<?php foreach($result['member_info'] as $vol){
+							echo "<p>".$vol."</p>";
+						}?>
+					</div>
+				</div>
+			</div>
+
+
+			<br/>
+			<br/>
+			<br/>
+<include file="Public/foot"/>

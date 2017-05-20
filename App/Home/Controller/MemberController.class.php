@@ -1,27 +1,44 @@
 <?php
 
 namespace Home\Controller;
-class MemberController extends ComController()
+class MemberController extends ComController
 {
 
 	public function index(){
-		$id = I('.id');
-		$member = new \Common\Model\Member;
-		// $result_1 = $member->get_member_info($id,1);
-		// $result_2 = $member->get_member_info($id,2);
-		// $result_3 = $member->get_member_info($id,3);
-		// $result_4 = $member->get_member_info($id,4);
-		$result = M('member_fans')->where(['id'=>$id])
-				->join("member_coach on member_id = $id")
-				->join("member_judge on member_id = $id")
-				->select();		
+		if(I('get.id')){
+			$id = I('get.id');
+			$this->assign('id',$id);
+		}else{
+			$id = session('mid');
+		}
+		
+		try{
+			$member = new \Common\Model\MemberModel;
+			$result = $member->get_member_info($id);
+			unset($result['password']);
+			}catch(Exception $e){
+
+				print_r ($e->getMessage());
+			}
 		if(IS_POST){
 			$this->ajaxReturn($result);
 
 		}else{
-			$this->assign('list',$result);
+			// dump($result);
+			$this->assign('result',$result);
 			$this->display();
 		}
+	
+	}
+
+
+	// 注销
+	public function qiut(){
+		$id = I('id');
+		cookie('member',null);
+		session('en_name',null);
+		session('mid',null);
+		echo "<script>alert('注销成功');location.href='".$_SERVER["HTTP_REFERER"]."';</script>";
 	}
 	
 }

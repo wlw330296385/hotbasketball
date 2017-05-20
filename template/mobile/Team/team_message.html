@@ -5,7 +5,6 @@
     <i class="ion-checkmark"></i>
     <div class="overlay dark-overlay"></div>
 </div>
-
  <div class="content">                        
             <div class="one-half-responsive">
             <volist name="message" id="vol">
@@ -13,17 +12,18 @@
                     <a href="#" class="toggle-title">{$vol.title}<i class="ion-android-add"></i></a>
                     <div class="toggle-content">
                         <p>
-                            <strong>{$vol.send_name}</strong>:{$vol.content}
+                            <strong><a href="">{$vol.send_name}</a></strong>:{$vol.content}
 
                         </p>
-                        <switch name="$vol.type">
-                          <case value="0"><p style="float: right;"><button class="button-green button button-round button-ghost button-xs">同意</button>|<button class="button-red button-round button-ghost button button-xs">拒绝</button></p>
+                        <switch name="vol.member_status">
+                          <case value="0"><p style="float: right;"><button onclick="agree();" class="button-green button button-round button-ghost button-xs">同意</button>|<button class="button-red button-round button-ghost button button-xs">拒绝</button></p>
+                          <div class="clear"></div>
                           </case>
                           <case value="1">
-                            <button class="button-light button button-round button-ghost button-xs">已同意</button>
+                            <button class="button-light button button-round button-ghost button-xs">已同意</button><div class="clear"></div>
                           </case>
                           <case value="2">
-                            <button class="button-light button button-round button-ghost button-xs">已拒绝</button>
+                            <button class="button-light button button-round button-ghost button-xs">已拒绝</button><div class="clear"></div>
                           </case>
                         </switch>
                     </div>
@@ -34,3 +34,16 @@
         </div>
 
 <include file="Public/footer"/>
+
+
+
+<script type="text/javascript">
+    var tid = "{$tid}";
+    var agree = function(){
+        var applyer_id = 
+        $.post("{U:('team_player_operate')}",{'tid':tid}).done(function(msg){
+            alert(msg)
+        })
+    }
+
+</script>
