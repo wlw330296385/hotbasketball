@@ -4,7 +4,7 @@
             <div class="profile-page-2-cover">
                 <img class="preload-image responsive-image" data-original="__PUBLIC__/home/images/pictures/9.jpg">
             </div>
-            <div class="profile-page-2-thumbnail" id="cm">
+            <div class="profile-page-2-thumbnail" >
                 <img class="preload-image responsive-image" data-original="__PUBLIC__/home/images/pictures/6t.jpg">
             </div>
             <br>
@@ -19,6 +19,7 @@
                     <p>
                         {$result.signature}
                     </p>
+                    <a onclick="cm()" class="button button-round button-blue profile-page-button-1">切换皮肤</a>
                     <if condition="id gt 0">
                     <a href="#" class="button button-round button-blue profile-page-button-1">关注ta</a>
                     <else />
@@ -66,3 +67,20 @@
 			<br/>
 			<br/>
 <include file="Public/foot"/>
+
+<script type="text/javascript">
+	var cm = function(){
+		    // var index = layer.load(1, {
+		    //   shade: [0.1,'#fff'] //0.1透明度的白色背景
+		    // });
+	     $.get(
+	      "{:U('Com/_empty')}",
+	      function success()
+	      {
+	        location.reload();
+	      }
+	    );
+	}	
+
+
+</script>

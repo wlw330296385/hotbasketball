@@ -1,0 +1,130 @@
+<include file="Public/head"/>
+<div class="heading-strip bg-8">
+    <h3>比赛列表</h3>
+    <p>{$tips}</p>
+    <i class="ion-ios-paper-outline"></i>
+    <div class="overlay dark-overlay"></div>
+</div>
+<div class="decoration"></div>
+<div class="content">
+	<a href="" class="button button-center button-round button-xs button-green scale-hover">发起一个比赛</a>
+</div>
+	<?php dump($team_logos)?>
+<div id="page-content">
+    <div id="page-content-scroll"><!--Enables this element to be scrolled -->    
+           
+        <div class="page-timeline-1 content">
+            <div class="timeline-deco"></div>
+            <volist name="matchs" id="vol"  empty="暂时没有数据" key = "k">
+            <div class="timeline-block-left">
+                <i>{$vol.match_time | date="m/d",###}</i>
+            </div>
+            <div class="timeline-block-right">
+                <h1 class="timeline-heading">{$vol.subject}</h1>
+                <h2 class="timeline-subheading">{$vol.match_time | date="Y/m/d/ H:i:s",###}</h2>
+                <p>
+                    This is a simple timeline text post. You can add any
+                    variation from the ones you'll see below.
+                </p>
+            </div>  
+            </volist>    
+            <div class="timeline-block-left">
+                <i class="ion-ios-analytics"></i>
+            </div>
+            <div class="timeline-block-right">
+                <h1 class="timeline-heading">Image Post</h1>
+                <h2 class="timeline-subheading">Timeline Subheading</h2>
+                <img data-original="images/pictures/1.jpg" class="preload-image responsive-image">
+            </div>           
+            <div class="timeline-block-left">
+                <i class="ion-ios-videocam"></i>
+            </div>
+            <div class="timeline-block-right">
+                <h1 class="timeline-heading">Video Post</h1>
+                <h2 class="timeline-subheading">Timeline Subheading</h2>
+                <div class="responsive-video full-bottom">
+                    <iframe src="https://www.youtube.com/embed/c9MnSeYYtYY"></iframe>
+                </div>             
+            </div>            
+            <div class="timeline-block-left">
+                <i class="ion-quote"></i>
+            </div>
+            <div class="timeline-block-right">
+                <p class="full-bottom">Beautiful pages mate, keep it up!<br> We love the creativity!</p>
+            </div>            
+            <div class="timeline-block-left">
+                <i class="ion-ios-star"></i>
+            </div>
+            <div class="timeline-block-right">
+                <div class="review-4 full-bottom">
+                    <h1>5.00</h1>
+                    <h2>John Doe said:</h2>
+                    <div class="review-stars">
+                        <i class="ion-ios-star"></i>
+                        <i class="ion-ios-star"></i>
+                        <i class="ion-ios-star"></i>
+                        <i class="ion-ios-star"></i>
+                        <i class="ion-ios-star"></i>
+                    </div>
+                    <img data-original="images/pictures/1t.jpg" alt="img" class="preload-image">
+                    <p>
+                        The best support I have ever had. They are on top of things and with very fast 
+                        and accurate replies. I will continue to purchase items as needed and will gladly 
+                        recommend there service to anyone. I would give them 10 stars if I could. Keep up 
+                        the great work and even better service.
+                    </p>
+                    <a href="#">By Enabled on <u>ThemeForest Item</u></a>
+                </div>    
+            </div>            
+            <div class="timeline-block-left">
+                <i class="ion-images"></i>
+            </div>
+            <div class="timeline-block-right full-bottom">
+                <div class="gallery gallery-square">
+                    <a class="show-gallery" href="images/pictures/0.jpg" alt="img" title="Image Caption">
+                        <img class="preload-image responsive-image" data-original="images/pictures/0t.jpg" alt="img">
+                    </a>                
+                    <a class="show-gallery" href="images/pictures/1.jpg" alt="img" title="Image Caption">
+                        <img class="preload-image responsive-image" data-original="images/pictures/1t.jpg" alt="img">
+                    </a>                
+                    <a class="show-gallery" href="images/pictures/2.jpg" alt="img" title="Image Caption">
+                        <img class="preload-image responsive-image" data-original="images/pictures/2t.jpg" alt="img">
+                    </a>                
+                    <a class="show-gallery" href="images/pictures/3.jpg" alt="img" title="Image Caption">
+                        <img class="preload-image responsive-image" data-original="images/pictures/3t.jpg" alt="img">
+                    </a>                
+                    <a class="show-gallery" href="images/pictures/4.jpg" alt="img" title="Image Caption">
+                        <img class="preload-image responsive-image" data-original="images/pictures/4t.jpg" alt="img">
+                    </a>                
+                    <a class="show-gallery" href="images/pictures/5.jpg" alt="img" title="Image Caption">
+                        <img class="preload-image responsive-image" data-original="images/pictures/5t.jpg" alt="img">
+                    </a>                
+                </div>
+            </div>
+        </div>
+                    
+        <div class="decoration decoration-margins"></div>
+        <div class="content">
+            <a href="page-timeline-2.html" class="button button-square button-teal no-bottom button-full">Check Version 2</a>
+        </div>
+        <div class="decoration decoration-margins"></div>
+        
+        <div class="footer footer-dark">
+            <a href="index.html" class="footer-logo scale-hover"></a>
+            <p>
+                Simplicity and complexity packed into a beautiful, 
+                feature filled, powerful, gorgeous mobile template.
+            </p>
+            <div class="footer-socials">
+                <a href="#" class="icon icon-round icon-ghost icon-xs facebook-bg"><i class="ion-social-facebook"></i></a>
+                <a href="#" class="icon icon-round icon-ghost icon-xs twitter-bg"><i class="ion-social-twitter"></i></a>
+                <a href="#" class="icon icon-round icon-ghost icon-xs google-bg"><i class="ion-social-googleplus"></i></a>
+                <a href="#" class="icon icon-round icon-ghost icon-xs phone-bg"><i class="ion-ios-telephone"></i></a>
+                <a href="#" class="icon icon-round icon-ghost icon-xs show-share-bottom border-magenta-dark"><i class="ion-android-share"></i></a>
+                <a href="#" class="icon icon-round icon-ghost icon-xs back-to-top border-blue-light"><i class="ion-arrow-up-b"></i></a>
+            </div>
+            <div class="decoration"></div>
+            <p class="copyright-text">Copyright <span id="copyright-year"></span>. All Rights Reserved.</p>
+        </div>
+    </div>  
+</div>

@@ -54,7 +54,7 @@
                
         <div class="text-slider content-fullscreen">
             <div class="swiper-wrapper">
-            <volist name="announce" id="vol">
+            <volist name="announce" id="vol"   empty="暂时没有数据">
                 <p class="swiper-slide">{$vol.title}<a href="{$vol.url}">查看详情</a></p>
             </volist>
             </div>
@@ -75,7 +75,7 @@
         
         <div class="decoration"></div>
         <div class="content center-woo">
-            <volist name = "menus" id="vol">
+            <volist name = "menus" id="vol"   empty="暂时没有数据">
             <a href="{$vol.url}" class="button-woo button-round-woo button-ghost button-green">{$vol.name}</a> 
             </volist> 
         </div>
@@ -107,8 +107,8 @@
             </div>
             <div class="decoration"></div>
             <if condition="empty(cookie('member'))">
-            <a href="#" class="button button-center button-blue button-full">登录</a>
-            <a href="#" class="button button-center button-green button-full">注册</a>
+            <a href="{:U('Login/index')}" class="button button-center button-blue button-full">登录</a>
+            <a href="{:U('Login/sign_up')}" class="button button-center button-green button-full">注册</a>
             </if>
         </div> 
         

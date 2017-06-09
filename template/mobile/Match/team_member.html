@@ -1,0 +1,17 @@
+<volist name="team_member" id="vol">
+	<input type="checkbox" value="{$vol.member_id}">{$vol.member} <br>
+</volist>
+
+<script type="text/javascript" src="__PUBLIC__/home/<?php echo cookie('skin_mode')?cookie('skin_mode'):'light';?>/scripts/jquery.js"></script>
+<script type="text/javascript">
+
+	$('input').on('change',function(){
+		var team_member = [];
+		$('input').each(function(index){
+			if(this.checked == true){
+				team_member.push($(this).val());
+			}
+		});
+		localStorage.team_member = team_member;
+	})
+</script>

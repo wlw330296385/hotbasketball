@@ -38,9 +38,9 @@ class TeamModel extends RelationModel{
     /**
      * 获取球队下的所有队员
      */
-    protected function get_team_member($tid){
-        $result = $this->where(['id'=>$tid])->relation('team_member')->select();
-        return $result?$result:[];
+    public function get_team_member($tid){
+        $result = $this->where(['id'=>$tid])->relation('team_member')->find();
+        return $result;
     }
     /**
      * 创建一个球队

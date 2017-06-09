@@ -39,6 +39,12 @@ class MatchModel extends RelationModel {
             'mapping_name'  =>'participate_member',
             'foreign_keys'  =>'id',
             'parent_key'    =>'match_id'
+        ],
+        'logo' => [
+            'mapping_type'  => self::BELONGS_TO,
+            'class_name'    =>'team',
+            'foreign_key '  =>'team_first_id',
+            
         ]
     ];
 
@@ -66,5 +72,13 @@ class MatchModel extends RelationModel {
             $this->rollback();
 
         }
+    }
+
+    /**
+     * $tids 球队数组
+     */
+    public function get_match($tids){
+        $result = $this->where(['team_first_id'=>['in',$tids],'_logic'=>'or','team_second_id'=>['in',$tids]])->relation('logo')->select();
+        return $result;
     }
 }

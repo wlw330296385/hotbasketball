@@ -2,15 +2,15 @@
 
 <div class="heading-strip bg-1">
             <h3>球队列表</h3>
-            <p>你还没加入球队，请加入一个球队吧</p>
+            <p>{$tips}</p>
             <i class="ion-ios-paper-outline"></i>
             <div class="overlay dark-overlay"></div>
         </div>
         <div class="decoration decoration-margins"></div>
 <div class="content full-top">
             <div class="thumb-layout thumb-layout-page">
-            <volist name = "teams" id="vol">
-                <a href="{:U('index',['id'=>$vol['id']])}">
+            <volist name = "teams" id="vol"   empty="暂时没有数据">
+                <a href="{:U('index',['tid'=>$vol['id']])}">
                     <img class="preload-image" data-original="__PUBLIC__/home/images/pictures/1t.jpg" alt="img">
                     <strong>{$vol.team}</strong>
                     <em>{$vol.slogan}</em>
@@ -19,8 +19,8 @@
             </volist>   
             </div>
             <div class="decoration"></div>
+            <?php if(count($teams)>5){?>
             <a href="#" class="load-more-thumbs button button-full button-green half-bottom">查看更多球队</a>
+            <?php }?>
         </div> 
-
-
 <include file = "Public/footer" />

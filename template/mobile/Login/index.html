@@ -65,9 +65,16 @@
                                                                  onclick="this.src = "{:U('login/verify')}?"+new Date().getTime()">
 														</span>
                                             </label>
-                                            </if>
+                                            <div class="clearfix">
+                                                <button type="submit"
+                                                        class="width-100  btn btn-sm btn-primary">
+                                                    <span class="bigger-110">注册</span>
+                                                </button>
+                                            </div>
+
+                                            <else />
                                             <div class="space"></div>
-                                            <if condition="ACTION_NAME eq 'login'">
+                                            
                                             <div class="clearfix">
                                                 <label class="inline">
                                                     <input type="checkbox" class="ace" name="remember"/>
@@ -86,20 +93,13 @@
                                                 <label class="inline">
                                                     <span class="lbl"> 没有账号？注册一个：</span>
                                                 </label>
-
                                                 <a  href="{:U('sign_up')}" 
                                                         class="width-30 pull-right btn btn-sm btn-success">
                                                     <i class="ace-icon fa fa-user"></i>
                                                     <span class="bigger-110">注册</span>
                                                 </a>
                                             </div>
-                                            <else />
-                                            <div class="clearfix">
-                                                <button type="submit"
-                                                        class="width-100  btn btn-sm btn-primary">
-                                                    <span class="bigger-110">登陆</span>
-                                                </button>
-                                            </div>
+                                            
                                             </if>
                                             <div class="space-4"></div>
                                         </fieldset>

@@ -12,7 +12,7 @@ var region = function(option,url){
 	})
 	})
 
-	option.city.change(function(){
+	option.city.on('change',(function(){
 		var name = option.city.val();
 		var html ='';
 		$.get(url.getRegionNameByName,{'name':name},function(result){
@@ -23,6 +23,7 @@ var region = function(option,url){
 		option.area.html(html)
 	})
 	})
+	)
 }
 
 

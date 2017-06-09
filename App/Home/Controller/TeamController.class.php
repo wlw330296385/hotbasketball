@@ -3,10 +3,11 @@ namespace Home\Controller;
 class TeamController extends ComController
 {
 	// 球队首页
-	public function index($tid){
+	public function index(){
 		$mid = session('mid');
 		$team = new \Common\Model\TeamModel;
 		// 球队信息
+		$tid = I('tid');
 		if($tid){
 			$the_team = $team->get_team_info($tid);
 			$this->assign('the_team',$the_team);
@@ -18,41 +19,31 @@ class TeamController extends ComController
 			// dump($is_join);die;
 			// dump($the_team);die;
 			$this->assign('the_team',$the_team);
-		}else{			
-			$the_team = $team->get_team_list_by_mid($mid);
-			if($result){
-				$this->assign('the_team',$the_team);
-				// 获取球队照片
-				$tid = I('post.tid');
-				$media = $team->get_team_images($tid);
-			}else{		
-				$this->redirect('team_list');
-			}
+		}else{							
+			$this->redirect('team_list');
 		}		
 		$this->display();
 	}
 
 	// 获取所有球队列表
 	public function team_list(){
-		$teams = M('team')->select();
+		$mid = session('mid');
+		$team = new \Common\Model\TeamModel;
+		$teams = $team->get_team_list_by_mid($mid);	
+		if($teams){
+			$tips = '我的球队';
+		}else{
+			$tips = '你还没加入球队，请加入一个球队吧';
+			$teams = M('team')->select();			
+		}
+		$this->assign('tips',$tips);
 		$this->assign('teams',$teams);
-		// dump($teams);die;
 		$this->display();
 	}
 
 	public function team_list_of_user(){
 
 	} 
-
-	// 球队消息
-	public function team_message(){
-		$tid = I('tid');
-		$message = new \Common\Model\MessageModel;
-		$result = $message->get_team_message_list($tid);
-		// dump($result);die;
-		$this->assign('message',$result);
-		$this->display();
-	}
 
 	// 申请加入球队
 	public function apply(){
@@ -80,9 +71,7 @@ class TeamController extends ComController
 		$result = $team_member->add($data);
 		if($result){
 			$content = [
-				'title'			=>$data['member'].'申请加入球队',
-				'receive_type' 	=>1,
-				'type'			=>1,
+				'title'			=>'入队申请',
 				'status'		=>0,
 				'send_id'		=>$data['member_id'],
 				'send_name'		=>$data['member'],
@@ -90,8 +79,13 @@ class TeamController extends ComController
 				'content'		=>$data['member'].'申请加入球队'
 			];
 			$message = new \Common\Model\MessageModel;
-			$message->send_message($content);
-			$this->ajaxReturn(['code'=>1, 'msg'=>'您已申请入队，请等待批准入队']);
+			$result = $message->send_message($content);
+			if($result){
+				$this->ajaxReturn(['code'=>1, 'msg'=>'您已申请入队，请等待批准入队']);
+			}else{
+				$this->ajaxReturn(['code'=>0,'msg'=>'申请失败,请重试']);
+			}
+			
 		}else{
 
 			$this->ajaxReturn($team_member->getError());
@@ -128,29 +122,46 @@ class TeamController extends ComController
 		$mid = session('mid');
 		if(IS_AJAX){
 			$team_id = I('team_id');
+			$team = I('team');
 			$applyer_id = I('applyer_id');
-			$portrait = M('member')->where(['id'=>'member_id'])->getField('wx_avatar');
+			$portrait = M('member')->where(['id'=>$applyer_id])->getField('wx_avatar');
 			$action = I('action');
 			$team_member = M('team_member');
 			$power = $team_member->where(['member_id'=>$mid,'team_id'=>$team_id])->getField('type');
 			if($power!=4){
 				$this->ajaxReturn(['code'=>0,'msg'=>'没有权限']);
 			}
+			$title = '';
+			$content = '';
 			switch ($action) {
 				case 'reject':
+					$title = '你的入队申请被拒绝';
+					$content = '你被'.$team.'拒绝';
 					$result = $team_member->where(['member_id'=>$applyer_id,'team_id'=>$team_id])->save(['status'=>2,'portrait'=>$portrait]);
 					break;
 				case 'kick':
+					$title = '你被踢出球队';
+					$content = '你被踢出了球队：'.$team;
 					$result = $team_member->where(['member_id'=>$applyer_id,'team_id'=>$team_id])->save(['status'=>4,'portrait'=>$portrait]);
 					break;
 				default:
+					$title = '你的入队申请已得到同意';
+					$content = $team.'已同意你进球队';
 					$result = $team_member->where(['member_id'=>$applyer_id,'team_id'=>$team_id])->save(['status'=>1,'portrait'=>$portrait]);
 					break;
 			}
 			if($result){
+				// 发送一则系统消息
+				$sysmessage = new \Common\Model\SysmessageModel;
+				$messageContent = [
+					'title'		=>$title,
+					'content'	=>$content,
+					'receive_id'=>$applyer_id,
+				]
+				$sysmessageResult = $sysmessage->send_a_message($messageContent);
 				$this->ajaxReturn(['code'=>1,'msg'=>'操作成功']);
 			}else{
-				$this->ajaxReturn(['code'=>0,'msg'=>'该请求已失效']);
+				$this->ajaxReturn(['code'=>0,'msg'=>'该请求失效']);
 			}
 		}else{
 			$this->error('非法操作');

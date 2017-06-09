@@ -1,8 +1,9 @@
 <?php
 
 namespace Home\Controller;
-
-class IndexController extends ComController
+use Common\Controller\BaseController;
+use Think\Controller;
+class IndexController extends Controller
 {
     public function index()
     {
@@ -26,5 +27,4 @@ class IndexController extends ComController
     	
         $this->display();
     }
-
 }

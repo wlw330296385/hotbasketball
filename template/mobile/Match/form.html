@@ -1,0 +1,136 @@
+<include file='Public/head' />
+<div class="heading-strip bg-8">
+    <h3>发起一场比赛</h3>
+    <p>{$tips}</p>
+    <i class="ion-ios-paper-outline"></i>
+    <div class="overlay dark-overlay"></div>
+</div>
+<div class="content">
+	<form action="" method="post" >
+		<div class="fac fac-radio fac-red"><span></span>
+            <input id="box6-fac-radio" type="radio" name="rad" value="1">
+            <label for="box6-fac-radio">主题</label>
+        </div>
+		<input type="text" class="input-text-box input-red-border radio_js" name="subject" id="subject" value="" placeholder="20个字符以内">
+		<div class="fac fac-radio fac-red"><span></span>
+            <input id="box6-fac-radio" type="radio" name="rad" value="1">
+            <label for="box6-fac-radio">对手</label>
+        </div>
+        <div class="select-box">
+            <select id="team_second_id" name="team_second_id">
+            	<volist name="enemy" id="vol">	
+            	<option class="select-title" value="{$vol.id}">{$vol.team}</option>
+                </volist>
+            </select>
+        </div>
+        <input type="hidden" name="team_second_name">
+        <div class="fac fac-radio fac-red"><span></span>
+            <input id="box6-fac-radio" type="radio" name="rad" value="1">
+            <label for="box6-fac-radio">选择时间</label>
+        </div>
+        <div class="layui-inline">
+		  <input class="layui-input" placeholder="自定义日期格式" id="time1" name="match_time">
+		</div>   
+
+		<div class="fac fac-radio fac-red"><span></span>
+            <input id="box6-fac-radio" type="radio" name="rad" value="1">
+            <label for="box6-fac-radio">选择地点</label>
+        </div> 
+        <div class="select-box">
+            <select class="form-control" id="province" name="match_venue_province">
+              <option class="select-title" >省</option>
+              <volist name="province" id="vol">
+              <option  value="{$vol.region_name}">{$vol.region_name}</option>
+              </volist>
+            </select>
+        </div> 
+        <div class="select-box">
+             <select class="form-control" id="city" name="match_venue_city">
+              <option class="select-title" >市</option>
+            </select>
+        </div> 
+        <div class="select-box">
+            <select class="form-control" id="area" name="match_venue_area">
+              <option  class="select-title" >区</option>
+            </select>
+        </div>  
+        <div class="fac fac-radio fac-red"><span></span>
+            <input id="box6-fac-radio" type="radio" name="rad" value="1">
+            <label for="box6-fac-radio">选择队员</label>
+        </div> 
+         <div class="select-box">
+           <input type="" name="" onclick="select_team_member()" class="radio_js">
+            
+        </div>
+        <div class="fac fac-radio fac-red"><span></span>
+            <input id="box6-fac-radio" type="radio" name="rad" value="1">
+            <label for="box6-fac-radio">服装颜色</label>
+        </div>
+		<input type="text" class="input-text-box input-red-border radio_js" name="color"  value="" placeholder="绿">
+        <button type="submit" class="button button-full button-green half-bottom">发布</button>
+
+        </form>
+</div>
+
+<script type="text/javascript" src="__PUBLIC__/home/hooks/laydate/laydate.js"></script>
+<script type="text/javascript" src="__PUBLIC__/woo.js/region.js"></script>
+<script type="text/javascript">
+
+
+// 地区联动插件
+var a = {
+  'province':$('#province'),
+  'city':$('#city'),
+  'area':$('#area')
+};
+var url={
+  'getRegionNameByName' :"{:U('Region/getRegionNameByName')}",
+  'getRegionNameByGID' :"{:U('Region/getRegionNameByGID')}"
+};
+
+region(a,url);
+	// 选择对手
+	$('#team_second_id').on('change',function(){
+		var team_second_name = $(this).val();
+		$('input[name=team_second_name]').val(team_second_name);
+	})
+	// 输入框动画
+	$('.radio_js,select').on('focus',function(){
+		var aa = $(this).prev().children().find('input[type=radio]');
+		aa.checked = true;
+		// console.log(aa);
+	})
+
+	$('.radio_js,select').on('blur',function(){
+		var aa = $(this).prev().children().find('input[type=radio]');
+		aa.checked = false;
+		// console.log(aa);
+	});
+
+	// 时间插件
+	var timepicker = {
+	  elem: '#time1',
+	  format: 'YYYY/MM/DD hh:mm:ss',
+	  min: laydate.now(), //设定最小日期为当前日期
+	  max: '2099-06-16 23:59:59', //最大日期
+	  istime: true,
+	  istoday: false,
+	};
+	laydate(timepicker)
+
+	// 弹出选择队员
+	var team_member;
+	var select_team_member = function(){layer.open({
+			  type: 2, 
+			  title:'选择参赛队员',
+			  content: ["{:U('team_member',['tid'=>$team_info['id']])}",'no'],
+			  btn: ['确定', '取消'],
+			  yes: function(index, layero){
+			    team_member = localStorage.team_member;
+			    console.log(team_member);
+			  },btn2: function(index, layero){
+			    layer.close(index);
+			 }
+		});
+	};
+</script>

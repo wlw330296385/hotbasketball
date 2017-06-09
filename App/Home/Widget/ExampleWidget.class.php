@@ -8,7 +8,7 @@ class ExampleWidget extends Controller
 		return $result = $home_footer_menu
 				->where(['status'=>1])
 				->order('ord DESC')
-				->limit(6)
+				->limit(10)
 				->select();
 
 		$this->assign('menu',$result);	

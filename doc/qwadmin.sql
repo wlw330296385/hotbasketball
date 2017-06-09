@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2017-05-20 18:09:50
+Date: 2017-06-06 18:12:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -430,7 +430,7 @@ CREATE TABLE `home_footer_menu` (
   `ord` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '越小越靠左',
   `controller_name` varchar(60) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of home_footer_menu
@@ -438,9 +438,10 @@ CREATE TABLE `home_footer_menu` (
 INSERT INTO `home_footer_menu` VALUES ('1', '首页', '', 'ion-ios-home-outline', '1', '0', 'Index');
 INSERT INTO `home_footer_menu` VALUES ('2', '个人中心', '', 'ion-ios-person', '1', '0', 'Member');
 INSERT INTO `home_footer_menu` VALUES ('3', '相册', '', 'ion-ios-camera-outline', '1', '0', '');
-INSERT INTO `home_footer_menu` VALUES ('4', '活动', '', 'ion-ios-star-outline', '1', '0', 'Team');
-INSERT INTO `home_footer_menu` VALUES ('5', '更多', '', 'ion-ios-more-outline', '1', '0', 'Match');
+INSERT INTO `home_footer_menu` VALUES ('4', '比赛', '', 'ion-ios-star-outline', '1', '0', 'Match');
+INSERT INTO `home_footer_menu` VALUES ('5', '我的球队', '', 'ion-ios-more-outline', '1', '0', 'Team');
 INSERT INTO `home_footer_menu` VALUES ('6', '消息中心', '', 'ion-ios-email-outline', '1', '0', 'Message');
+INSERT INTO `home_footer_menu` VALUES ('7', '测试', '', 'ion-ios-email-outline', '1', '0', '');
 
 -- ----------------------------
 -- Table structure for `home_menu`
@@ -458,9 +459,9 @@ CREATE TABLE `home_menu` (
 -- ----------------------------
 -- Records of home_menu
 -- ----------------------------
-INSERT INTO `home_menu` VALUES ('1', '主页', '/Home/team/index', 'MY', '');
-INSERT INTO `home_menu` VALUES ('2', '活动', '/Home/activity/index', 'EVENT', '');
-INSERT INTO `home_menu` VALUES ('3', '战绩', '', '', '');
+INSERT INTO `home_menu` VALUES ('1', '主页', '', 'MY', '');
+INSERT INTO `home_menu` VALUES ('2', '活动', '/index.php/Home/match', 'EVENT', '');
+INSERT INTO `home_menu` VALUES ('3', '战绩', '/index.php/Home/member', 'MEMBER', '');
 INSERT INTO `home_menu` VALUES ('4', '队员', '', '', '');
 INSERT INTO `home_menu` VALUES ('5', '相册', '', '', '');
 INSERT INTO `home_menu` VALUES ('6', '队费', '', '', '');
@@ -602,7 +603,7 @@ CREATE TABLE `log` (
   `ip` varchar(16) NOT NULL,
   `log` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=83 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of log
@@ -687,6 +688,8 @@ INSERT INTO `log` VALUES ('77', 'admin', '1494469460', '127.0.0.1', '登录成�
 INSERT INTO `log` VALUES ('78', 'admin', '1494497329', '127.0.0.1', '登录成功。');
 INSERT INTO `log` VALUES ('79', 'admin', '1494497393', '127.0.0.1', '登录成功。');
 INSERT INTO `log` VALUES ('80', 'admin', '1494921032', '127.0.0.1', '登录成功。');
+INSERT INTO `log` VALUES ('81', 'admin', '1496219280', '127.0.0.1', '登录失败。');
+INSERT INTO `log` VALUES ('82', 'admin', '1496219297', '127.0.0.1', '登录失败。');
 
 -- ----------------------------
 -- Table structure for `log_lesson`
@@ -796,7 +799,7 @@ CREATE TABLE `match` (
   `team_second_id` int(11) NOT NULL DEFAULT '2',
   `team_second_name` varchar(255) NOT NULL DEFAULT '未填写球队2名称',
   `subject` varchar(60) NOT NULL DEFAULT '0' COMMENT '主题',
-  `match_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `match_time` int(10) NOT NULL DEFAULT '1234567890',
   `match_venue_province` varchar(60) NOT NULL,
   `match_venue_city` varchar(60) NOT NULL,
   `match_venue_area` varchar(60) NOT NULL,
@@ -815,20 +818,23 @@ CREATE TABLE `match` (
   `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `remark` varchar(255) DEFAULT NULL,
   `fee` double(6,2) NOT NULL DEFAULT '0.00' COMMENT '比赛费用',
-  `type` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '0:平台约战|1：系统比赛',
+  `type` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '0:普通比赛|1：联赛',
   `status` enum('4','3','2','5','1') NOT NULL DEFAULT '1' COMMENT '1:等待应战；|2：成功约战；|3：完成比赛|4：取消约战;|5：违约',
   `defaulter_id` int(10) NOT NULL DEFAULT '0' COMMENT '违约队伍id',
   `proof_img_id` int(10) DEFAULT NULL COMMENT '违约证据图片，只允许一张',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_id` (`id`) USING BTREE
+  KEY `match_time` (`match_time`) USING BTREE,
+  KEY `match_venue_province` (`match_venue_province`),
+  KEY `match_venue_city` (`match_venue_city`),
+  KEY `match_venue_area` (`match_venue_area`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of match
 -- ----------------------------
-INSERT INTO `match` VALUES ('1', '1', '吴队长', '1', '四三班小虎队', '2', '未填写球队2名称', '周末友谊赛', '2017-04-20 12:01:24', '广东省', '深圳市', '南山区', '文体中心102', '0.00000000000000', '0.00000000000000', '绿', '未填写比赛服装颜色', '12', '0', '0', '0', '0', '0', '2017', '2017-04-25 12:43:38', '欢迎参加比赛', '0.00', '1', '1', '0', null);
-INSERT INTO `match` VALUES ('2', '0', '系统发起', '2', '四三班小猪队', '1', '四三班小虎队', '1313', '2017-06-01 00:40:00', '20', '240', '2378', '1313', '0.00000000000000', '0.00000000000000', '', '', '5', '0', '0', '5', '0', '0', '1493893584', '0000-00-00 00:00:00', '测试', '50.00', '1', '1', '0', null);
-INSERT INTO `match` VALUES ('3', '0', '系统发起', '1', '四三班小虎队', '2', '四三班小猪队', '厚厚的', '2017-05-26 13:53:00', '广西壮族自治区', '南宁市', '西乡塘区', '阿哥好烦的合法化', '0.00000000000000', '0.00000000000000', '', '', '99', '0', '0', '10', '0', '0', '1493895308', '0000-00-00 00:00:00', '测试3', '100.00', '1', '1', '0', null);
+INSERT INTO `match` VALUES ('1', '1', '吴队长', '1', '四三班小虎队', '2', '未填写球队2名称', '周末友谊赛', '1495465521', '广东省', '深圳市', '南山区', '文体中心102', '0.00000000000000', '0.00000000000000', '绿', '未填写比赛服装颜色', '12', '0', '0', '0', '0', '0', '1493893584', '2017-05-26 11:22:37', '欢迎参加比赛', '0.00', '1', '1', '0', null);
+INSERT INTO `match` VALUES ('2', '0', '系统发起', '2', '四三班小猪队', '1', '四三班小虎队', '1313', '1495555921', '20', '240', '2378', '1313', '0.00000000000000', '0.00000000000000', '', '', '5', '0', '0', '5', '0', '0', '1493893584', '2017-05-26 11:22:43', '测试', '50.00', '1', '1', '0', null);
+INSERT INTO `match` VALUES ('3', '0', '系统发起', '1', '四三班小虎队', '2', '四三班小猪队', '厚厚的', '1495444921', '广西壮族自治区', '南宁市', '西乡塘区', '阿哥好烦的合法化', '0.00000000000000', '0.00000000000000', '', '', '99', '0', '0', '10', '0', '0', '1493895308', '2017-05-26 11:22:46', '测试3', '100.00', '1', '1', '0', null);
 
 -- ----------------------------
 -- Table structure for `match_media`
@@ -894,10 +900,10 @@ CREATE TABLE `member` (
 -- ----------------------------
 -- Records of member
 -- ----------------------------
-INSERT INTO `member` VALUES ('1', '0', 'M00000001', 'admin', '18507717466', '0', '保密', '0', '0', '0', '1', '66d6a1c8748025462128dc75bf5ae8d1', '0', '0.00', '2017-05-20 16:12:28', '0,1,2,3', '0', '1');
-INSERT INTO `member` VALUES ('2', '0', 'M00000002', 'woo', '18500000000', '', '保密', '', '', null, '0', '123456', '0', '0.00', '2017-05-11 14:45:27', '1,3', '0', '1');
-INSERT INTO `member` VALUES ('3', '0', 'M00000001', 'aaaa', '1860000000', '', '保密', '', '', null, '0', '65492cc75117e004d6057d4912756e03c66f1e78', '0', '0.00', '2017-05-11 14:45:55', '0,1,2', '1494313977', '0');
-INSERT INTO `member` VALUES ('4', '0', 'M00000001', '18500000000', '18500000000', '', '保密', '', '', null, '0', '693c5e0fa8f540a366997bca309dcad3fc18bc92', '0', '0.00', '0000-00-00 00:00:00', '0,1,2,3', '1494315136', '0');
+INSERT INTO `member` VALUES ('1', '0', 'M00000001', 'admin', '18507717466', '0', '保密', '0', '0', '0', '1', '693c5e0fa8f540a366997bca309dcad3fc18bc92', '0', '0.00', '2017-05-23 17:51:07', '0,1,2,3', '0', '1');
+INSERT INTO `member` VALUES ('2', '0', 'M00000002', 'woo', '18500000000', '0', '保密', '0', '0', '0', '0', '693c5e0fa8f540a366997bca309dcad3fc18bc92', '0', '0.00', '2017-05-23 17:51:06', '1,3', '0', '1');
+INSERT INTO `member` VALUES ('3', '0', 'M00000001', 'aaaa', '1860000000', '0', '保密', '00', '0', '0', '0', '693c5e0fa8f540a366997bca309dcad3fc18bc92', '0', '0.00', '2017-05-23 17:51:06', '0,1,2', '1494313977', '0');
+INSERT INTO `member` VALUES ('4', '0', 'M00000001', '18500000000', '18500000000', '0', '保密', '0', '0', '0', '0', '693c5e0fa8f540a366997bca309dcad3fc18bc92', '0', '0.00', '2017-05-23 11:39:38', '0,1,2,3', '1494315136', '0');
 
 -- ----------------------------
 -- Table structure for `member_info`
@@ -905,6 +911,7 @@ INSERT INTO `member` VALUES ('4', '0', 'M00000001', '18500000000', '18500000000'
 DROP TABLE IF EXISTS `member_info`;
 CREATE TABLE `member_info` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `realname` varchar(30) NOT NULL,
   `member_id` int(10) NOT NULL,
   `wins` tinyint(4) NOT NULL DEFAULT '0',
   `lose` tinyint(4) NOT NULL DEFAULT '0',
@@ -957,7 +964,7 @@ CREATE TABLE `member_info` (
 -- ----------------------------
 -- Records of member_info
 -- ----------------------------
-INSERT INTO `member_info` VALUES ('1', '1', '0', '0', '180.0', '50.0', '0', '0', '0.0', '0', '0000-00-00', '0', '0', '0', '0', '0', '', '', '0', '', '', '', '', '', '', '', '0.0', '0', '0.0', '0', '', '', '', '', '', '0', '', '0.0', '0', '0.0', '', '', '', '', '', '2017-05-20 16:00:34');
+INSERT INTO `member_info` VALUES ('1', '', '1', '0', '0', '180.0', '50.0', '0', '0', '0.0', '0', '0000-00-00', '0', '0', '0', '0', '0', '', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0.0', '0', '0.0', '0', '0', '0', '0', '0', '0', '0', '0', '0.0', '0', '0.0', '0', '0', '0', '0', '0', '2017-05-23 11:38:41');
 
 -- ----------------------------
 -- Table structure for `member_lesson`
@@ -1037,27 +1044,24 @@ CREATE TABLE `message` (
   `status` enum('0','1') NOT NULL DEFAULT '0' COMMENT '0:未读|1：已读',
   `title` varchar(255) NOT NULL,
   `content` tinytext NOT NULL,
-  `receive_id` int(10) NOT NULL DEFAULT '0' COMMENT '接收者人id，0为所有人',
-  `receive_type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0:''个人'';|1:''球队''',
+  `receive_id` int(10) NOT NULL DEFAULT '0' COMMENT '球队id',
   `send_id` int(10) NOT NULL COMMENT '0：系统|>1：个人',
-  `send_name` varchar(60) NOT NULL DEFAULT '系统' COMMENT '系统|xx球队|xx会员',
-  `send_time` int(10) NOT NULL DEFAULT '0',
-  `read_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0:系统消息；|1:申请入队消息；|3：退队消息；|4：个人消息',
+  `send_name` varchar(60) NOT NULL DEFAULT '系统' COMMENT 'xx球队|xx会员',
+  `create_time` int(10) NOT NULL DEFAULT '0',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `receive_id_index` (`receive_id`),
-  KEY `receive_type_index` (`type`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  KEY `receive_id_index` (`receive_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='球队信息';
 
 -- ----------------------------
 -- Records of message
 -- ----------------------------
-INSERT INTO `message` VALUES ('1', '0', '121', '13', '1', '0', '0', '系统', '2016', '2017-04-27 11:36:38', '1');
-INSERT INTO `message` VALUES ('2', '0', '18500000000申请加入球队', '18500000000申请加入球队', '0', '1', '4', '1850000000', '0', '2017-05-19 17:54:31', '1');
-INSERT INTO `message` VALUES ('3', '0', '18500000000申请加入球队', '18500000000申请加入球队', '0', '1', '4', '系统', '1495006833', '2017-05-19 15:51:57', '1');
-INSERT INTO `message` VALUES ('4', '0', '18500000000申请加入球队', '18500000000申请加入球队', '1', '1', '4', '1850000000', '1495007055', '2017-05-19 17:54:41', '1');
-INSERT INTO `message` VALUES ('5', '0', '118500000000申请加入球队', '18500000000申请加入球队', '1', '1', '4', '系统', '1495093272', '2017-05-18 16:52:06', '1');
-INSERT INTO `message` VALUES ('6', '0', '来自吴队长的消息', '你好，有兴趣一起喝茶吗?', '4', '0', '0', '吴队长', '0', '2017-05-18 16:59:25', '0');
+INSERT INTO `message` VALUES ('1', '0', '121', '13', '1', '0', '系统', '2016', '2017-04-27 11:36:38');
+INSERT INTO `message` VALUES ('2', '0', '18500000000申请加入球队', '18500000000申请加入球队', '0', '4', '1850000000', '0', '2017-05-19 17:54:31');
+INSERT INTO `message` VALUES ('3', '0', '18500000000申请加入球队', '18500000000申请加入球队', '0', '4', '系统', '1495006833', '2017-05-19 15:51:57');
+INSERT INTO `message` VALUES ('4', '0', '18500000000申请加入球队', '18500000000申请加入球队', '1', '4', '1850000000', '1495007055', '2017-05-19 17:54:41');
+INSERT INTO `message` VALUES ('5', '0', '118500000000申请加入球队', '18500000000申请加入球队', '1', '4', '系统', '1495093272', '2017-05-18 16:52:06');
+INSERT INTO `message` VALUES ('6', '0', '来自吴队长的消息', '你好，有兴趣一起喝茶吗?', '4', '0', '吴队长', '0', '2017-05-18 16:59:25');
 
 -- ----------------------------
 -- Table structure for `organization`
@@ -6580,6 +6584,25 @@ INSERT INTO `student_wx` VALUES ('480', 'o8rKEs1kdXvYaCEXYDeHrru-YwYs', '会员'
 INSERT INTO `student_wx` VALUES ('481', 'o8rKEsxCfTY5T6LaK9W-n_V9oj8k', '非会员', '朱玺欢', '15919416880', '邮件通知成功！', 'M00101454', '【成功绑定 M00101454 】', '2017-02-28 15:05:59', '2017-02-27 14:54:54', 'Yes', 'Bingo.Zhang', '总部', '北头篮球场（室外）', null);
 
 -- ----------------------------
+-- Table structure for `sysmessage`
+-- ----------------------------
+DROP TABLE IF EXISTS `sysmessage`;
+CREATE TABLE `sysmessage` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `receive_id` int(10) NOT NULL,
+  `create_time` int(10) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0:未读|1：已读',
+  `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sysmessage
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `team`
 -- ----------------------------
 DROP TABLE IF EXISTS `team`;
@@ -6627,8 +6650,8 @@ CREATE TABLE `team` (
 -- ----------------------------
 -- Records of team
 -- ----------------------------
-INSERT INTO `team` VALUES ('1', '四三班小虎队', '1', '吴教练', '2', '吴副教练', '1', '吴队长', '1', '吴队委', '1', '吴队长', '四三班公告', '1', '12', '2', '3', '53', '2', '50', '0', '0.0', '18.0', '0.0', '0.00', '0', '100', '0', '1', '1494662178', '0.00', '', '0', '一起加油！', '', '0', '123www');
-INSERT INTO `team` VALUES ('2', '四三班小猪队', '1', '吴教练', '0', '无', '2', 'HO', null, '无', '0', '无', '公告：管理员有权限', '50', '199', '20', '0', '0', '100', '0', '0', '0.0', '0.0', '0.0', '0.00', '0', '100', '0', '1', '1494489420', '0.00', '', '0', '我们的口号是：赢', '', '0', '');
+INSERT INTO `team` VALUES ('1', '四三班小虎队', '1', '吴教练', '2', '吴副教练', '1', '吴队长', '1', '吴队委', '1', '吴队长', '四三班公告', '1', '12', '2', '3', '53', '2', '50', '0', '0.0', '18.0', '0.0', '0.00', '0', '100', '0', '1', '1494662178', '0.00', '', '0', '一起加油！', '1', '0', '123www');
+INSERT INTO `team` VALUES ('2', '四三班小猪队', '1', '吴教练', '0', '无', '2', 'HO', null, '无', '0', '无', '公告：管理员有权限', '50', '199', '20', '0', '0', '100', '0', '0', '0.0', '0.0', '0.0', '0.00', '0', '100', '0', '1', '1494489420', '0.00', '', '0', '我们的口号是：赢', '2', '0', '');
 
 -- ----------------------------
 -- Table structure for `team_member`
@@ -6642,7 +6665,7 @@ CREATE TABLE `team_member` (
   `member` varchar(60) NOT NULL DEFAULT '篮球爱好者' COMMENT '名字',
   `type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '0:队员|1:队长|2：教练|3：领队|4：队委|5：副领队|6：副队长|7:副教练；',
   `portrait` varchar(255) NOT NULL COMMENT '头像地址',
-  `status` tinyint(4) NOT NULL DEFAULT '3' COMMENT '0:申请加入；|1：允许入队；|2：已拒绝；|4：踢出队伍;|5:退出队伍;|3个人消息',
+  `status` tinyint(4) NOT NULL DEFAULT '3' COMMENT '0:申请加入；|1：允许入队；|2：已拒绝；|4：踢出队伍;|5:退出队伍;|3:个人',
   `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `create_time` int(10) NOT NULL,
   PRIMARY KEY (`id`)
